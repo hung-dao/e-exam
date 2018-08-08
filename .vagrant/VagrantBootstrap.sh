@@ -23,7 +23,7 @@ a2ensite hello-world
 a2dissite 000-default
 service apache2 restart
 
-
+apt-get install -y composer
 
 
 
