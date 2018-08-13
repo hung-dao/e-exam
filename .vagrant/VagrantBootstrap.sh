@@ -19,7 +19,7 @@ apt-get install -y php7.1 libapache2-mod-php7.1 php7.1-cli php7.1-common php7.1-
 
 #copy apache2 sites files
 cp /vagrant/.vagrant/apache2/sites-available/* /etc/apache2/sites-available
-a2ensite hello-world
+a2ensite symfonyApp
 a2dissite 000-default
 service apache2 restart
 
