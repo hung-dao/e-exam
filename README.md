@@ -29,7 +29,7 @@ $ vagrant ssh
 Navigate to the /vagrant folder and execute composer command to create a new Symfony 4 project
 ```sh
 $ cd /vagrant
-composer create-project symfony/skeleton symfonyApp
+$ composer create-project symfony/skeleton symfonyApp
 ```
 
 If everything went correct, you should now be able to see the welcome page of an empty symfony 4 application here:
