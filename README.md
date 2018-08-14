@@ -30,7 +30,6 @@ Navigate to the /vagrant folder and execute composer command to create a new Sym
 composer create-project symfony/skeleton /vagrant/hello-worl
 ```sh
 $ cd /vagrant
-$ cd /vagrant
 composer create-project symfony/skeleton symfonyApp
 ```
 
