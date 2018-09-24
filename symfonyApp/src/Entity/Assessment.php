@@ -21,6 +21,12 @@ class Assessment
      */
     private $assessment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Answer", inversedBy="assessments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $answer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -34,6 +40,18 @@ class Assessment
     public function setAssessment(int $assessment): self
     {
         $this->assessment = $assessment;
+
+        return $this;
+    }
+
+    public function getAnswer(): ?Answer
+    {
+        return $this->answer;
+    }
+
+    public function setAnswer(?Answer $answer): self
+    {
+        $this->answer = $answer;
 
         return $this;
     }
