@@ -1,3 +1,19 @@
 #index:
 #    path: /
-#    controller: App\Controller\DefaultController::index
+#    controller: App\Controller\DefaultController.php::index
+
+login:
+    path: /
+    controller: App\Controller\DefaultController::index
+
+dashboard:
+    path: /dashboard
+    controller: App\Controller\ExamController::dashboard
+
+question:
+    path: /create-question
+    controller: App\Controller\ExamController:newQuestion
+
+exam:
+    path: /create-exam
+    controller: App\Controller\ExamController:newExam
