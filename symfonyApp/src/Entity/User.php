@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,26 @@ class User
      */
     private $role;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\ExamStatus", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $examStatus;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="user")
+     */
+    private $exams;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\StudentAnswer", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $studentAnswer;
+
+    public function __construct()
+    {
+        $this->exams = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,9 +88,9 @@ class User
     }
 	
 	public function getPassword(): ?string
-    {
-        return $this->password;
-    }
+                                              {
+                                                  return $this->password;
+                                              }
 
     public function setPassword(string $password): self
     {
@@ -85,6 +107,71 @@ class User
     public function setRole(int $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getExamStatus(): ?ExamStatus
+    {
+        return $this->examStatus;
+    }
+
+    public function setExamStatus(ExamStatus $examStatus): self
+    {
+        $this->examStatus = $examStatus;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $examStatus->getUser()) {
+            $examStatus->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+            $exam->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->contains($exam)) {
+            $this->exams->removeElement($exam);
+            // set the owning side to null (unless already changed)
+            if ($exam->getUser() === $this) {
+                $exam->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStudentAnswer(): ?StudentAnswer
+    {
+        return $this->studentAnswer;
+    }
+
+    public function setStudentAnswer(StudentAnswer $studentAnswer): self
+    {
+        $this->studentAnswer = $studentAnswer;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $studentAnswer->getUser()) {
+            $studentAnswer->setUser($this);
+        }
 
         return $this;
     }

@@ -19,7 +19,7 @@ class ExamStatus
     private $id;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=255)
      */
     private $status;
 
@@ -32,6 +32,18 @@ class ExamStatus
      * @ORM\OneToMany(targetEntity="App\Entity\Assessment", mappedBy="examStatus")
      */
     private $assessments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Exam", inversedBy="examStatuses")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $exam;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="examStatus", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -94,6 +106,30 @@ class ExamStatus
                 $assessment->setExamStatus(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getExam(): ?Exam
+    {
+        return $this->exam;
+    }
+
+    public function setExam(?Exam $exam): self
+    {
+        $this->exam = $exam;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

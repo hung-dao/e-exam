@@ -33,9 +33,31 @@ class Exam
      */
     private $questionInExams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ExamStatus", mappedBy="exam")
+     */
+    private $examStatuses;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="exams")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isPublic;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $openDate;
+
     public function __construct()
     {
         $this->questionInExams = new ArrayCollection();
+        $this->examStatuses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +116,73 @@ class Exam
                 $questionInExam->setExam(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExamStatus[]
+     */
+    public function getExamStatuses(): Collection
+    {
+        return $this->examStatuses;
+    }
+
+    public function addExamStatus(ExamStatus $examStatus): self
+    {
+        if (!$this->examStatuses->contains($examStatus)) {
+            $this->examStatuses[] = $examStatus;
+            $examStatus->setExam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExamStatus(ExamStatus $examStatus): self
+    {
+        if ($this->examStatuses->contains($examStatus)) {
+            $this->examStatuses->removeElement($examStatus);
+            // set the owning side to null (unless already changed)
+            if ($examStatus->getExam() === $this) {
+                $examStatus->setExam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIsPublic(): ?bool
+    {
+        return $this->isPublic;
+    }
+
+    public function setIsPublic(?bool $isPublic): self
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
+    public function getOpenDate(): ?\DateTimeInterface
+    {
+        return $this->openDate;
+    }
+
+    public function setOpenDate(\DateTimeInterface $openDate): self
+    {
+        $this->openDate = $openDate;
 
         return $this;
     }
