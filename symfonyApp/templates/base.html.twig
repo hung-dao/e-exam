@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% block title %}Welcome To E-Exam!{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{ asset('build/global.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/layout.css') }}" />
+    {#page custom stylesheets#}
+    {% block customStylesheets %}{% endblock %}
+</head>
+<body>
+{% block navbar %}{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block body %}{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('build/app.js') }}"></script>
+{% endblock %}
+</body>
 </html>

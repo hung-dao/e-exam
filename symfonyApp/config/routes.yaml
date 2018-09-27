@@ -1,10 +1,10 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController.php::index
+index:
+    path: /
+    controller: App\Controller\IndexController::index
 
 login:
-    path: /
-    controller: App\Controller\DefaultController::index
+    path: /login
+    controller: App\Controller\IndexController::index
 
 dashboard:
     path: /dashboard
