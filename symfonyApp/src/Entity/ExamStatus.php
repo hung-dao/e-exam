@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +27,16 @@ class ExamStatus
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $result;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Assessment", mappedBy="examStatus")
+     */
+    private $assessments;
+
+    public function __construct()
+    {
+        $this->assessments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,6 +63,37 @@ class ExamStatus
     public function setResult(?int $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Assessment[]
+     */
+    public function getAssessments(): Collection
+    {
+        return $this->assessments;
+    }
+
+    public function addAssessment(Assessment $assessment): self
+    {
+        if (!$this->assessments->contains($assessment)) {
+            $this->assessments[] = $assessment;
+            $assessment->setExamStatus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssessment(Assessment $assessment): self
+    {
+        if ($this->assessments->contains($assessment)) {
+            $this->assessments->removeElement($assessment);
+            // set the owning side to null (unless already changed)
+            if ($assessment->getExamStatus() === $this) {
+                $assessment->setExamStatus(null);
+            }
+        }
 
         return $this;
     }

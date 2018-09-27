@@ -27,6 +27,12 @@ class Assessment
      */
     private $answer;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ExamStatus", inversedBy="assessments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $examStatus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +58,18 @@ class Assessment
     public function setAnswer(?Answer $answer): self
     {
         $this->answer = $answer;
+
+        return $this;
+    }
+
+    public function getExamStatus(): ?ExamStatus
+    {
+        return $this->examStatus;
+    }
+
+    public function setExamStatus(?ExamStatus $examStatus): self
+    {
+        $this->examStatus = $examStatus;
 
         return $this;
     }
