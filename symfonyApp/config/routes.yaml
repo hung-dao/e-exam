@@ -10,10 +10,10 @@ dashboard:
     path: /dashboard
     controller: App\Controller\ExamController::dashboard
 
-question:
+create-new-question:
     path: /create-question
     controller: App\Controller\ExamController:newQuestion
 
-exam:
+create-new-exam:
     path: /create-exam
     controller: App\Controller\ExamController:newExam

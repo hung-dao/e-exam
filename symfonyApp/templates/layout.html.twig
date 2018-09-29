@@ -1,29 +1,86 @@
 {% extends 'base.html.twig' %}
 
+{# this is the navigation bar #}
 {% block navbar %}
-{# this is the navigation bar#}
-    <nav class="navbar navbar-default navbar-inverse">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{  path('index') }}">
-                    <img alt="E-Exam" src=" {{ asset('build/images/logo.png') }}" style="object-fit: cover;">
-                </a>
-            </div>
+<nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-controls="navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{  path('index') }}">
+                <img alt="E-Exam" src=" {{ asset('build/images/logo.png') }}" style="object-fit: cover;">
+            </a>
+        </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <div class="nav navbar-nav navbar-right">
-                    {# Here is the login place, here shown for non-login user #}
-                    <a class="btn btn-default navbar-btn" href="{{ path('login') }}">Login</a>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <div class="nav navbar-nav navbar-right">
+                {# Here is the login place, here shown for non-login user #}
+                <a class="btn btn-default navbar-btn" href="{{ path('login') }}">Login</a>
+            </div>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <!-- TODO comment this if in student mode
+                for teacher dashboard and student dashboard,
+                there will be different in content using
+                {# {% if user == student %}#} blah blah
+                here is the list for teacher-->
+                <li class="sidebar-brand">
+                    <a href="{{ path('dashboard') }}">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-brand">
+                    <a href="{{ path('create-new-exam') }}">
+                        Create new exam
+                    </a>
+                </li>
+                <li class="sidebar-brand">
+                    <a href="{{ path('create-new-question') }}">
+                        Create new question
+                    </a>
+                </li>
+                <!--comment this if in teacher mode, uncomment in student mode-->
+                {#
+                <li class="sidebar-brand">
+                    <a href="{{ path('dashboard') }}">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-brand">
+                    <a href="{{ path('open-exam') }}">
+                        Open exam
+                    </a>
+                </li>
+                #}
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                        {% block pageContent %} {% endblock %}
                 </div>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-{% endblock navbar %}
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+
+{% endblock %}
