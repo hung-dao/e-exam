@@ -1,4 +1,5 @@
-# e-exam
+# E-Exam
+![E-exam](/symfonyApp/public/build/images/logo.png)
 
 E-exam system based on PHP Symfony framework.
 
