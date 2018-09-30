@@ -4,10 +4,25 @@
 E-exam system based on PHP Symfony framework.
 
 ---
-After clone this project: 
+Clone the project:
+```
+git clone https://github.com/hung-dao/e-exam.git
+```
 
-# in virtual terminal (vagrant ssh): 
-composer req symfony/webpack-encore-pack | composer install
-
-# in terminal: 
-npm install | npm run dev 
+After cloning, make a secure connection to the virtual machine:
+```
+vagrant ssh
+```
+### in the virtual machine:
+```
+cd /vagrant/symfonyApp
+composer require symfony/webpack-encore-pack
+composer install
+exit
+```
+### in the host machine:
+```
+cd symfonyApp
+npm install
+npm run dev
+```
