@@ -4,16 +4,25 @@ index:
 
 login:
     path: /login
-    controller: App\Controller\IndexController::index
+    controller: App\Controller\IndexController::login
+
+logout:
+    path: /
+    controller: App\Controller\IndexController::logout
 
 dashboard:
     path: /dashboard
-    controller: App\Controller\ExamController::dashboard
+    controller: App\Controller\ExamController::index
 
 create-new-question:
     path: /create-question
-    controller: App\Controller\ExamController:newQuestion
+    controller: App\Controller\QuestionController::newQuestion
+    methods: GET|POST
 
 create-new-exam:
     path: /create-exam
-    controller: App\Controller\ExamController:newExam
+    controller: App\Controller\ExamController::newExam
+
+open-exam:
+    path: /all-open-exams
+    controller: App\Controller\ExamController::viewOpenExam
