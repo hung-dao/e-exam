@@ -8,7 +8,13 @@
 
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
+    <a href="{{ path('logout') }}">Logout</a>
+    <form action="{{ path('login') }}" method="POST">
+        Username: <input type="text" id="username" name="_username" /><br>
+        Password: <input type="text" id="password" name="_password" /> <br>
 
+        <button type="submit">Login</button>
+    </form>
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ 'src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code></li>
