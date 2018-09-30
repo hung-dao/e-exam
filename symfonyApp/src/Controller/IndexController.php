@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IndexController extends AbstractController
 {
-    public function Index()
+    public function Index(Request $request)
     {
         // if the user haven't logged in: return to login page
         // if user has logged in, return to homepage (the dashboard)

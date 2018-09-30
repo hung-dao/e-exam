@@ -10,7 +10,7 @@ class ExamController extends AbstractController
     /**
      * @Route("/exam", name="exam")
      */
-    public function index()
+    public function Dashboard()
     {
         return $this->render('exam/index.html.twig', [
             'controller_name' => 'ExamController',
