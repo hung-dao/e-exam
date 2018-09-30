@@ -19,6 +19,7 @@ security:
             form_login:
                 login_path: /
                 check_path: /login
+                default_target_path: dashboard
                 provider: my_provider
             logout:
                 path: /logout

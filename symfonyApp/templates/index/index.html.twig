@@ -7,18 +7,16 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    <a href="{{ path('logout') }}">Logout</a>
+   
+    <h1>E-Exam ✅</h1>
     <form action="{{ path('login') }}" method="POST">
-        Username: <input type="text" id="username" name="_username" /><br>
+        Username: <input type="text" id="username" name="_username" value="{{ last_username }}"/><br>
         Password: <input type="text" id="password" name="_password" /> <br>
 
         <button type="submit">Login</button>
     </form>
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/index/index.html.twig'|file_link(0) }}">templates/index/index.html.twig</a></code></li>
-    </ul>
+    {% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 </div>
 {% endblock %}

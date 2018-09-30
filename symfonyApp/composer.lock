@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "293478398b87a7c9b5b93f14969a4033",
+    "content-hash": "43b0028dcb295d36e25f6a84c382a715",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1580,6 +1580,77 @@
             "time": "2017-10-23T01:57:42+00:00"
         },
         {
+            "name": "sensio/framework-extra-bundle",
+            "version": "v5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
+                "reference": "535b56b7b0325e87b15b9c57bd3631ae2a0b9f16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/535b56b7b0325e87b15b9c57bd3631ae2a0b9f16",
+                "reference": "535b56b7b0325e87b15b9c57bd3631ae2a0b9f16",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "^2.2",
+                "symfony/config": "^3.3|^4.0",
+                "symfony/dependency-injection": "^3.3|^4.0",
+                "symfony/framework-bundle": "^3.4|^4.0",
+                "symfony/http-kernel": "^3.3|^4.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^1.6",
+                "doctrine/orm": "^2.5",
+                "symfony/browser-kit": "^3.3|^4.0",
+                "symfony/dom-crawler": "^3.3|^4.0",
+                "symfony/expression-language": "^3.3|^4.0",
+                "symfony/finder": "^3.3|^4.0",
+                "symfony/monolog-bridge": "^3.0|^4.0",
+                "symfony/monolog-bundle": "^3.2",
+                "symfony/phpunit-bridge": "^3.3|^4.0",
+                "symfony/psr-http-message-bridge": "^0.3",
+                "symfony/security-bundle": "^3.3|^4.0",
+                "symfony/twig-bundle": "^3.3|^4.0",
+                "symfony/yaml": "^3.3|^4.0",
+                "twig/twig": "~1.12|~2.0",
+                "zendframework/zend-diactoros": "^1.3"
+            },
+            "suggest": {
+                "symfony/expression-language": "",
+                "symfony/psr-http-message-bridge": "To use the PSR-7 converters",
+                "symfony/security-bundle": ""
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sensio\\Bundle\\FrameworkExtraBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "This bundle provides a way to configure your controllers with annotations",
+            "keywords": [
+                "annotations",
+                "controllers"
+            ],
+            "time": "2018-09-30T05:16:57+00:00"
+        },
+        {
             "name": "symfony/asset",
             "version": "v4.1.4",
             "source": {
@@ -2865,16 +2936,16 @@
         },
         {
             "name": "symfony/security",
-            "version": "v4.1.4",
+            "version": "v4.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security.git",
-                "reference": "64c830b4dddbcbeacfe678b0b98e28d6c2870e42"
+                "reference": "9ee3f3f234190d593227b83801bcdef0e3a3bd53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security/zipball/64c830b4dddbcbeacfe678b0b98e28d6c2870e42",
-                "reference": "64c830b4dddbcbeacfe678b0b98e28d6c2870e42",
+                "url": "https://api.github.com/repos/symfony/security/zipball/9ee3f3f234190d593227b83801bcdef0e3a3bd53",
+                "reference": "9ee3f3f234190d593227b83801bcdef0e3a3bd53",
                 "shasum": ""
             },
             "require": {
@@ -2938,20 +3009,20 @@
             ],
             "description": "Symfony Security Component",
             "homepage": "https://symfony.com",
-            "time": "2018-08-19T08:16:41+00:00"
+            "time": "2018-09-30T03:38:13+00:00"
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v4.1.4",
+            "version": "v4.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "03f68de271c2a5fdddf9f41b25ef80bc1ddf303b"
+                "reference": "5d04c3176ca76b8a061b4dabf4ce385f3e8e5aa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/03f68de271c2a5fdddf9f41b25ef80bc1ddf303b",
-                "reference": "03f68de271c2a5fdddf9f41b25ef80bc1ddf303b",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/5d04c3176ca76b8a061b4dabf4ce385f3e8e5aa1",
+                "reference": "5d04c3176ca76b8a061b4dabf4ce385f3e8e5aa1",
                 "shasum": ""
             },
             "require": {
@@ -3018,7 +3089,7 @@
             ],
             "description": "Symfony SecurityBundle",
             "homepage": "https://symfony.com",
-            "time": "2018-08-18T16:52:46+00:00"
+            "time": "2018-09-21T12:49:42+00:00"
         },
         {
             "name": "symfony/twig-bridge",
