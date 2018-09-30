@@ -13,14 +13,14 @@ After cloning, make a secure connection to the virtual machine:
 ```
 vagrant ssh
 ```
-### in the virtual machine:
+#### in the virtual machine:
 ```
 cd /vagrant/symfonyApp
 composer require symfony/webpack-encore-pack
 composer install
 exit
 ```
-### in the host machine:
+#### in the host machine:
 ```
 cd symfonyApp
 npm install
