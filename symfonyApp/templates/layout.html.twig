@@ -2,85 +2,73 @@
 
 {# this is the navigation bar #}
 {% block navbar %}
-<nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-controls="navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+    <div class="nav-side-menu">
+        <div class="brand">
             <a class="navbar-brand" href="{{  path('index') }}">
                 <img alt="E-Exam" src=" {{ asset('build/images/logo.png') }}" style="object-fit: cover;">
             </a>
         </div>
+        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-            <div class="nav navbar-nav navbar-right">
-                {# Here is the login place, here shown for non-login user #}
-                <a class="btn btn-default navbar-btn" href="{{ path('login') }}">Login</a>
-            </div>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+        <div class="menu-list">
+            <ul id="menu-content" class="menu-content collapse out">
+                {# for teacher user display below, for student, uncomment the 2nd#}
+                <li class="active">
+                    <a href="{{ path("dashboard") }}">
+                        <i class="fa fa-dashboard fa-lg"></i> Dashboard
+                    </a>
+                </li>
+
+                <li class="">
+                    <a href="{{ path("create-new-exam") }}">
+                        <i class="fa fa-book fa-lg"></i> Create new exam
+                    </a>
+                </li>
+
+                <li class="">
+                    <a href="{{ path("create-new-question") }}">
+                        <i class="fa fa-question fa-lg"></i> Create new question
+                    </a>
+                </li>
+
+                {#TODO this is for student model. add user to display
+                <li class="">
+                    <a href="{{ path("dashboard") }}">
+                        <i class="fa fa-dashboard fa-lg"></i> My Exams
+                    </a>
+                </li>
+
+                <li class="">
+                    <a href="{{ path("open-exam") }}">
+                        <i class="fa fa-question fa-lg"></i> Exams
+                    </a>
+                </li>#}
+
+                <li class="bar-footer button">
+                    <ul>
+                        <li> {#display only when user not logged in#}
+                            <a href="{{ path("login") }}" class="btn navbar-btn btn-default">
+                                Login
+                            </a>
+                        </li>
+                        {#below is for logged
+                        <li class="">
+                            <a href="#">
+                                <i class="fa fa-user fa-lg"></i> Hello
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn navbar-btn btn-default">
+                                <i class="fa fa-sign-out fa-lg"></i> Log out
+                            </a>
+                        </li>#}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block body %}
-    <div class="wrapper">
-
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <!-- TODO comment this if in student mode
-                for teacher dashboard and student dashboard,
-                there will be different in content using
-                {# {% if user == student %}#} blah blah
-                here is the list for teacher-->
-                <li class="sidebar-brand">
-                    <a href="{{ path('dashboard') }}">
-                        Dashboard
-                    </a>
-                </li>
-                <li class="sidebar-brand">
-                    <a href="{{ path('create-new-exam') }}">
-                        Create new exam
-                    </a>
-                </li>
-                <li class="sidebar-brand">
-                    <a href="{{ path('create-new-question') }}">
-                        Create new question
-                    </a>
-                </li>
-                <!--comment this if in teacher mode, uncomment in student mode-->
-                {#
-                <li class="sidebar-brand">
-                    <a href="{{ path('dashboard') }}">
-                        Dashboard
-                    </a>
-                </li>
-                <li class="sidebar-brand">
-                    <a href="{{ path('open-exam') }}">
-                        Open exam
-                    </a>
-                </li>
-                #}
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                        {% block pageContent %} {% endblock %}
-                </div>
-            </div>
-        </div>
-        <!-- /#page-content-wrapper -->
-
-    </div>
 
 {% endblock %}
