@@ -1,8 +1,5 @@
 ![E-exam](/symfonyApp/public/build/images/logo.png)
 
----------------
-## Geting Started ##
-
 ### Technologies
 * PHP Symfony framework
 * MySQL database  
