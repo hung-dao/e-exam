@@ -1,16 +1,16 @@
 index:
     path: /
     controller: App\Controller\IndexController::index
-
 login:
     path: /login
     controller: App\Controller\IndexController::index
 logout:
     path: /logout
     controller: App\Controller\IndexController::logout
+
 dashboard:
     path: /dashboard
-    controller: App\Controller\ExamController::index
+    controller: App\Controller\ExamController::dashboard
 
 create-new-question:
     path: /create-question
