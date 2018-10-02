@@ -25,9 +25,9 @@
 
     <div class="menu-list">
         <ul id="menu-content" class="menu-content collapse out">
-            {% if user_login is defined and user_login == true %}
+            {% if app.user != null %}
                 {# for teacher user display below, for student, uncomment the 2nd#}
-                {% if user_role is defined and user_role == "teacher" %}
+                {% if app.user.role == 1 %}
                     <li class="active">
                         <a href="{{ path("dashboard") }}">
                             <i class="fa fa-dashboard fa-lg"></i> Dashboard
@@ -41,13 +41,13 @@
                     </li>
 
                     <li class="">
-                        <a href="{{ path("create-new-question") }}">
-                            <i class="fa fa-question fa-lg"></i> Create new question
+                        <a href="{{ path("question_index") }}">
+                            <i class="fa fa-question fa-lg"></i> All questions
                         </a>
                     </li>
 
                     {#TODO this is for student model. add user to display#}
-                {% elseif user_role is defined and user_role == "student" %}
+                {% elseif app.user.role == 0 %}
                     <li class="">
                         <a href="{{ path("dashboard") }}">
                             <i class="fa fa-dashboard fa-lg"></i> My Exams
@@ -64,17 +64,17 @@
 
             <li class="bar-footer button">
                 <ul>
-                    {% if not user_login is defined or user_login != true %}
+                    {% if app.user == null %}
                         <li>
                             <a href="{{ path("login") }}" class="btn navbar-btn btn-default">
                                 Login
                             </a>
                         </li>
-                    {% elseif user_login == true %}
+                    {% elseif (app.user != null) %}
                         {#below is for logged#}
-                        <li class="">
+                        <li class="static-line">
                             <a href="#">
-                                <i class="fa fa-user fa-lg"></i> Hello
+                                <i class="fa fa-user fa-lg"></i> Hello {{ app.user.name }}
                             </a>
                         </li>
                         <li>

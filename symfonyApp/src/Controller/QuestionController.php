@@ -23,6 +23,9 @@ class QuestionController extends AbstractController
         return $this->render('question/index.html.twig', ['questions' => $questionRepository->findAll()]);
     }
 
+    /**
+     * @Route("/create-question", name="create_new_question", methods="GET|POST")
+     */
     public function newQuestion(Request $request): Response
     {
         $question = new Question();

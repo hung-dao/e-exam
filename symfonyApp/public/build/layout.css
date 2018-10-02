@@ -136,6 +136,9 @@
     background-color: #2e353d;
 }
 
+li.static-line a {
+    color: #81da89 !important;
+}
 /*page content*/
 .page-content {
     display: block;

@@ -18,9 +18,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('question_index') }}">back to list</a>
+    <a href="{{ path('question_index') }}">Back to list</a>
 
-    <a href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
+    <a href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
 
     {{ include('question/_delete_form.html.twig') }}
 {% endblock %}

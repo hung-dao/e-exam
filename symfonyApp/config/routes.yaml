@@ -12,11 +12,6 @@ dashboard:
     path: /dashboard
     controller: App\Controller\ExamController::dashboard
 
-create-new-question:
-    path: /create-question
-    controller: App\Controller\QuestionController::newQuestion
-    methods: GET|POST
-
 create-new-exam:
     path: /create-exam
     controller: App\Controller\ExamController::newExam

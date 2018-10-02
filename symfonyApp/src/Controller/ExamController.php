@@ -7,13 +7,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ExamController extends AbstractController
 {
-    /**
-     * @Route("/exam", name="exam")
-     */
     public function Dashboard()
     {
+        $user = $this->getUser();
         return $this->render('exam/index.html.twig', [
             'controller_name' => 'ExamController',
+            'user' => $user->getName()
         ]);
     }
 }
