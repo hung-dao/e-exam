@@ -136,6 +136,13 @@
     background-color: #2e353d;
 }
 
+/*page content*/
+.page-content {
+    display: block;
+    width: 80%;
+    float: right;
+}
+
 @media (max-width: 767px) {
     .nav-side-menu {
         position: relative;
@@ -162,9 +169,13 @@
         line-height: 50px !important;
         min-height: 70px;
     }
+    .page-content {
+        width: 100%;
+    }
 }
 @media (min-width: 767px) {
     .nav-side-menu .menu-list .menu-content {
         display: block;
     }
 }
+

@@ -2864,16 +2864,25 @@
                     "/Tests/"
                 ]
             },
+>>>>>>> dashboard
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
+<<<<<<< HEAD
+=======
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+>>>>>>> dashboard
                     "name": "Symfony Community",
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
+<<<<<<< HEAD
             "description": "Symfony Maker helps you create empty commands, controllers, form classes, tests and more so you can forget about writing boilerplate code.",
             "homepage": "https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html",
             "keywords": [
@@ -2883,6 +2892,7 @@
                 "scaffolding"
             ],
             "time": "2018-08-30T01:08:06+00:00"
+=======
             "description": "Symfony OptionsResolver Component",
             "homepage": "https://symfony.com",
             "keywords": [
@@ -2891,6 +2901,7 @@
                 "options"
             ],
             "time": "2018-09-18T12:45:12+00:00"
+>>>>>>> dashboard
         },
         {
             "name": "symfony/orm-pack",
@@ -3039,6 +3050,7 @@
         },
         {
             "name": "symfony/property-access",
+<<<<<<< HEAD
             "version": "v4.1.4",
             "source": {
                 "type": "git",
@@ -3049,6 +3061,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/property-access/zipball/ae8561ba08af38e12dc5e21582ddb4baf66719ca",
                 "reference": "ae8561ba08af38e12dc5e21582ddb4baf66719ca",
+=======
             "version": "v4.1.5",
             "source": {
                 "type": "git",
@@ -3059,6 +3072,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/property-access/zipball/02abada997e3ec63bbf41ef859900b31d074f171",
                 "reference": "02abada997e3ec63bbf41ef859900b31d074f171",
+>>>>>>> dashboard
                 "shasum": ""
             },
             "require": {
@@ -3112,7 +3126,11 @@
                 "property path",
                 "reflection"
             ],
+<<<<<<< HEAD
             "time": "2018-08-24T10:22:26+00:00"
+=======
+            "time": "2018-09-08T13:24:10+00:00"
+>>>>>>> dashboard
         },
         {
             "name": "symfony/routing",
@@ -3192,7 +3210,11 @@
             "time": "2018-08-03T07:58:40+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "symfony/security",
+            "version": "v4.1.5",
+=======
+            "name": "symfony/security-core",
             "version": "v4.1.5",
             "source": {
                 "type": "git",
@@ -3388,6 +3410,7 @@
         {
             "name": "symfony/twig-bridge",
             "version": "v4.1.4",
+>>>>>>> dashboard
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security.git",
