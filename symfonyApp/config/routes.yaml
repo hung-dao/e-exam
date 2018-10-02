@@ -5,7 +5,9 @@ index:
 login:
     path: /login
     controller: App\Controller\IndexController::index
-
+logout:
+    path: /logout
+    controller: App\Controller\IndexController::logout
 dashboard:
     path: /dashboard
     controller: App\Controller\ExamController::dashboard
