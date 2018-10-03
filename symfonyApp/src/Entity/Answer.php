@@ -26,13 +26,13 @@ class Answer
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $answerText;
+    public $answerText;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $question;
+    public $question;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Assessment", mappedBy="answer")
