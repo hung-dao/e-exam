@@ -21,7 +21,7 @@ class QuestionType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'categoryName'
             ))
-            
+
         ;
     }
 
