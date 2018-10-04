@@ -54,6 +54,11 @@ class Exam
      */
     private $openDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="exams")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->questionInExams = new ArrayCollection();
@@ -183,6 +188,18 @@ class Exam
     public function setOpenDate(\DateTimeInterface $openDate): self
     {
         $this->openDate = $openDate;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
