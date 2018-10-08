@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Question;
 use App\Form\QuestionType;
 use App\Repository\QuestionRepository;
@@ -33,10 +34,13 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $question->setOwner($this->getUser());
+            foreach ($question->getAnswers() as $answer) {
+                $answer->setQuestion($question);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($question);
             $em->flush();
-
             return $this->redirectToRoute('question_index');
         }
 
@@ -65,7 +69,7 @@ class QuestionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('question_edit', ['id' => $question->getId()]);
+            return $this->redirectToRoute('view_question', ['id' => $question->getId()]);
         }
 
         return $this->render('question/edit.html.twig', [

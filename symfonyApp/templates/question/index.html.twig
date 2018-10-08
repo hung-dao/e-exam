@@ -1,26 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Question index{% endblock %}
+{% block title %}All Questions{% endblock %}
 
 {% block body %}
-    <h1>Question index</h1>
+    <h1>All questions</h1>
+
+    <a class="btn btn-info" href="{{ path('create_new_question') }}">Create new</a>
 
     <table class="table">
-        <thead>
+        <thead class="thead-light table-secondary">
             <tr>
-                <th>Id</th>
-                <th>QuestionText</th>
-                <th>actions</th>
+                <th scope="col" class="col-6 main-col">Question</th>
+                <th scope="col" class="col-3">Owner</th>
+                <th scope="col" class="col-3 action-col">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for question in questions %}
             <tr>
-                <td>{{ question.id }}</td>
-                <td>{{ question.questionText }}</td>
-                <td>
-                    <a href="{{ path('view_question', {'id': question.id}) }}">View</a>
-                    <a href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+                <td class="col-6 main-col">{{ question.questionText }}</td>
+                <td class="col-3">{{ question.owner.name }}</td>
+                <td class="col-3 action-col">
+                    <a class="btn btn-default" href="{{ path('view_question', {'id': question.id}) }}">View</a>
+                    <a class="btn btn-default" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +33,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('create_new_question') }}">Create new</a>
 {% endblock %}

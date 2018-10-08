@@ -1,4 +1,15 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.questionText) }}
+    {{ form_row(form.category) }}
+
+    <h4>Answers</h4>
+    <ul class="answers" data-prototype="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}">
+        {% for answer in form.answers %}
+            <li>{{ form_widget(answer) }}</li>
+        {% endfor %}
+    </ul>
+
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<script src="{{ asset('build/js/questionForm.js') }}"></script>

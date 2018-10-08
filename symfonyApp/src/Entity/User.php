@@ -53,9 +53,15 @@ class User implements UserInterface
      */
     private $studentAnswer;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="owner")
+     */
+    private $question;
+
     public function __construct()
     {
         $this->exams = new ArrayCollection();
+        $this->question = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,9 +94,9 @@ class User implements UserInterface
     }
 	
 	public function getPassword(): ?string
-    {
-        return $this->password;
-    }
+                            {
+                                return $this->password;
+                            }
 
     public function setPassword(string $password): self
     {
@@ -189,5 +195,48 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         
+    }
+
+    public function getQuetions(): ?string
+    {
+        return $this->quetions;
+    }
+
+    public function setQuetions(?string $quetions): self
+    {
+        $this->quetions = $quetions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestion(): Collection
+    {
+        return $this->question;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->question->contains($question)) {
+            $this->question[] = $question;
+            $question->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->question->contains($question)) {
+            $this->question->removeElement($question);
+            // set the owning side to null (unless already changed)
+            if ($question->getOwner() === $this) {
+                $question->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }

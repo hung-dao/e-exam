@@ -92,14 +92,7 @@
     padding-right: 10px;
     vertical-align: middle;
 }
-.nav-side-menu li.bar-footer {
-    position: absolute;
-    bottom: 20px;
-    text-align: center;
-    margin: auto;
-    display: block;
-    width: 100%;
-}
+
 
 .nav-side-menu li.bar-footer a {
     color: #000000 !important;
@@ -136,7 +129,7 @@
     background-color: #2e353d;
 }
 
-li.static-line a {
+li.bar-footer li.static-line a {
     color: #81da89 !important;
 }
 /*page content*/
@@ -179,6 +172,14 @@ li.static-line a {
 @media (min-width: 767px) {
     .nav-side-menu .menu-list .menu-content {
         display: block;
+    }
+    .nav-side-menu li.bar-footer {
+        position: absolute;
+        bottom: 20px;
+        text-align: center;
+        margin: auto;
+        display: block;
+        width: 100%;
     }
 }
 
