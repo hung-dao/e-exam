@@ -7,6 +7,7 @@ use App\Entity\Exam;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,6 +27,16 @@ class ExamType extends AbstractType
                     'No' => false
                 )))
             ->add('user')
+            ->add('numberOfQuestions', ChoiceType::class, array(
+                'choices' => array(
+                    5 => 5,
+                    6 => 6,
+                    7 => 7,
+                    8 => 8,
+                    9 => 9,
+                    10 => 10
+                )
+            ))
         ;
     }
 
