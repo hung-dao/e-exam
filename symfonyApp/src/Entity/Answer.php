@@ -21,7 +21,7 @@ class Answer
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isCorrect;
+    private $isCorrect = false;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -49,9 +49,10 @@ class Answer
         return $this->id;
     }
 
-    public function getIsCorrect(): ?bool
+    public function getIsCorrect(): bool
     {
-        return $this->isCorrect;
+        return $this->isCorrect ;
+        //return (bool) $this->isCorrect ;
     }
 
     public function setIsCorrect(bool $isCorrect): self

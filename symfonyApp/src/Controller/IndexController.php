@@ -14,18 +14,23 @@ class IndexController extends Controller
      */
     public function Index(Request $request)
     {
-        $authUtils = $this->get('security.authentication_utils');
-        // get the login error if there is one
-        $error = $authUtils->getLastAuthenticationError();
+        if ($this ->getUser() != null) {
+            return $this->redirectToRoute('dashboard');
+        } else {
+            $authUtils = $this->get('security.authentication_utils');
+            // get the login error if there is one
+            $error = $authUtils->getLastAuthenticationError();
 
-        // last username entered by the user
-        $lastUsername = $authUtils->getLastUsername();
+            // last username entered by the user
+            $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('index/index.html.twig', [
-            'controller_name' => 'IndexController',
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ]);
+            return $this->render('index/index.html.twig', [
+                'controller_name' => 'IndexController',
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ]);
+        }
+
     }
     public function Logout()
     {

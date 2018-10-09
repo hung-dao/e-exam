@@ -7,13 +7,21 @@
         {% block title %}Welcome To E-Exam!{% endblock %}
     </title>
     <link rel="icon" href="{{ asset('build/images/small_logo.png') }}">
-    <link rel="stylesheet" href="{{ asset('build/global.css') }}" />
-    <link rel="stylesheet" href="{{ asset('build/layout.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/css/global.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/css/layout.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/css/world_styles.css') }}" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     {#page custom stylesheets#}
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+{% block javascripts %}
+    <script src="{{ asset('build/app.js') }}"></script>
+{% endblock %}
 
 <div class="nav-side-menu">
     <div class="brand">
@@ -93,15 +101,5 @@
         {% block body %}{% endblock %}
     </div>
 </div>
-
-
-
-{% block javascripts %}
-    <script src="{{ asset('build/app.js') }}"></script>
-{% endblock %}
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </body>
 </html>
