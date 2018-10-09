@@ -29,11 +29,6 @@ class Exam
     private $isOpen;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuestionInExam", mappedBy="exam")
-     */
-    private $questionInExams;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExamStatus", mappedBy="exam")
      */
     private $examStatuses;
@@ -64,10 +59,15 @@ class Exam
      */
     private $numberOfQuestions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="exams")
+     */
+    private $questions;
+
     public function __construct()
     {
-        $this->questionInExams = new ArrayCollection();
         $this->examStatuses = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,37 +95,6 @@ class Exam
     public function setIsOpen(bool $isOpen): self
     {
         $this->isOpen = $isOpen;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|QuestionInExam[]
-     */
-    public function getQuestionInExams(): Collection
-    {
-        return $this->questionInExams;
-    }
-
-    public function addQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if (!$this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams[] = $questionInExam;
-            $questionInExam->setExam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if ($this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams->removeElement($questionInExam);
-            // set the owning side to null (unless already changed)
-            if ($questionInExam->getExam() === $this) {
-                $questionInExam->setExam(null);
-            }
-        }
 
         return $this;
     }
@@ -217,6 +186,34 @@ class Exam
     public function setNumberOfQuestions(?int $numberOfQuestions): self
     {
         $this->numberOfQuestions = $numberOfQuestions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->addExam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            $question->removeExam($this);
+        }
 
         return $this;
     }

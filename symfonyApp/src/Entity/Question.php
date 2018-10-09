@@ -29,11 +29,6 @@ class Question
     private $answers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuestionInExam", mappedBy="question")
-     */
-    private $questionInExams;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="questions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -45,10 +40,15 @@ class Question
      */
     private $owner;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Exam", inversedBy="questions")
+     */
+    private $exams;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
-        $this->questionInExams = new ArrayCollection();
+        $this->exams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,37 +99,6 @@ class Question
         return $this;
     }
 
-    /**
-     * @return Collection|QuestionInExam[]
-     */
-    public function getQuestionInExams(): Collection
-    {
-        return $this->questionInExams;
-    }
-
-    public function addQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if (!$this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams[] = $questionInExam;
-            $questionInExam->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if ($this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams->removeElement($questionInExam);
-            // set the owning side to null (unless already changed)
-            if ($questionInExam->getQuestion() === $this) {
-                $questionInExam->setQuestion(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -150,6 +119,32 @@ class Question
     public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->contains($exam)) {
+            $this->exams->removeElement($exam);
+        }
 
         return $this;
     }
