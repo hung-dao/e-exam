@@ -5,11 +5,18 @@
     <h4>Answers</h4>
     <ul class="answers" data-prototype="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}">
         {% for answer in form.answers %}
-            <li>{{ form_widget(answer) }}</li>
+            <li>
+                <div class="row">
+                    <div class="col-md-10">{{ form_widget(answer.answerText) }}</div>
+                    <div class="col-md-2">{{ form_widget(answer.isCorrect) }}</div>
+                </div>
+            </li>
         {% endfor %}
     </ul>
 
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <button style="display: inline-block" class="btn btn-sm btn-primary">
+        {{ button_label|default('Save') }}
+    </button>
 {{ form_end(form) }}
 
 <script src="{{ asset('build/js/questionForm.js') }}"></script>

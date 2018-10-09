@@ -183,3 +183,7 @@ li.bar-footer li.static-line a {
     }
 }
 
+.container {
+    width: 90% !important;
+    margin: auto !important;
+}

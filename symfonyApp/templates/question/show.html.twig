@@ -16,15 +16,15 @@
                     {{ answer.answerText }}
                 </td>
                 <td>
-                    <input disabled type="checkbox" name="correct" data-toggle="tooltip" data-placement="top" title="Correct answer" value="{{ answer.isCorrect }}" checked="{{ answer.isCorrect }}"><br>
+                    <input disabled type="checkbox" name="correct" data-toggle="tooltip" data-placement="top" title="Correct answer" {% if answer.isCorrect ==1 %} value=true checked {% endif %}><br>
                 </td>
             </tr>
         {% endfor %}
         </table>
     </div>
-    <a href="{{ path('question_index') }}">Back to list</a>
+    <a class="btn btn-sm btn-default" href="{{ path('question_index') }}">Back to list</a>
 
-    <a href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+    <a class="btn btn-sm btn-default" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
 
     {{ include('question/_delete_form.html.twig') }}
 {% endblock %}
