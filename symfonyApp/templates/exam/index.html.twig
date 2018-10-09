@@ -7,13 +7,18 @@
         .example-wrapper button { margin: 5px 0;}
     </style>
 
+
     <div class="example-wrapper">
         <h1>Hello {{ user }}! ✅</h1>
-        <a href="{{ path('create_new_exam') }}">Create new exam</a>
+
+        {% if app.user.role == 1 %}
+        {#for teachers#}
+            <a href="{{ path('create_new_exam') }}">Create new exam</a>
+        {% endif %}
+        
         <br />
         <button type="button"><a href="{{ path('logout') }}">Logout</a></button>
     </div>
-
 
 
 {% endblock %}
