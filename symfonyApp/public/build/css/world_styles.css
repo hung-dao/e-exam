@@ -1,0 +1,39 @@
+/*list*/
+ul.answers li {
+    list-style-type: none;
+}
+ul.answers {
+    padding-inline-start: 10px;
+}
+ul.answers li fieldset.form-group {
+    margin-bottom: 5px;
+}
+/*table*/
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+th.main-col {
+    min-width: 50%;
+    width: 50%;
+}
+
+td.main-col {
+    min-width: 50%;
+}
+
+th.action-col {
+    max-width: 20%;
+    width:20%;
+}
+
+td.action-col {
+    max-width: 20%;
+    text-align: center;
+}
+
+th {
+    text-align: center
+}
