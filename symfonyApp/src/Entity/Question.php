@@ -45,10 +45,16 @@ class Question
      */
     private $exams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="question", orphanRemoval=true)
+     */
+    private $studentAnswers;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
         $this->exams = new ArrayCollection();
+        $this->studentAnswers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +150,37 @@ class Question
     {
         if ($this->exams->contains($exam)) {
             $this->exams->removeElement($exam);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StudentAnswer[]
+     */
+    public function getStudentAnswers(): Collection
+    {
+        return $this->studentAnswers;
+    }
+
+    public function addStudentAnswer(StudentAnswer $studentAnswer): self
+    {
+        if (!$this->studentAnswers->contains($studentAnswer)) {
+            $this->studentAnswers[] = $studentAnswer;
+            $studentAnswer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentAnswer(StudentAnswer $studentAnswer): self
+    {
+        if ($this->studentAnswers->contains($studentAnswer)) {
+            $this->studentAnswers->removeElement($studentAnswer);
+            // set the owning side to null (unless already changed)
+            if ($studentAnswer->getQuestion() === $this) {
+                $studentAnswer->setQuestion(null);
+            }
         }
 
         return $this;
