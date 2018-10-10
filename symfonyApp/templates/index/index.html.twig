@@ -4,14 +4,16 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .example-wrapper input { padding: 5px; margin: 5px 0; }
+    .example-wrapper button { margin: 5px 0;}
 </style>
 
 <div class="example-wrapper">
    
-    <h1>E-Exam ✅</h1>
+    <h2>E-Exam ✅</h2>
     <form action="{{ path('login') }}" method="POST">
-        Username: <input type="text" id="username" name="_username" value="{{ last_username }}"/><br>
-        Password: <input type="text" id="password" name="_password" /> <br>
+        <input type="text" placeholder="Username" id="username" name="_username" value="{{ last_username }}"/><br>
+        <input type="password" placeholder="Password" id="password" name="_password" /> <br>
 
         <button type="submit">Login</button>
     </form>

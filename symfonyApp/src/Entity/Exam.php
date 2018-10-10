@@ -29,11 +29,6 @@ class Exam
     private $isOpen;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuestionInExam", mappedBy="exam")
-     */
-    private $questionInExams;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExamStatus", mappedBy="exam")
      */
     private $examStatuses;
@@ -54,10 +49,31 @@ class Exam
      */
     private $openDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="exams")
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $numberOfQuestions;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="exams")
+     */
+    private $questions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="exam")
+     */
+    private $studentAnswers;
+
     public function __construct()
     {
-        $this->questionInExams = new ArrayCollection();
         $this->examStatuses = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+        $this->studentAnswers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,37 +101,6 @@ class Exam
     public function setIsOpen(bool $isOpen): self
     {
         $this->isOpen = $isOpen;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|QuestionInExam[]
-     */
-    public function getQuestionInExams(): Collection
-    {
-        return $this->questionInExams;
-    }
-
-    public function addQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if (!$this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams[] = $questionInExam;
-            $questionInExam->setExam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if ($this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams->removeElement($questionInExam);
-            // set the owning side to null (unless already changed)
-            if ($questionInExam->getExam() === $this) {
-                $questionInExam->setExam(null);
-            }
-        }
 
         return $this;
     }
@@ -183,6 +168,89 @@ class Exam
     public function setOpenDate(\DateTimeInterface $openDate): self
     {
         $this->openDate = $openDate;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getNumberOfQuestions(): ?int
+    {
+        return $this->numberOfQuestions;
+    }
+
+    public function setNumberOfQuestions(?int $numberOfQuestions): self
+    {
+        $this->numberOfQuestions = $numberOfQuestions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->addExam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            $question->removeExam($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StudentAnswer[]
+     */
+    public function getStudentAnswers(): Collection
+    {
+        return $this->studentAnswers;
+    }
+
+    public function addStudentAnswer(StudentAnswer $studentAnswer): self
+    {
+        if (!$this->studentAnswers->contains($studentAnswer)) {
+            $this->studentAnswers[] = $studentAnswer;
+            $studentAnswer->setExam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentAnswer(StudentAnswer $studentAnswer): self
+    {
+        if ($this->studentAnswers->contains($studentAnswer)) {
+            $this->studentAnswers->removeElement($studentAnswer);
+            // set the owning side to null (unless already changed)
+            if ($studentAnswer->getExam() === $this) {
+                $studentAnswer->setExam(null);
+            }
+        }
 
         return $this;
     }

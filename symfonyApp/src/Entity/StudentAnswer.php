@@ -17,12 +17,6 @@ class StudentAnswer
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\QuestionInExam", inversedBy="studentAnswers")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $questionInExam;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Assessment", inversedBy="studentAnswer", cascade={"persist", "remove"})
      */
     private $assessment;
@@ -33,21 +27,21 @@ class StudentAnswer
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="studentAnswers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $question;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Exam", inversedBy="studentAnswers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $exam;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuestionInExam(): ?QuestionInExam
-    {
-        return $this->questionInExam;
-    }
-
-    public function setQuestionInExam(?QuestionInExam $questionInExam): self
-    {
-        $this->questionInExam = $questionInExam;
-
-        return $this;
     }
 
     public function getAssessment(): ?Assessment
@@ -70,6 +64,30 @@ class StudentAnswer
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?Question
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(?Question $question): self
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    public function getExam(): ?Exam
+    {
+        return $this->exam;
+    }
+
+    public function setExam(?Exam $exam): self
+    {
+        $this->exam = $exam;
 
         return $this;
     }
