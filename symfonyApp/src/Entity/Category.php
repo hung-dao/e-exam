@@ -28,11 +28,6 @@ class Category
      */
     private $questions;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="category")
-     */
-    private $exams;
-
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -86,35 +81,5 @@ class Category
 
         return $this;
     }
-
-    /**
-     * @return Collection|Exam[]
-     */
-    public function getExams(): Collection
-    {
-        return $this->exams;
-    }
-
-    public function addExam(Exam $exam): self
-    {
-        if (!$this->exams->contains($exam)) {
-            $this->exams[] = $exam;
-            $exam->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeExam(Exam $exam): self
-    {
-        if ($this->exams->contains($exam)) {
-            $this->exams->removeElement($exam);
-            // set the owning side to null (unless already changed)
-            if ($exam->getCategory() === $this) {
-                $exam->setCategory(null);
-            }
-        }
-
-        return $this;
-    }
 }
+

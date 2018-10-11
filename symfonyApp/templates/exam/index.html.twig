@@ -1,24 +1,43 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Exam index{% endblock %}
+
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-        .example-wrapper button { margin: 5px 0;}
-    </style>
+    <h1>Exam index</h1>
 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>IsOpen</th>
+                <th>IsPublic</th>
+                <th>OpenDate</th>
+                <th>NumberOfQuestions</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exam in exams %}
+            <tr>
+                <td>{{ exam.id }}</td>
+                <td>{{ exam.date ? exam.date|date('Y-m-d') : '' }}</td>
+                <td>{{ exam.isOpen ? 'Yes' : 'No' }}</td>
+                <td>{{ exam.isPublic ? 'Yes' : 'No' }}</td>
+                <td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>
+                <td>{{ exam.numberOfQuestions }}</td>
+                <td>
+                    <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
+                    <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    <div class="example-wrapper">
-        <h1>Hello {{ user }}! ✅</h1>
-
-        {% if app.user.role == 1 %}
-        {#for teachers#}
-            <a href="{{ path('create_new_exam') }}">Create new exam</a>
-        {% endif %}
-        
-        <br />
-        <button type="button"><a href="{{ path('logout') }}">Logout</a></button>
-    </div>
-
-
+    <a href="{{ path('exam_new') }}">Create new</a>
 {% endblock %}
