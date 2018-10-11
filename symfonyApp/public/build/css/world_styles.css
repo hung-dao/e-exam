@@ -8,6 +8,16 @@ ul.answers {
 ul.answers li fieldset.form-group {
     margin-bottom: 5px;
 }
+
+ul.questions li {
+    list-style-type: none;
+}
+ul.questions {
+    padding-inline-start: 10px;
+}
+ul.questions li fieldset.form-group {
+    margin-bottom: 5px;
+}
 /*table*/
 table.table {
     table-layout: fixed;

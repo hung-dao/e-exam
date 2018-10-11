@@ -1,4 +1,21 @@
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.isPublic) }}
+
+<h4>Questions</h4>
+<ul class="questions" data-prototype="{{ form_widget(form.questions.vars.prototype)|e('html_attr') }}">
+    {% for question in form.questions %}
+        <li>
+            <div class="row">
+                <div class="col-md-10">{{ form_widget(question.questionText) }}</div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+<button style="display: inline-block" class="btn btn-sm btn-primary">
+    {{ button_label|default('Create') }}
+</button>
 {{ form_end(form) }}
+
+<script src="{{ asset('build/js/examForm.js') }}"></script>
