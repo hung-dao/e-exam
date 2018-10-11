@@ -21,6 +21,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 {% block javascripts %}
     <script src="{{ asset('build/app.js') }}"></script>
+    <script src="{{ asset('build/js/link.js') }}"></script>
 {% endblock %}
 
 <div class="nav-side-menu">
@@ -36,19 +37,19 @@
             {% if app.user != null %}
                 {# for teacher user display below, for student, uncomment the 2nd#}
                 {% if app.user.role == 1 %}
-                    <li class="active">
+                    <li id="dashboard" class="active">
                         <a href="{{ path("dashboard") }}">
                             <i class="fa fa-dashboard fa-lg"></i> Dashboard
                         </a>
                     </li>
 
-                    <li class="">
-                        <a href="{{ path("create_new_exam") }}">
+                    <li id="exam" class="">
+                        <a href="{{ path("exam_index") }}">
                             <i class="fa fa-book fa-lg"></i> Create new exam
                         </a>
                     </li>
 
-                    <li class="">
+                    <li id="question" class="">
                         <a href="{{ path("question_index") }}">
                             <i class="fa fa-question fa-lg"></i> All questions
                         </a>
@@ -56,13 +57,13 @@
 
                     {#TODO this is for student model. add user to display#}
                 {% elseif app.user.role == 0 %}
-                    <li class="">
+                    <li id="dashboard" class="">
                         <a href="{{ path("dashboard") }}">
                             <i class="fa fa-dashboard fa-lg"></i> My Exams
                         </a>
                     </li>
 
-                    <li class="">
+                    <li id="exam" class="">
                         <a href="{{ path("open-exam") }}">
                             <i class="fa fa-question fa-lg"></i> Exams
                         </a>

@@ -4,12 +4,14 @@
 
 {% block body %}
     <h1>Question</h1>
+    <hr>
+
     {{ question.questionText }}
     <h4>Category: </h4>
     {{ question.category.categoryName }}
     <h4>Answers:</h4>
     <div class="table-responsive">
-        <table class="table table-striped"">
+        <table class="table table-striped" style="width: 70%">
         {% for answer in question.answers %}
             <tr>
                 <td>
