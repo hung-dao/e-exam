@@ -9,31 +9,21 @@ ul.answers li fieldset.form-group {
     margin-bottom: 5px;
 }
 /*table*/
-td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-th.main-col {
-    min-width: 50%;
-    width: 50%;
+table.table {
+    table-layout: fixed;
 }
 
 td.main-col {
     min-width: 50%;
-}
-
-th.action-col {
-    max-width: 20%;
-    width:20%;
-}
-
-td.action-col {
-    max-width: 20%;
-    text-align: center;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 th {
     text-align: center
+}
+
+td :not(.main-col) {
+    text-align: center;
 }

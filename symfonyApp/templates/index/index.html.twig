@@ -1,22 +1,29 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/login.css') }}" />
+{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    .example-wrapper input { padding: 5px; margin: 5px 0; }
-    .example-wrapper button { margin: 5px 0;}
-</style>
 
-<div class="example-wrapper">
-   
-    <h2>E-Exam ✅</h2>
+<h2>E-Exam </h2>
+<hr>
+
+<div class="login-block">
+    <h3 style="text-align: center"> Login ✅</h3>
+
+
     <form action="{{ path('login') }}" method="POST">
-        <input type="text" placeholder="Username" id="username" name="_username" value="{{ last_username }}"/><br>
-        <input type="password" placeholder="Password" id="password" name="_password" /> <br>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" placeholder="Username" id="username" name="_username" value="{{ last_username }}"/><br>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
 
-        <button type="submit">Login</button>
+            <input class="form-control" type="password" placeholder="Password" id="password" name="_password" /> <br>
+        </div>
+        <button class="btn btn-block btn-primary" type="submit">Login</button>
     </form>
+
     {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
