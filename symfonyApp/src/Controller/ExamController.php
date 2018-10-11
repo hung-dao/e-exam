@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Exam;
-use App\Form\ExamType;
+use App\Form\ExamByCategoriesType;
+use App\Form\ExamByQuestionsType;
 use App\Repository\ExamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -30,12 +31,20 @@ class ExamController extends AbstractController
     }
 
     /**
-     * @Route("/exam/new", name="exam_new_by_categories", methods="GET|POST")
+     * @Route("/exam/new", name="exam_new", methods="GET|POST")
+     */
+    public function new()
+    {
+        return $this->render('exam/new.html.twig');
+    }
+
+    /**
+     * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
      */
     public function newByCategories(Request $request): Response
     {
         $exam = new Exam();
-        $form = $this->createForm(ExamType::class, $exam);
+        $form = $this->createForm(ExamByCategoriesType::class, $exam);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,19 +53,19 @@ class ExamController extends AbstractController
             ]);
         }
 
-        return $this->render('exam/new.html.twig', [
+        return $this->render('exam/new_by_categories.html.twig', [
             'exam' => $exam,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/exam/new", name="exam_new_by_questions", methods="GET|POST")
+     * @Route("/exam/new-exam-by-questions", name="exam_new_by_questions", methods="GET|POST")
      */
     public function newByQuestions(Request $request): Response
     {
         $exam = new Exam();
-        $form = $this->createForm(ExamType::class, $exam);
+        $form = $this->createForm(ExamByQuestionsType::class, $exam);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -65,7 +74,7 @@ class ExamController extends AbstractController
             ]);
         }
 
-        return $this->render('exam/new.html.twig', [
+        return $this->render('exam/new_by_questions.html.twig', [
             'exam' => $exam,
             'form' => $form->createView(),
         ]);
@@ -110,7 +119,7 @@ class ExamController extends AbstractController
      */
     public function edit(Request $request, Exam $exam): Response
     {
-        $form = $this->createForm(ExamType::class, $exam);
+        $form = $this->createForm(ExamByQuestionsType::class, $exam);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
