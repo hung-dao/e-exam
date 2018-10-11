@@ -3,28 +3,24 @@
 {% block title %}Exam index{% endblock %}
 
 {% block body %}
-    <h1>Exam index</h1>
+    <h1>All Exam</h1>
 
-    <table class="table">
+    <hr>
+
+    <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
+
+    <table class="table" style="width: 100%">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Date</th>
-                <th>IsOpen</th>
-                <th>IsPublic</th>
-                <th>OpenDate</th>
                 <th>NumberOfQuestions</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for exam in exams %}
             <tr>
-                <td>{{ exam.id }}</td>
-                <td>{{ exam.date ? exam.date|date('Y-m-d') : '' }}</td>
-                <td>{{ exam.isOpen ? 'Yes' : 'No' }}</td>
-                <td>{{ exam.isPublic ? 'Yes' : 'No' }}</td>
-                <td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>
+                <td>{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
                 <td>{{ exam.numberOfQuestions }}</td>
                 <td>
                     <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
@@ -39,5 +35,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('exam_new') }}">Create new</a>
 {% endblock %}
