@@ -40,6 +40,11 @@ class Exam
     private $isPublic;
 
     /**
+     * @ORM\Column(type="date")
+     */
+    private $openDate;
+
+    /**
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $numberOfQuestions;
@@ -130,6 +135,17 @@ class Exam
     {
         $this->isPublic = $isPublic;
 
+        return $this;
+    }
+
+    public function getOpenDate(): ?\DateTimeInterface
+    {
+        return $this->openDate;
+    }
+    
+    public function setOpenDate(\DateTimeInterface $openDate): self
+    {
+        $this->openDate = $openDate;
         return $this;
     }
 
