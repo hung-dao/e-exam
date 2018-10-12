@@ -51,6 +51,7 @@ class Exam
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="exams")
+     * 
      */
     private $questions;
 

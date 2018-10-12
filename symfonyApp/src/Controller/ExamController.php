@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Exam;
+use App\Entity\Question;
 use App\Form\ExamByCategoriesType;
 use App\Form\ExamByQuestionsType;
 use App\Repository\ExamRepository;
@@ -11,7 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Form\FormInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ExamController extends AbstractController
 {
@@ -48,9 +51,9 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('exam_preview', [
-                'exam' => $exam,
-            ]);
+//            return $this->redirectToRoute('exam_preview', [
+//                'exam' => $exam,
+//            ]);
         }
 
         return $this->render('exam/new_by_categories.html.twig', [

@@ -179,6 +179,9 @@
     "symfony/inflector": {
         "version": "v4.1.4"
     },
+    "symfony/intl": {
+        "version": "v4.1.5"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {

@@ -24,6 +24,7 @@ class ExamByQuestionsType extends AbstractType
                     'No' => false
                 )))
             ->add('questions', CollectionType::class, array(
+                'label'=> false,
                 'entry_type' => EntityType::class,
                 'entry_options' => array(
                     'class' => Question::class,
@@ -32,8 +33,7 @@ class ExamByQuestionsType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                ))
-        ;
+                ));
 
     }
 
