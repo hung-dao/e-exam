@@ -64,6 +64,7 @@ class Exam
         $this->examStatuses = new ArrayCollection();
         $this->questions = new ArrayCollection();
         $this->studentAnswers = new ArrayCollection();
+        $this->openDate = new \DateTime("now");
     }
 
     public function getId(): ?int

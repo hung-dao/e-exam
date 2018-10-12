@@ -23,6 +23,17 @@ class ExamByQuestionsType extends AbstractType
                     'Yes' => true,
                     'No' => false
                 )))
+            ->add('numberOfQuestions', ChoiceType::class, array(
+                'label' => 'Number of questions',
+                'choices' => array(
+                    '5'=> 5,
+                    '6'=> 6,
+                    '7'=> 7,
+                    '8'=> 8,
+                    '9'=> 9,
+                    '10'=> 10
+                )
+            ))
             ->add('questions', CollectionType::class, array(
                 'entry_type' => EntityType::class,
                 'entry_options' => array(

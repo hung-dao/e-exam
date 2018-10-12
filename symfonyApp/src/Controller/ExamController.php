@@ -48,7 +48,7 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('exam_preview', [
+            return $this->redirectToRoute('exam_index', [
                 'exam' => $exam,
             ]);
         }
@@ -69,12 +69,15 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+
             foreach($exam->getQuestions() as $question){
                 $exam->addQuestion($question);
                 $question->addExam($exam);
+                $em->persist($question);
             }
 
-            $em = $this->getDoctrine()->getManager();
             $em->persist($exam);
             $em->flush();
 
@@ -104,7 +107,15 @@ class ExamController extends AbstractController
             ->getForm();
 
         if ($form -> isSubmitted()) {
+
             $em = $this->getDoctrine()->getManager();
+
+            foreach($exam->getQuestions() as $question){
+                $exam->addQuestion($question);
+                $question->addExam($exam);
+                $em->persist($question);
+            }
+
             $em->persist($exam);
             $em->flush();
         }

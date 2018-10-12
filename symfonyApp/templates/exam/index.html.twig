@@ -19,10 +19,10 @@
         </thead>
         <tbody>
         {% for exam in exams %}
-            <tr>
-                <td>{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
-                <td>{{ exam.numberOfQuestions }}</td>
-                <td>
+            <tr >
+                <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
+                <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
+                <td style="text-align: center;">
                     <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
                     <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
                 </td>
