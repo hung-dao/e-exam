@@ -19,7 +19,7 @@ class Exam
     private $id;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $isOpen;
 
@@ -30,7 +30,7 @@ class Exam
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="exams")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -40,7 +40,7 @@ class Exam
     private $isPublic;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $openDate;
 
@@ -142,7 +142,7 @@ class Exam
     {
         return $this->openDate;
     }
-    
+
     public function setOpenDate(\DateTimeInterface $openDate): self
     {
         $this->openDate = $openDate;

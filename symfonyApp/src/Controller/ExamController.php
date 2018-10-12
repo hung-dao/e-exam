@@ -69,6 +69,15 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach($exam->getQuestions() as $question){
+                $exam->addQuestion($question);
+                $question->addExam($exam);
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($exam);
+            $em->flush();
+
             return $this->redirectToRoute('exam_preview', [
                 'exam' => $exam,
             ]);
