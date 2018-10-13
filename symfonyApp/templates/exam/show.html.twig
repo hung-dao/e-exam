@@ -12,23 +12,47 @@
                 <td>{{ exam.id }}</td>
             </tr>
             <tr>
-                <th>IsOpen</th>
+                <th>Is Open?</th>
                 <td>{{ exam.isOpen ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>IsPublic</th>
+                <th>Is Public?</th>
                 <td>{{ exam.isPublic ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>OpenDate</th>
+                <th>Open Date</th>
                 <td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>NumberOfQuestions</th>
+                <th>Number Of Questions</th>
                 <td>{{ exam.numberOfQuestions }}</td>
             </tr>
         </tbody>
     </table>
+
+    <div class="table-responsive">
+        <table class="table table-striped" style="width: 70%">
+            {% for question in exam.questions %}
+                <tr>
+                    <th>{{ question.questionText }}</th>
+                    <th></th>
+                </tr>
+
+                {% for answer in question.answers %}
+                    <tr>
+                        <td>
+                            {{ answer.answerText }}
+                        </td>
+                        <td>
+                            <input disabled type="checkbox" name="correct" data-toggle="tooltip" data-placement="top" title="Correct answer" {% if answer.isCorrect ==1 %} value=true checked {% endif %}><br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                <tr><td><br/></td><td><br/></td></tr>
+            {% endfor %}
+        </table>
+    </div>
 
     <a href="{{ path('exam_index') }}">back to list</a>
 
