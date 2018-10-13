@@ -1,3 +1,56 @@
-{{ form_start(form) }}
-    {{ form_row(form) }}
-{{ form_end(form) }}
+{#<tbody>#}
+{#{% for question in questions %}#}
+    {#<tr>#}
+        {#<td style="width: 50%" class="main-col">{{ question.category.id }}</td>#}
+        {#<td style="width: 50%" class="main-col">{{ question.questionText }}</td>#}
+        {#<td style="width: 20%; text-align: center">{{ question.category.categoryName }}</td>#}
+        {#<td style="width: 15%; text-align: center">{{ question.owner.name }}</td>#}
+        {#</br>#}
+    {#</tr>#}
+{#{% else %}#}
+    {#<tr>#}
+        {#<td colspan="3">no records found</td>#}
+    {#</tr>#}
+{#{% endfor %}#}
+{#</tbody>#}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}New Exam{% endblock %}
+
+{% block body %}
+    <h1>Preview Page</h1>
+    <hr>
+    {{ form_start(form) }}
+    {{ form_row(form.category) }}
+    {#{{ form_row(form.isPublic) }}#}
+    {{ form_row(form.numberOfQuestions) }}
+
+    <h4>Questions</h4>
+        <ul class="questions" data-prototype="{{ form_widget(form.questions.vars.prototype)|e('html_attr') }}">
+            {% for question in form.questions %}
+
+            <li>
+            <div class="row">
+            <div class="col-md-10">{{ form_widget(question.questionText) }}</div>
+            </div>
+            </li>
+
+            {% endfor %}
+        </ul>
+
+    <button style="display: inline-block" class="btn btn-sm btn-primary">
+        {{ button_label|default('Create') }}
+    </button>
+    {{ form_end(form) }}
+
+
+    <p id="output"></p>
+    <a href="{{ path('exam_index') }}">Back to list</a>
+
+
+    <script src="{{ asset('build/js/examForm.js') }}"></script>
+
+
+{% endblock %}
+

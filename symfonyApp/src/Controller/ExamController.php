@@ -7,13 +7,17 @@ use App\Entity\Exam;
 use App\Entity\Question;
 use App\Form\ExamByCategoriesType;
 use App\Form\ExamByQuestionsType;
+
 use App\Repository\ExamRepository;
+use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormInterface;
+
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ExamController extends AbstractController
@@ -44,21 +48,40 @@ class ExamController extends AbstractController
     /**
      * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
      */
-    public function newByCategories(Request $request): Response
+    public function newByCategories(Request $request, QuestionRepository $questionRepository): Response
     {
         $exam = new Exam();
         $form = $this->createForm(ExamByCategoriesType::class, $exam);
         $form->handleRequest($request);
 
+//        $cateid = 1;
+//        $data = $this->getDoctrine()
+//            ->getRepository(Question::class)
+//            ->queryOwnedBy($cateid);
+//        dump($data);
+
         if ($form->isSubmitted() && $form->isValid()) {
 //            return $this->redirectToRoute('exam_preview', [
 //                'exam' => $exam,
 //            ]);
+
+//            $product = $this->getDoctrine()->getManager()
+//                ->getRepository(Question::class)
+//                ->findAll();
+//                ->findBy(['category' => 1]);
+//             dump($product);
+
+            return $this->render('exam/preview.html.twig', [
+                'exam' => $exam,
+                'form' => $form->createView(),
+            ]);
+
         }
 
         return $this->render('exam/new_by_categories.html.twig', [
             'exam' => $exam,
             'form' => $form->createView(),
+            'questions' => $questionRepository->findBy(['category' => 1]),
         ]);
     }
 

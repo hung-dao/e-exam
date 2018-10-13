@@ -22,6 +22,16 @@ class QuestionRepository extends ServiceEntityRepository
 //    /**
 //     * @return Question[] Returns an array of Question objects
 //     */
+    public function queryOwnedBy($cateID) {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.category = :category')
+            ->setParameter('category', $cateID)
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
+    }
+
     /*
     public function findByExampleField($value)
     {
