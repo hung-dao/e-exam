@@ -31,7 +31,6 @@ class Category
     public function __construct()
     {
         $this->questions = new ArrayCollection();
-        $this->exams = new ArrayCollection();
     }
 
     public function getId(): ?int

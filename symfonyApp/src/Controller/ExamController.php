@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Exam;
 use App\Entity\Question;
+use App\Form\ExamByAutoCategoriesType;
 use App\Form\ExamByCategoriesType;
 use App\Form\ExamByQuestionsType;
 
@@ -20,6 +21,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+
 
 class ExamController extends AbstractController
 {
@@ -59,8 +65,6 @@ class ExamController extends AbstractController
      */
     public function preview(Request $request, Exam $exam)
     {
-        dump($request->get('id'));
-        dump($exam);
         $form = $this->createForm(ExamByQuestionsType::class, $exam);
         $form->handleRequest($request);
 
@@ -75,10 +79,66 @@ class ExamController extends AbstractController
     }
 
     /**
+     * @Route("/exam/preview_category_exam", name="exam_category_preview", methods="GET|POST")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function previewWithCategory(Request $request )
+    {
+
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(array('id' => $request->get('categoryId')));
+//        dump($category);
+        $numOfQues = $request->get('numberOfQuestions');
+        $exam = new Exam();
+        $exam->setName($category->getCategoryName() . ' Test')
+            ->setNumberOfQuestions($numOfQues);
+        $questions = $this->getQuestionsByRequest($category, $numOfQues);
+
+        foreach ($questions as $question) {
+            $exam->addQuestion($question);
+            //$question->addExam($exam);
+        }
+
+        $form = $this->createForm(ExamByAutoCategoriesType::class, $exam);
+        $form->handleRequest($request);
+
+        if ($form -> isSubmitted()) {
+            $exam->setIsOpen(true)
+                ->setUser($this->getUser())
+                ->setOpenDate(new \DateTime("now"));
+
+            foreach ($exam->getQuestions() as $question) {
+                $question->addExam($exam);
+            };
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($exam);
+            $em->flush();
+
+//            dump($exam);
+
+            return $this->redirectToRoute('exam_show', ['id' => $exam->getId()]);
+        }
+
+        return $this->render('exam/preview2.html.twig', [
+            'form' => $form->createView(),
+            'exam' => $exam,
+            'categoryId' => $request->get('categoryId'),
+            'numberOfQuestions' => $request->get('numberOfQuestions')
+        ]);
+    }
+
+    /**
      * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
+     * @param Request $request
+     * @return Response
      */
     public function newByCategories(Request $request): Response
     {
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
         $form = $this->createFormBuilder()
             ->add('category', EntityType::class, array(
                 'label' => 'Category',
@@ -101,7 +161,13 @@ class ExamController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dump( $form->getData());
+            $data = $form->getData(); //to string
+            $category = $data['category'];
+
+            return $this->redirectToRoute('exam_category_preview', [
+                'categoryId' => $category->getId(),
+                'numberOfQuestions' => $data['numberOfQuestions']
+            ] );
         }
 
         return $this->render('exam/new_by_categories.html.twig', [
@@ -128,6 +194,9 @@ class ExamController extends AbstractController
                 ->setOpenDate(new \DateTime("now"))
                 ->setNumberOfQuestions($exam->getQuestions()->count());
 
+            foreach ($exam->getQuestions() as $question) {
+                $question->addExam($exam);
+            };
 
             $em = $this->getDoctrine()->getManager();
 
@@ -158,6 +227,7 @@ class ExamController extends AbstractController
     public function show(Exam $exam): Response
     {
         return $this->render('exam/show.html.twig', ['exam' => $exam]);
+
     }
 
     /**
@@ -200,5 +270,11 @@ class ExamController extends AbstractController
         }
 
         return $this->redirectToRoute('exam_index');
+    }
+
+    public function getQuestionsByRequest( $category, $val )
+    {
+        $questions = $this->getDoctrine()->getRepository(Question::class)->findQuestionsByCategory($category, $val);
+        return $questions;
     }
 }

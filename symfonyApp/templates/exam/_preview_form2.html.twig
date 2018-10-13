@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+    <h3> {{ exam.name }} </h3>
+    {{ form_row(form.isPublic) }}
+    {% for key, question in exam.questions %}
+        <h4>Question {{ key + 1 }}</h4>
+        <p style ="font-size: large"> {{ question.questionText }} </p>
+        {% for answer in question.answers %}
+            <input disabled type="checkbox" name="{{ answer.id }}"> {{ answer.answerText }} <br>
+        {% endfor %}
+    {% endfor %}
+    <br>
+
+    <button style="display: inline-block" class="btn btn-primary">
+        {{ button_label|default('Create') }}
+    </button>
+    {#<a href="{{ render( controller('App\\Controller\\ExamController::previewWithCategory' , {'data': {'category': category,'numberOfQuestions': numOfQues} }) ) }}"> Regenerate questions</a>#}
+    {#<a href="{{ path('exam_category_preview',  {data: {'category': category,'numberOfQuestions': numOfQues} }) }}">regenerate</a>#}
+{{ form_end(form) }}
