@@ -35,7 +35,7 @@
     <div class="menu-list">
         <ul id="menu-content" class="menu-content collapse out">
             {% if app.user != null %}
-                {# for teacher user display below, for student, uncomment the 2nd#}
+                {# for teacher users display below, for students, uncomment the 2nd#}
                 {% if app.user.role == 1 %}
                     <li id="dashboard" class="active">
                         <a href="{{ path("dashboard") }}">
@@ -64,7 +64,7 @@
                     </li>
 
                     <li id="exam" class="">
-                        <a href="{{ path("open-exam") }}">
+                        <a href="{{ path("open_exams") }}">
                             <i class="fa fa-question fa-lg"></i> Exams
                         </a>
                     </li>

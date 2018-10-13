@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('build/js/examTaking.js') }}"></script>
+{% endblock %}
+
+{% block title %}Exam{% endblock %}
+
+{% block body %}
+    <h1>Exam</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ exam.id }}</td>
+        </tr>
+        <tr>
+            <th>Is Open?</th>
+            <td>{{ exam.isOpen ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Is Public?</th>
+            <td>{{ exam.isPublic ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Open Date</th>
+            <td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Number Of Questions</th>
+            <td>{{ exam.numberOfQuestions }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="table-responsive">
+        <table class="table table-striped" style="width: 70%">
+            {% for question in exam.questions %}
+                <tr>
+                    <th>{{ question.questionText }}</th>
+                    <th></th>
+                </tr>
+
+                {% for answer in question.answers %}
+                    <tr>
+                        <td>
+                            {{ answer.answerText }}
+                        </td>
+                        <td>
+                            <input type="checkbox" name="chosen" data-toggle="tooltip" title="Choose answer"><br>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr><td><br/></td><td><br/></td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <a href="{{ path('open_exams') }}">back to list</a>
+
+{% endblock %}
