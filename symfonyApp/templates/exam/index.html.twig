@@ -13,6 +13,7 @@
         <thead>
             <tr>
                 <th>Date</th>
+                <th>Name</th>
                 <th>NumberOfQuestions</th>
                 <th>Actions</th>
             </tr>
@@ -21,10 +22,11 @@
         {% for exam in exams %}
             <tr>
                 <td>{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
+                <td>{{ exam.name }}</td>
                 <td>{{ exam.numberOfQuestions }}</td>
                 <td>
-                    <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
-                    <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
+                    <a href="{{ path('exam_show', {'id': exam.id}) }}">Show</a>
+                    <a href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}

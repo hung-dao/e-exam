@@ -24,6 +24,11 @@ class Exam
     private $isOpen;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExamStatus", mappedBy="exam")
      */
     private $examStatuses;
@@ -83,6 +88,18 @@ class Exam
         return $this;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
     /**
      * @return Collection|ExamStatus[]
      */
@@ -138,12 +155,14 @@ class Exam
         return $this;
     }
 
-    public function getOpenDate(): ?\DateTimeInterface
+    public function getOpenDate(): ?\DateTime
     {
         return $this->openDate;
     }
-    
-    public function setOpenDate(\DateTimeInterface $openDate): self
+
+
+    public function setOpenDate(\DateTime $openDate): self
+
     {
         $this->openDate = $openDate;
         return $this;
@@ -156,10 +175,13 @@ class Exam
 
     public function setNumberOfQuestions(?int $numberOfQuestions): self
     {
-        $this->numberOfQuestions = $numberOfQuestions;
+        $numberOfQuestions == null ?
+            $this->numberOfQuestions = $this->questions->count() :
+            $this->numberOfQuestions = $numberOfQuestions;
 
         return $this;
     }
+
 
     /**
      * @return Collection|Question[]

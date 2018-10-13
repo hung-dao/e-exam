@@ -37,3 +37,12 @@ th {
 td :not(.main-col) {
     text-align: center;
 }
+
+
+.form-check-label {
+    font-weight: normal!important;
+}
+
+.form-check {
+    text-align: left!important;
+}
