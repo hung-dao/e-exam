@@ -75,14 +75,13 @@ class ExamController extends AbstractController
     /**
      * @Route("/exam/preview_category_exam", name="exam_category_preview", methods="GET|POST")
      * @param Request $request
-     * @param $data
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function previewWithCategory(Request $request )
     {
 
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(array('id' => $request->get('categoryId')));
-        dump($category);
+//        dump($category);
         $numOfQues = $request->get('numberOfQuestions');
         $exam = new Exam();
         $exam->setName($category->getCategoryName() . ' Test')
@@ -117,8 +116,8 @@ class ExamController extends AbstractController
         return $this->render('exam/preview2.html.twig', [
             'form' => $form->createView(),
             'exam' => $exam,
-            'category' => $category,
-            'numOfQues' => $numOfQues
+            'categoryId' => $request->get('categoryId'),
+            'numberOfQuestions' => $request->get('numberOfQuestions')
         ]);
     }
 

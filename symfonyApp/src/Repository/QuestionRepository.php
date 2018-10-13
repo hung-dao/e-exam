@@ -67,7 +67,7 @@ class QuestionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('query')
             ->andWhere('query.category = :cat')
             ->setParameter('cat', $value)
-            ->orderBy('query.id', 'ASC')
+            ->orderBy('query.id', 'ASC') //TODO order by random or another way to get the random questions
             ->setMaxResults($number)
             ->getQuery()
             ->getResult();
