@@ -11,10 +11,8 @@ jQuery(document).ready(function() {
     /*/ add a delete link to all of the existing ans form li elements*/
 
     $collectionHolder.find('li').each(function() {
-        console.log("avc");
         deleteAnswerFormLink($(this));
     });
-
 
     // add the "add new answer" anchor and li to the answers ul
     $collectionHolder.append($newLinkLi);
@@ -48,6 +46,7 @@ function addAnswerForm($collectionHolder, $newLinkLi) {
 
     // Display the form in the page in an li, before the "Add a tag" link li
     var $newFormLi = $('<li></li>').append(newForm);
+    deleteAnswerFormLink($newFormLi);
     $newLinkLi.before($newFormLi);
 }
 

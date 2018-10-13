@@ -40,3 +40,4 @@ security:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dashboard, role: ROLE_USER }
         - { path: ^/questions/*, role: ROLE_USER }
+        - { path: ^/exam/*, role: ROLE_USER }

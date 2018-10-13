@@ -2,16 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Exam;
+use App\Entity\Question;
 use App\Form\ExamByCategoriesType;
 use App\Form\ExamByQuestionsType;
+
 use App\Repository\ExamRepository;
+use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ExamController extends AbstractController
 {
@@ -47,25 +55,60 @@ class ExamController extends AbstractController
     }
 
     /**
-     * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
+     * @Route("/exam/preview/{id}", name="exam_preview", methods="GET|POST")
      */
-    public function newByCategories(Request $request): Response
+    public function preview(Request $request, Exam $exam)
     {
-        $exam = new Exam();
-        $form = $this->createForm(ExamByCategoriesType::class, $exam);
+        dump($request->get('id'));
+        dump($exam);
+        $form = $this->createForm(ExamByQuestionsType::class, $exam);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('exam_preview', [
-                'exam' => $exam,
-            ]);
+        if ($form -> isSubmitted()) {
+            return $this->redirectToRoute('exam_show', ['id' => $exam->getId()]);
         }
 
-        return $this->render('exam/new_by_categories.html.twig', [
+        return $this->render('exam/preview.html.twig', [
             'exam' => $exam,
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
+     */
+    public function newByCategories(Request $request): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('category', EntityType::class, array(
+                'label' => 'Category',
+                'class' =>'App\Entity\Category',
+                //'mapped' =>false,
+                'placeholder' => "Please select category",
+                'choice_label' => 'categoryName'
+            ))
+            ->add('numberOfQuestions', ChoiceType::class, array(
+                'label' => 'Number of questions',
+                'choices' => array(
+                    5 => 5,
+                    6 => 6,
+                    7 => 7,
+                    8 => 8,
+                    9 => 9,
+                    10 => 10
+                )))
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump( $form->getData());
+        }
+
+        return $this->render('exam/new_by_categories.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+//
 
     /**
      * @Route("/exam/new-exam-by-questions", name="exam_new_by_questions", methods="GET|POST")
@@ -78,6 +121,14 @@ class ExamController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+  
+             $exam->setIsOpen(true)
+                ->setName('General Exam')
+                ->setUser($this->getUser())
+                ->setOpenDate(new \DateTime("now"))
+                ->setNumberOfQuestions($exam->getQuestions()->count());
+
+
             $em = $this->getDoctrine()->getManager();
 
             foreach($exam->getQuestions() as $question){
@@ -89,8 +140,9 @@ class ExamController extends AbstractController
             $em->persist($exam);
             $em->flush();
 
-            return $this->redirectToRoute('exam_index', [
-                'exam' => $exam,
+            return $this->redirectToRoute('exam_preview', [
+                'id' => $exam->getId(),
+
             ]);
         }
 
@@ -98,34 +150,19 @@ class ExamController extends AbstractController
             'exam' => $exam,
             'form' => $form->createView(),
         ]);
-    }
 
-    /*
-     * @Route("/exam/preview/{exam}", name="exam_preview")
-     *
-     * @param $exam
-     * @return Response
+    /**
+     * @Route("/exam/preview/{id}", name="exam_preview", methods="GET|POST")
      */
-    public function preview($exam)
+    public function preview(Request $request, Exam $exam)
     {
-        $form = $this->createFormBuilder($exam)
-            ->add('Create', SubmitType::class, array(
-                'label' => 'Create Exam'
-            ))
-            ->getForm();
+        dump($request->get('id'));
+        dump($exam);
+        $form = $this->createForm(ExamByQuestionsType::class, $exam);
+        $form->handleRequest($request);
 
         if ($form -> isSubmitted()) {
-
-            # $em = $this->getDoctrine()->getManager();
-
-            # foreach($exam->getQuestions() as $question){
-            #    $exam->addQuestion($question);
-            #    $question->addExam($exam);
-            #    $em->persist($question); }
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($exam);
-            $em->flush();
+            return $this->redirectToRoute('exam_show', ['id' => $exam->getId()]);
         }
 
         return $this->render('exam/preview.html.twig', [

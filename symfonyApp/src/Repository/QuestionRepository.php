@@ -22,6 +22,16 @@ class QuestionRepository extends ServiceEntityRepository
 //    /**
 //     * @return Question[] Returns an array of Question objects
 //     */
+    public function queryOwnedBy($cateID) {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.category = :category')
+            ->setParameter('category', $cateID)
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
+    }
+
     /*
     public function findByExampleField($value)
     {
@@ -47,4 +57,14 @@ class QuestionRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findQuestionsByCategory($value)
+    {
+        return $this->createQueryBuilder('query')
+            ->andWhere('query.category = :cat')
+            ->setParameter('cat', $value)
+            ->orderBy('query.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 }

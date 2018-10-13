@@ -26,11 +26,13 @@ class QuestionType extends AbstractType
                 'choice_label' => 'categoryName'
             ))
             ->add('answers', CollectionType::class, array(
+                'label'=>false,
                 'entry_type' => AnswerType::class,
                 'entry_options' => array('label' => false),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'label' => false,
             ))
         ;
     }

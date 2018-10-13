@@ -22,6 +22,7 @@ class ExamRepository extends ServiceEntityRepository
 //    /**
 //     * @return Exam[] Returns an array of Exam objects
 //     */
+
     /*
     public function findByExampleField($value)
     {
