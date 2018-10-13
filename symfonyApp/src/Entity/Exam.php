@@ -160,10 +160,11 @@ class Exam
         return $this->openDate;
     }
 
+
     public function setOpenDate(\DateTime $openDate): self
+
     {
         $this->openDate = $openDate;
-
         return $this;
     }
 
