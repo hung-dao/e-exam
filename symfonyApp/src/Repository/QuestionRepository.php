@@ -57,4 +57,14 @@ class QuestionRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findQuestionsByCategory($value)
+    {
+        return $this->createQueryBuilder('query')
+            ->andWhere('query.category = :cat')
+            ->setParameter('cat', $value)
+            ->orderBy('query.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 }

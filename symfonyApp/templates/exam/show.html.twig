@@ -11,10 +11,6 @@
                 <th>Id</th>
                 <td>{{ exam.id }}</td>
             </tr>
-            {#<tr>#}
-                {#<th>Date</th>#}
-                {#<td>{{ exam.date ? exam.date|date('Y-m-d') : '' }}</td>#}
-            {#</tr>#}
             <tr>
                 <th>IsOpen</th>
                 <td>{{ exam.isOpen ? 'Yes' : 'No' }}</td>
@@ -34,9 +30,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('exam_index') }}">back to list</a>
 
     <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
 
     {{ include('exam/_delete_form.html.twig') }}
+
+    <a href="{{ path('exam_index') }}">back to list</a>
+
 {% endblock %}

@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Entity;
@@ -22,6 +23,11 @@ class Exam
      * @ORM\Column(type="boolean")
      */
     private $isOpen;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExamStatus", mappedBy="exam")
@@ -51,7 +57,6 @@ class Exam
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="exams")
-     * 
      */
     private $questions;
 
@@ -80,6 +85,18 @@ class Exam
     public function setIsOpen(bool $isOpen): self
     {
         $this->isOpen = $isOpen;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
@@ -139,12 +156,14 @@ class Exam
         return $this;
     }
 
-    public function getOpenDate(): ?\DateTimeInterface
+    public function getOpenDate(): ?\DateTime
     {
         return $this->openDate;
     }
-    
-    public function setOpenDate(\DateTimeInterface $openDate): self
+
+
+    public function setOpenDate(\DateTime $openDate): self
+
     {
         $this->openDate = $openDate;
         return $this;
@@ -157,10 +176,13 @@ class Exam
 
     public function setNumberOfQuestions(?int $numberOfQuestions): self
     {
-        $this->numberOfQuestions = $numberOfQuestions;
+        $numberOfQuestions == null ?
+            $this->numberOfQuestions = $this->questions->count() :
+            $this->numberOfQuestions = $numberOfQuestions;
 
         return $this;
     }
+
 
     /**
      * @return Collection|Question[]

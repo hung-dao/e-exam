@@ -3,6 +3,7 @@ var $collectionHolder;
 // setup an "add ques" link
 var $addQuestionBtn = $('<button type="button" class="btn btn-link btn-sm add_question_link">Add new question</button>');
 var $newLinkLi = $('<li></li>').append($addQuestionBtn);
+var liId;
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of answers
@@ -39,13 +40,17 @@ function addQuestionForm($collectionHolder, $newLinkLi) {
     // Replace '__name__' in the prototype's HTML to
     // instead be a number based on how many items we have
     newForm = newForm.replace(/__name__/g, index);
-
     // increase the index with one for the next item
     $collectionHolder.data('index', index + 1);
-
+    var indexQ = newForm.match(/\d+/)[0];
     // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<li></li>').append(newForm);
+    var $newFormLi = $('<li></li>').append("Question " + indexQ.toString() ).append(newForm);
+    deleteQuestionFormLink($newFormLi);
     $newLinkLi.before($newFormLi);
+    // get the id of field select to add ajax
+    var eleId = $($newFormLi[0].firstElementChild).attr('id') + "_category";
+
+    console.log($(this).closest('form'));
 }
 
 function deleteQuestionFormLink($questionLi) {
