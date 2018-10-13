@@ -1,6 +1,6 @@
 
 {{ form_start(form) }}
- {#{{ form_row(form.category) }}#}
+ {{ form_row(form.category) }}
     {#{{ form_row(form.isPublic) }}#}
 {#{{ form_row(form.numberOfQuestions) }}#}
 
@@ -17,7 +17,7 @@
         {#{% endfor %}#}
     {#</ul>#}
 <button style="display: inline-block" class="btn btn-sm btn-primary">
-    {{ button_label|default('Create') }}
+    {{ button_label|default('Next') }}
 </button>
 {{ form_end(form) }}
 

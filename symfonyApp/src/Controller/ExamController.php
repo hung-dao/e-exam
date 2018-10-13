@@ -48,7 +48,7 @@ class ExamController extends AbstractController
     /**
      * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
      */
-    public function newByCategories(Request $request, QuestionRepository $questionRepository): Response
+    public function newByCategories(Request $request): Response
     {
         $exam = new Exam();
         $form = $this->createForm(ExamByCategoriesType::class, $exam);
@@ -71,7 +71,7 @@ class ExamController extends AbstractController
 //                ->findBy(['category' => 1]);
 //             dump($product);
 
-            return $this->render('exam/preview.html.twig', [
+            return $this->render('exam/new_by_categories_2.html.twig', [
                 'exam' => $exam,
                 'form' => $form->createView(),
             ]);
@@ -81,7 +81,7 @@ class ExamController extends AbstractController
         return $this->render('exam/new_by_categories.html.twig', [
             'exam' => $exam,
             'form' => $form->createView(),
-            'questions' => $questionRepository->findBy(['category' => 1]),
+//            'questions' => $questionRepository->findBy(['category' => 1]),
         ]);
     }
 
