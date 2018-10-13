@@ -26,7 +26,7 @@ class ExamByQuestionsType extends AbstractType
                     'Not Decided Yet' => null,
                     'Yes' => true,
                     'No' => false
-                ))
+                )))
             
             -> add('questions', CollectionType::class, array(
                 'entry_type' => EntityType::class,

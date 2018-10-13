@@ -121,8 +121,8 @@ class ExamController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-  
-             $exam->setIsOpen(true)
+
+            $exam->setIsOpen(true)
                 ->setName('General Exam')
                 ->setUser($this->getUser())
                 ->setOpenDate(new \DateTime("now"))
@@ -131,7 +131,7 @@ class ExamController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
 
-            foreach($exam->getQuestions() as $question){
+            foreach ($exam->getQuestions() as $question) {
                 $exam->addQuestion($question);
                 $question->addExam($exam);
                 $em->persist($question);
@@ -147,25 +147,6 @@ class ExamController extends AbstractController
         }
 
         return $this->render('exam/new_by_questions.html.twig', [
-            'exam' => $exam,
-            'form' => $form->createView(),
-        ]);
-
-    /**
-     * @Route("/exam/preview/{id}", name="exam_preview", methods="GET|POST")
-     */
-    public function preview(Request $request, Exam $exam)
-    {
-        dump($request->get('id'));
-        dump($exam);
-        $form = $this->createForm(ExamByQuestionsType::class, $exam);
-        $form->handleRequest($request);
-
-        if ($form -> isSubmitted()) {
-            return $this->redirectToRoute('exam_show', ['id' => $exam->getId()]);
-        }
-
-        return $this->render('exam/preview.html.twig', [
             'exam' => $exam,
             'form' => $form->createView(),
         ]);
