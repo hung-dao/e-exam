@@ -4,15 +4,22 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Exam;
+use App\Entity\Question;
 use App\Form\ExamByCategoriesType;
 use App\Form\ExamByQuestionsType;
+
 use App\Repository\ExamRepository;
+use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ExamController extends AbstractController
 {
@@ -64,21 +71,36 @@ class ExamController extends AbstractController
      */
     public function newByCategories(Request $request): Response
     {
-        $exam = new Exam();
-        $form = $this->createForm(ExamByCategoriesType::class, $exam);
-        $form->handleRequest($request);
+        $form = $this->createFormBuilder()
+            ->add('category', EntityType::class, array(
+                'label' => 'Category',
+                'class' =>'App\Entity\Category',
+                //'mapped' =>false,
+                'placeholder' => "Please select category",
+                'choice_label' => 'categoryName'
+            ))
+            ->add('numberOfQuestions', ChoiceType::class, array(
+                'label' => 'Number of questions',
+                'choices' => array(
+                    5 => 5,
+                    6 => 6,
+                    7 => 7,
+                    8 => 8,
+                    9 => 9,
+                    10 => 10
+                )))
+            ->getForm();
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('exam_preview', [
-                'exam' => $exam,
-            ]);
+            dump( $form->getData());
         }
 
         return $this->render('exam/new_by_categories.html.twig', [
-            'exam' => $exam,
             'form' => $form->createView(),
         ]);
     }
+//
 
     /**
      * @Route("/exam/new-exam-by-questions", name="exam_new_by_questions", methods="GET|POST")
@@ -112,7 +134,24 @@ class ExamController extends AbstractController
             'form' => $form->createView(),
         ]);
 
+    /**
+     * @Route("/exam/preview/{id}", name="exam_preview", methods="GET|POST")
+     */
+    public function preview(Request $request, Exam $exam)
+    {
+        dump($request->get('id'));
+        dump($exam);
+        $form = $this->createForm(ExamByQuestionsType::class, $exam);
+        $form->handleRequest($request);
 
+        if ($form -> isSubmitted()) {
+            return $this->redirectToRoute('exam_show', ['id' => $exam->getId()]);
+        }
+
+        return $this->render('exam/preview.html.twig', [
+            'exam' => $exam,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

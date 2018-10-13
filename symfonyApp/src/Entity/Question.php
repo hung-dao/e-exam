@@ -42,6 +42,7 @@ class Question
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Exam", inversedBy="questions")
+     *
      */
     private $exams;
 

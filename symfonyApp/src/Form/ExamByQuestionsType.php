@@ -27,6 +27,7 @@ class ExamByQuestionsType extends AbstractType
                     'Yes' => true,
                     'No' => false
                 )))
+
             ->add('questions', EntityType::class, array(
                 'class' => Question::class,
                 'choice_label' => 'questionText',
@@ -45,6 +46,7 @@ class ExamByQuestionsType extends AbstractType
             ))
             ->add('category', CollectionType::class, array(
                 'label' => false,
+
                 'entry_type' => EntityType::class,
                 'entry_options' => array(
                     'class' => Category::class,

@@ -19,10 +19,10 @@
                 <th>IsPublic</th>
                 <td>{{ exam.isPublic ? 'Yes' : 'No' }}</td>
             </tr>
-            <tr>
-                <th>OpenDate</th>
-                <td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>
-            </tr>
+            {#<tr>#}
+                {#<th>OpenDate</th>#}
+                {#<td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>#}
+            {#</tr>#}
             <tr>
                 <th>NumberOfQuestions</th>
                 <td>{{ exam.numberOfQuestions }}</td>
