@@ -1,3 +1,4 @@
+
 {% import _self as macro %}
 {% macro answer_field_prototype(answer) %}
     <div class="row">
@@ -10,6 +11,7 @@
     {{ form_row(form.questionText) }}
     {{ form_row(form.category) }}
     <h5><b>Answers</b></h5>
+
     <ul class="answers" data-prototype="{{ macro.answer_field_prototype(form.answers.vars.prototype)|e }}">
         {% for key, answer in form.answers %}
                 <li>

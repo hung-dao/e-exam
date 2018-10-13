@@ -33,10 +33,9 @@
         </tr>
         </tbody>
     </table>
-
+    {% for key, question in exam.questions %}
     <div class="table-responsive">
         <table class="table table-striped" style="width: 70%">
-            {% for question in exam.questions %}
                 <tr>
                     <th>{{ question.questionText }}</th>
                     <th></th>
@@ -48,14 +47,15 @@
                             {{ answer.answerText }}
                         </td>
                         <td>
-                            <input type="checkbox" name="chosen" data-toggle="tooltip" title="Choose answer"><br>
+                            <input type="radio" name="question{{ key }}" data-toggle="tooltip" title="Choose answer"><br>
                         </td>
                     </tr>
                 {% endfor %}
                 <tr><td><br/></td><td><br/></td></tr>
-            {% endfor %}
+
         </table>
     </div>
+    {% endfor %}
 
     <a href="{{ path('open_exams') }}">back to list</a>
 
