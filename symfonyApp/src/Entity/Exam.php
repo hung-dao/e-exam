@@ -242,3 +242,4 @@ class Exam
         return $this;
     }
 }
+

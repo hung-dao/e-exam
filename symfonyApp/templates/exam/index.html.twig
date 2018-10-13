@@ -3,11 +3,13 @@
 {% block title %}Exam index{% endblock %}
 
 {% block body %}
-    <h1>All Exam</h1>
+    <h1>All Exams</h1>
 
     <hr>
 
-    <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
+    {% if app.user.role == 1 %}
+        <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
+    {% endif %}
 
     <table class="table" style="width: 100%">
         <thead>
@@ -20,13 +22,18 @@
         </thead>
         <tbody>
         {% for exam in exams %}
-            <tr>
-                <td>{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
-                <td>{{ exam.name }}</td>
-                <td>{{ exam.numberOfQuestions }}</td>
-                <td>
-                    <a href="{{ path('exam_show', {'id': exam.id}) }}">Show</a>
-                    <a href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+            <tr >
+                <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
+                <td style="text-align: center;">{{ exam.name }}</td>
+                <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
+                <td style="text-align: center;">
+                    {% if app.user.role == 1 %}
+                        <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
+                        <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
+
+                    {% elseif app.user.role == 0 %}
+                        <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
