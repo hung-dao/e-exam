@@ -48,7 +48,7 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('exam_index', [
+            return $this->redirectToRoute('exam_preview', [
                 'exam' => $exam,
             ]);
         }
@@ -81,7 +81,7 @@ class ExamController extends AbstractController
             $em->persist($exam);
             $em->flush();
 
-            return $this->redirectToRoute('exam_preview', [
+            return $this->redirectToRoute('exam_index', [
                 'exam' => $exam,
             ]);
         }
