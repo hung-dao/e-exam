@@ -1,3 +1,11 @@
-{{ form_start(form) }}
-    {{ form_row(form) }}
-{{ form_end(form) }}
+{% extends 'base.html.twig' %}
+
+{% block title %}Preview{% endblock %}
+
+{% block body %}
+    <h1>Preview</h1>
+    <hr>
+
+    {{ include('exam/_preview_form.html.twig', {'button_label': 'Create'}) }}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+    {{ form_row(form.isPublic) }}
+    {% for key, question in exam.questions %}
+        <h4>Question {{ key + 1 }}</h4>
+        <p style ="font-size: large"> {{ question.questionText }} </p>
+        {% for answer in question.answers %}
+            <input disabled type="checkbox" name="{{ answer.id }}"> {{ answer.answerText }} <br>
+        {% endfor %}
+    {% endfor %}
+    {% do form.questions.setRendered() %}
+    <br>
+
+    <button style="display: inline-block" class="btn btn-primary">
+        {{ button_label|default('Create') }}
+    </button>
+    <a class="btn btn-info" style="display: inline-block"
+       href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+
+{{ form_end(form) }}
