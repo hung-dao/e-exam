@@ -57,13 +57,18 @@ class QuestionRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findQuestionsByCategory($value)
+    /**
+     * @param $value
+     * @param $number
+     * @return mixed
+     */
+    public function findQuestionsByCategory($value, $number)
     {
         return $this->createQueryBuilder('query')
             ->andWhere('query.category = :cat')
             ->setParameter('cat', $value)
             ->orderBy('query.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults($number)
             ->getQuery()
             ->getResult();
     }
