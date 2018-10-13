@@ -9,7 +9,7 @@
     {{ form_start(form) }}
     {{ form_row(form.category) }}
     {#{{ form_row(form.isPublic) }}#}
-    {{ form_row(form.numberOfQuestions) }}
+    {#{{ form_row(form.numberOfQuestions) }}#}
 
     <h4>Questions</h4>
     <ul class="questions" data-prototype="{{ form_widget(form.questions.vars.prototype)|e('html_attr') }}">
