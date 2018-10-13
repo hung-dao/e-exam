@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Entity;
@@ -243,3 +242,4 @@ class Exam
         return $this;
     }
 }
+

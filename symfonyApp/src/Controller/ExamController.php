@@ -39,6 +39,14 @@ class ExamController extends AbstractController
     }
 
     /**
+     * @Route("/exam/taking", name="open_exams", methods="GET")
+     */
+    public function openExams(ExamRepository $examRepository): Response
+    {
+        return $this->render('exam/open_exams.html.twig', ['exams' => $examRepository->findAll()]);
+    }
+
+    /**
      * @Route("/exam/new", name="exam_new", methods="GET|POST")
      */
     public function new()
@@ -112,20 +120,29 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $exam->setIsOpen(true)
+
+  
+             $exam->setIsOpen(true)
                 ->setName('General Exam')
                 ->setUser($this->getUser())
                 ->setOpenDate(new \DateTime("now"))
                 ->setNumberOfQuestions($exam->getQuestions()->count());
 
-            foreach ($exam->getQuestions() as $question) {
-                $question -> addExam($exam);
-            };
+
             $em = $this->getDoctrine()->getManager();
+
+            foreach($exam->getQuestions() as $question){
+                $exam->addQuestion($question);
+                $question->addExam($exam);
+                $em->persist($question);
+            }
+
             $em->persist($exam);
             $em->flush();
+
             return $this->redirectToRoute('exam_preview', [
                 'id' => $exam->getId(),
+
             ]);
         }
 
@@ -160,6 +177,14 @@ class ExamController extends AbstractController
     public function show(Exam $exam): Response
     {
         return $this->render('exam/show.html.twig', ['exam' => $exam]);
+    }
+
+    /**
+     * @Route("/exam/take/{id}", name="exam_take", methods="GET")
+     */
+    public function take(Exam $exam): Response
+    {
+        return $this->render('exam/take.html.twig', ['exam' => $exam]);
     }
 
     /**

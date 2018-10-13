@@ -26,14 +26,21 @@ class ExamByQuestionsType extends AbstractType
                     'Not Decided Yet' => null,
                     'Yes' => true,
                     'No' => false
-                )))
+                ))
+            
+            -> add('questions', CollectionType::class, array(
+                'entry_type' => EntityType::class,
+                'entry_options' => array(
+                    'class' => Question::class,
+                    'choice_label' => 'questionText',
+                    'multiple' => true,
+                    'expanded' => true,
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                ))
 
-            ->add('questions', EntityType::class, array(
-                'class' => Question::class,
-                'choice_label' => 'questionText',
-                'multiple' => true,
-                'expanded' => true,
-            ))
             /* try with add question base on category each
              * ->add('questions', CollectionType::class, array(
                 'label' => false,
@@ -46,6 +53,7 @@ class ExamByQuestionsType extends AbstractType
             ))
             ->add('category', CollectionType::class, array(
                 'label' => false,
+
 
                 'entry_type' => EntityType::class,
                 'entry_options' => array(
