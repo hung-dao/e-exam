@@ -194,10 +194,6 @@ class ExamController extends AbstractController
                 ->setOpenDate(new \DateTime("now"))
                 ->setNumberOfQuestions($exam->getQuestions()->count());
 
-            foreach ($exam->getQuestions() as $question) {
-                $question->addExam($exam);
-            };
-
             $em = $this->getDoctrine()->getManager();
 
             foreach ($exam->getQuestions() as $question) {
