@@ -20,8 +20,14 @@ class ExamByQuestionsType extends AbstractType
                     'Yes' => true,
                     'No' => false
                 )))
+            ->add('questions', EntityType::class, array(
+                'class' => Question::class,
+                'choice_label' => 'questionText',
+                'multiple' => true,
+                'expanded' => true,
+            ))
 
-            ->add('questions', CollectionType::class, array(
+/*            ->add('questions', CollectionType::class, array(
                 'entry_type' => EntityType::class,
                 'entry_options' => array(
                     'class' => Question::class,
@@ -31,7 +37,7 @@ class ExamByQuestionsType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ))
-
+*/
             /* try with add question base on category each
              * ->add('questions', CollectionType::class, array(
                 'label' => false,
