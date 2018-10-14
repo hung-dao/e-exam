@@ -1,4 +1,3 @@
-
 {{ form_start(form) }}
     {{ form_row(form.isPublic) }}
         <table class="table" style="width: 100%">
@@ -14,6 +13,8 @@
     <button style="display: inline-block" class="btn btn-sm btn-primary">
         {{ button_label|default('Create') }}
     </button>
+
+
 
 {% do form.questions.setRendered() %}
 
@@ -31,9 +32,6 @@
         {% endfor %}
     </ul>
     #}
-    
-
-
 
 {#
 <script src="{{ asset('build/js/examForm.js') }}"></script>
