@@ -20,6 +20,7 @@ class ExamByQuestionsType extends AbstractType
                     'Yes' => true,
                     'No' => false
                 )))
+
             ->add('questions', CollectionType::class, array(
                 'entry_type' => EntityType::class,
                 'entry_options' => array(
@@ -30,6 +31,33 @@ class ExamByQuestionsType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ))
+
+            /* try with add question base on category each
+             * ->add('questions', CollectionType::class, array(
+                'label' => false,
+                'entry_type' => QuestionByCategoryType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'compound' => true,
+
+            ))
+            ->add('category', CollectionType::class, array(
+                'label' => false,
+                'entry_type' => EntityType::class,
+                'entry_options' => array(
+                    'class' => Category::class,
+                    'label' => false,
+                    'choice_label' => 'categoryName',
+                    'placeholder' => "Choose Category",
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'compound' => true,
+                'mapped' => false
+            ))*/
+
         ;
     }
     public function configureOptions(OptionsResolver $resolver)

@@ -29,6 +29,7 @@ class QuestionController extends AbstractController
      */
     public function newQuestion(Request $request): Response
     {
+        $quesAmount = count ( $this->getDoctrine()->getRepository(Question::class)->findAll() );
         $question = new Question();
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
@@ -46,6 +47,7 @@ class QuestionController extends AbstractController
 
         return $this->render('question/new.html.twig', [
             'question' => $question,
+            'questionAmount' => $quesAmount,
             'form' => $form->createView(),
         ]);
     }

@@ -1,20 +1,5 @@
-
 {{ form_start(form) }}
     {{ form_row(form.isPublic) }}
-    
-    {# for choose question based on category and using collection type form
-    <h4>Questions</h4>
-    <ul class="questions" data-prototype="{{ form_widget(form.questions.vars.prototype) | e }}">
-        {% for ques in form.questions %}
-            <li>
-                <h5>Question {{  + 1 }}</h5>
-                <div class="row">
-                    <div class="col-md-10">{{ form_widget(ques.questions.questionText) }}</div>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-    #}
         <table class="table" style="width: 100%">
             <tr>
                 <th>Question</th>
@@ -28,8 +13,25 @@
     <button style="display: inline-block" class="btn btn-sm btn-primary">
         {{ button_label|default('Create') }}
     </button>
-    
+
+
+{% do form.questions.setRendered() %}
+
 {{ form_end(form) }}
+{# for choose question based on category and using collection type form
+    <h4>Questions</h4>
+    <ul class="questions" data-prototype="{{ form_widget(form.questions.vars.prototype) | e }}">
+        {% for ques in form.questions %}
+            <li>
+                <h5>Question {{  + 1 }}</h5>
+                <div class="row">
+                    <div class="col-md-10">{{ form_widget(ques.questions.questionText) }}</div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    #}
+    
 
 {#
 <script src="{{ asset('build/js/examForm.js') }}"></script>
