@@ -19,6 +19,14 @@ class Userfixtures extends Fixture
         $dummyUser->setRole(1); //1 = teacher;
         $manager->persist($dummyUser);
         $manager->flush();
+
+        $dummyUser = new User();
+        $dummyUser->setName("Peppi Kivisto 2");
+        $dummyUser->setUsername('teacher2');
+        $dummyUser->setPassword(password_hash('test_password', PASSWORD_BCRYPT));
+        $dummyUser->setRole(1); //1 = teacher;
+        $manager->persist($dummyUser);
+        $manager->flush();
         //students
         $dummyUser = new User();
         $dummyUser->setName("Ammie Karkkinen");

@@ -8,10 +8,12 @@ use App\Entity\Exam;
 use App\Entity\ExamForStudent;
 use App\Entity\Question;
 use App\Entity\StudentAnswer;
+use App\Entity\User;
 use App\Form\ExamByAutoCategoriesType;
 use App\Form\ExamByQuestionsType;
-
 use App\Repository\ExamRepository;
+use App\Repository\UserRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -31,18 +33,30 @@ class ExamController extends AbstractController
     /*
      * @Route("dashboard"), name ="dashboard",  methods="GET")
      */
-    public function dashboard(ExamRepository $examRepository) : Response
+    public function dashboard(ExamRepository $examRepository,UserRepository $userRepository) : Response
     {
+
+        return $this->render('exam/dashboard.html.twig', [
+            'exams' => $examRepository->findAll(),
+            'user'=> $userRepository->findAll()
+        ]);
+
         return $this->render('exam/dashboard.html.twig', ['exams' => $examRepository->findAll()]);
+
     }
 
     //show all exam where exam.user = this.user
     /**
      * @Route("/exam/", name="exam_index", methods="GET")
      */
-    public function index(ExamRepository $examRepository): Response
+    public function index(ExamRepository $examRepository, UserRepository $userRepository): Response
     {
-        return $this->render('exam/index.html.twig', ['exams' => $examRepository->findAll()]);
+        $Whoami= $this->getUser()->getName();
+        return $this->render('exam/index.html.twig', [
+            'exams' => $examRepository->findBy(array('user' => $this->getUser())),
+            'user' => $userRepository->findAll(),
+            'ownername' => $Whoami
+        ]);
     }
 
     /**
