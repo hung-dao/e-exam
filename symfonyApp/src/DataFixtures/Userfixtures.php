@@ -21,7 +21,7 @@ class Userfixtures extends Fixture
         $manager->flush();
 
         $dummyUser = new User();
-        $dummyUser->setName("Teacher 2");
+        $dummyUser->setName("Peppi Kivisto 2");
         $dummyUser->setUsername('teacher2');
         $dummyUser->setPassword(password_hash('test_password', PASSWORD_BCRYPT));
         $dummyUser->setRole(1); //1 = teacher;
@@ -36,8 +36,9 @@ class Userfixtures extends Fixture
         $manager->persist($dummyUser);
         $manager->flush();
 
+        //student 2
         $dummyUser = new User();
-        $dummyUser->setName("Student 2");
+        $dummyUser->setName("Ammi Karkkinen");
         $dummyUser->setUsername('student2');
         $dummyUser->setPassword(password_hash('test_password', PASSWORD_BCRYPT));
         $dummyUser->setRole(0); //0 = student;

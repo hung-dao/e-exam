@@ -29,9 +29,9 @@ class Exam
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ExamStatus", mappedBy="exam")
+     * @ORM\OneToMany(targetEntity="App\Entity\ExamForStudent", mappedBy="exam")
      */
-    private $examStatuses;
+    private $examForStudents;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="exams")
@@ -56,17 +56,13 @@ class Exam
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="exams")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="id")
      */
     private $questions;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="exam")
-     */
-    private $studentAnswers;
-
     public function __construct()
     {
-        $this->examStatuses = new ArrayCollection();
+        $this->examForStudents = new ArrayCollection();
         $this->questions = new ArrayCollection();
         $this->studentAnswers = new ArrayCollection();
     }
@@ -101,30 +97,30 @@ class Exam
     }
 
     /**
-     * @return Collection|ExamStatus[]
+     * @return Collection|ExamForStudent[]
      */
-    public function getExamStatuses(): Collection
+    public function getExamForStudents(): Collection
     {
-        return $this->examStatuses;
+        return $this->examForStudents;
     }
 
-    public function addExamStatus(ExamStatus $examStatus): self
+    public function addExamForStudent(ExamForStudent $examForStudent): self
     {
-        if (!$this->examStatuses->contains($examStatus)) {
-            $this->examStatuses[] = $examStatus;
-            $examStatus->setExam($this);
+        if (!$this->examForStudents->contains($examForStudent)) {
+            $this->examForStudents[] = $examForStudent;
+            $examForStudent->setExam($this);
         }
 
         return $this;
     }
 
-    public function removeExamStatus(ExamStatus $examStatus): self
+    public function removeExamForStudent(ExamForStudent $examForStudent): self
     {
-        if ($this->examStatuses->contains($examStatus)) {
-            $this->examStatuses->removeElement($examStatus);
+        if ($this->examForStudents->contains($examForStudent)) {
+            $this->examForStudents->removeElement($examForStudent);
             // set the owning side to null (unless already changed)
-            if ($examStatus->getExam() === $this) {
-                $examStatus->setExam(null);
+            if ($examForStudent->getExam() === $this) {
+                $examForStudent->setExam(null);
             }
         }
 
@@ -211,35 +207,5 @@ class Exam
         return $this;
     }
 
-    /**
-     * @return Collection|StudentAnswer[]
-     */
-    public function getStudentAnswers(): Collection
-    {
-        return $this->studentAnswers;
-    }
-
-    public function addStudentAnswer(StudentAnswer $studentAnswer): self
-    {
-        if (!$this->studentAnswers->contains($studentAnswer)) {
-            $this->studentAnswers[] = $studentAnswer;
-            $studentAnswer->setExam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudentAnswer(StudentAnswer $studentAnswer): self
-    {
-        if ($this->studentAnswers->contains($studentAnswer)) {
-            $this->studentAnswers->removeElement($studentAnswer);
-            // set the owning side to null (unless already changed)
-            if ($studentAnswer->getExam() === $this) {
-                $studentAnswer->setExam(null);
-            }
-        }
-
-        return $this;
-    }
 }
 

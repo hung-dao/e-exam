@@ -1,5 +1,5 @@
 <?php
-
+// answer of student
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -16,13 +16,15 @@ class StudentAnswer
      */
     private $id;
 
+    // determine if this answer is true or false
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Assessment", inversedBy="studentAnswer", cascade={"persist", "remove"})
-     */
-    private $assessment;
+    * @ORM\Column(type="boolean", nullable=true)
+    */
+    private $result;
 
+    // student
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="studentAnswer", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="studentAnswer", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -34,26 +36,20 @@ class StudentAnswer
     private $question;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Exam", inversedBy="studentAnswers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Answer", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $exam;
+    private $answer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ExamForStudent", inversedBy="AnswersSheet")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE", referencedColumnName="id")
+     */
+    private $examForStudent;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAssessment(): ?Assessment
-    {
-        return $this->assessment;
-    }
-
-    public function setAssessment(?Assessment $assessment): self
-    {
-        $this->assessment = $assessment;
-
-        return $this;
     }
 
     public function getUser(): ?User
@@ -65,6 +61,17 @@ class StudentAnswer
     {
         $this->user = $user;
 
+        return $this;
+    }
+
+    public function getResult(): ?boolean
+    {
+        return $this->result;
+    }
+
+    public function setResult($result): self
+    {
+        $this->result = $result;
         return $this;
     }
 
@@ -80,14 +87,26 @@ class StudentAnswer
         return $this;
     }
 
-    public function getExam(): ?Exam
+    public function getAnswer(): ?Answer
     {
-        return $this->exam;
+        return $this->answer;
     }
 
-    public function setExam(?Exam $exam): self
+    public function setAnswer(Answer $answer): self
     {
-        $this->exam = $exam;
+        $this->answer = $answer;
+
+        return $this;
+    }
+
+    public function getExamForStudent(): ?ExamForStudent
+    {
+        return $this->examForStudent;
+    }
+
+    public function setExamForStudent(?ExamForStudent $examForStudent): self
+    {
+        $this->examForStudent = $examForStudent;
 
         return $this;
     }

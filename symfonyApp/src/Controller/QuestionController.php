@@ -21,7 +21,7 @@ class QuestionController extends AbstractController
      */
     public function index(QuestionRepository $questionRepository): Response
     {
-        return $this->render('question/index.html.twig', ['questions' => $questionRepository->findAll()]);
+        return $this->render('question/index.html.twig', ['questions' => $questionRepository->findBy(array('owner' => $this->getUser() ))]);
     }
 
     /**
@@ -69,6 +69,8 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('view_question', ['id' => $question->getId()]);
@@ -85,6 +87,9 @@ class QuestionController extends AbstractController
      */
     public function delete(Request $request, Question $question): Response
     {
+        foreach ($question->getAnswers() as $answer) {
+            $question->removeAnswer($answer);
+        }
         if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($question);

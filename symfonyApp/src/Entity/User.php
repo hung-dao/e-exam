@@ -39,9 +39,9 @@ class User implements UserInterface
     private $role;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\ExamStatus", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ExamForStudent", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $examStatus;
+    private $examForStudent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="user")
@@ -49,7 +49,7 @@ class User implements UserInterface
     private $exams;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StudentAnswer", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="user", cascade={"persist", "remove"})
      */
     private $studentAnswer;
 
@@ -94,9 +94,9 @@ class User implements UserInterface
     }
 	
 	public function getPassword(): ?string
-                            {
-                                return $this->password;
-                            }
+    {
+        return $this->password;
+    }
 
     public function setPassword(string $password): self
     {
@@ -117,18 +117,18 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getExamStatus(): ?ExamStatus
+    public function getExamForStudent(): ?ExamForStudent
     {
-        return $this->examStatus;
+        return $this->examForStudent;
     }
 
-    public function setExamStatus(ExamStatus $examStatus): self
+    public function setExamForStudent(ExamForStudent $examForStudent): self
     {
-        $this->examStatus = $examStatus;
+        $this->examForStudent = $examForStudent;
 
         // set the owning side of the relation if necessary
-        if ($this !== $examStatus->getUser()) {
-            $examStatus->setUser($this);
+        if ($this !== $examForStudent->getUser()) {
+            $examForStudent->setUser($this);
         }
 
         return $this;

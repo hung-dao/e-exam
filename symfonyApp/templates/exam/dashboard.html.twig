@@ -13,18 +13,22 @@
 
     <table class="table" style="width: 100%">
         <thead>
-            <tr>
-                <th>Owner Name</th>
-                <th>Date</th>
-                <th>Name</th>
-                <th>NumberOfQuestions</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Owner Name</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>NumberOfQuestions</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for exam in exams %}
-            <tr>
-                <td style="text-align: center;">{{ ownername }}</td>
+            <tr >
+                {% for owner in user %}
+                    {% if(exam.user == owner.userName) %}
+                        <td style="text-align: center;">{{ owner.name }}</td>
+                    {% endif %}
+                {% endfor %}
                 <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
                 <td style="text-align: center;">{{ exam.name }}</td>
                 <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
@@ -32,7 +36,6 @@
                     {% if app.user.role == 1 %}
                         <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
                         <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
-                        <a href="#">view report</a> <!--Long todo : show student name, result report.html.twig-->
 
                     {% elseif app.user.role == 0 %}
                         <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
