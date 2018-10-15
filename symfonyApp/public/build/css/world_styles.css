@@ -1,5 +1,5 @@
 body {
-    font-size: 13px!important;
+    font-size: 14px!important;
 }
 
 /*list*/
@@ -54,4 +54,8 @@ td :not(.main-col) {
 
 .form-check label {
     margin-left: 20px
+}
+
+a.btn {
+    font-size: 14px!important;
 }

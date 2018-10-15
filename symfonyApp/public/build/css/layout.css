@@ -14,6 +14,8 @@
 .navbar-brand {
     width: inherit;
     height: inherit;
+    display: block;
+    margin: auto;
 }
 
 .nav-side-menu .brand {

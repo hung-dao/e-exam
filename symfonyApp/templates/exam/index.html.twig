@@ -8,38 +8,38 @@
     <hr>
 
     {% if app.user.role == 1 %}
-        <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
+        <a href="{{ path('exam_new') }}" class="btn btn-info btn-lg">Create new</a>
 
     {% endif %}
-    <br>
+    <br><br>
 
     <table class="table" style="width: 100%">
         <thead class="thead-light table-secondary">
             <tr>
-                <th>Teacher</th>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Number of questions</th>
-                <th>Actions</th>
+                <th style="width: 15%;">Teacher</th>
+                <th style="width: 15%;">Date</th>
+                <th style="width: 15%;">Name</th>
+                <th style="width: 20%;">Number of questions</th>
+                <th style="width: 30%;">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for exam in exams %}
             <tr>
-                <td style="text-align: center;">{{ exam.user.name }}</td>
-                <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
-                <td style="text-align: center;">{{ exam.name }}</td>
-                <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
+                <td style="text-align: center; width: 15%;">{{ exam.user.name }}</td>
+                <td style="text-align: center; width: 15%;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
+                <td style="text-align: center; width: 15%;">{{ exam.name }}</td>
+                <td style="text-align: center; width: 20%;">{{ exam.numberOfQuestions }}</td>
                 <td style="text-align: center;">
                     <div class="btn-group-justified">
 
                         {% if app.user.role == 1 %}
-                            <a class="btn btn-sm btn-info" href="{{ path('exam_show', {'id': exam.id}) }}">Show</a>
-                            <a class="btn btn-sm btn-primary" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
-                            <a class="btn btn-sm btn-info" href="{{ path('view_report', {'id': exam.id}) }}">View report</a>
+                            <a class="btn btn btn-info" href="{{ path('exam_show', {'id': exam.id}) }}">Show</a>
+                            <a class="btn btn btn-primary" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+                            <a class="btn btn btn-info" href="{{ path('view_report', {'id': exam.id}) }}">View report</a>
 
                         {% elseif app.user.role == 0 %}
-                            <a class="btn btn-sm btn-info" href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
+                            <a class="btn btn btn-info" href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
                         {% endif %}
                     </div>
                 </td>

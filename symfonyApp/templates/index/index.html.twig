@@ -8,20 +8,17 @@
 <hr>
 
 <div class="login-block">
-    <h3 style="text-align: center"> Login ✅</h3>
+    <h2 style="text-align: center ; margin-bottom: 20px"> Login <i class="fa  fa-sign-in"></i> </h2>
 
 
-    <form action="{{ path('login') }}" method="POST">
+    <form action="{{ path('login') }}" method="POST" class="loginform">
         <div class="form-group">
-            <label for="username">Username</label>
             <input class="form-control" type="text" placeholder="Username" id="username" name="_username" value="{{ last_username }}"/><br>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-
             <input class="form-control" type="password" placeholder="Password" id="password" name="_password" /> <br>
         </div>
-        <button class="btn btn-block btn-primary" type="submit">Login</button>
+        <button class="btn btn-lg btn-block btn-primary" type="submit">LOGIN</button>
     </form>
 
     {% if error %}

@@ -6,7 +6,9 @@
     <h1>All questions</h1>
     <hr>
 
-    <a class="btn btn-info" href="{{ path('create_new_question') }}">Create new</a>
+    <a class="btn btn-lg btn-info" href="{{ path('create_new_question') }}">Create new</a>
+
+    <br><br>
 
     <table class="table" style="width: 100%">
         <thead class="thead-light table-secondary">
@@ -25,8 +27,8 @@
                 <td style="width: 15%; text-align: center">{{ question.owner.name }}</td>
                 <td style="width: 15%; text-align: center; vertical-align: middle">
                     <div class="btn-group-justified">
-                        <a class="btn btn-sm btn-info" href="{{ path('view_question', {'id': question.id}) }}">View</a>
-                        <a class="btn btn-sm btn-primary" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+                        <a class="btn  btn-info" href="{{ path('view_question', {'id': question.id}) }}">View</a>
+                        <a class="btn btn-primary" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
                     </div>
                 </td>
             </tr>
