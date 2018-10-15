@@ -19,6 +19,9 @@ div.card .card-header,.card-footer {
 .card a.btn {
 }
 
+.card:hover {
+    box-shadow: #90bbb4 3px 5px;
+}
 table tr td {
     border:none;
     border-top: none !important;
