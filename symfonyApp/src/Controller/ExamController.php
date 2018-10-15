@@ -286,7 +286,7 @@ class ExamController extends AbstractController
             $studentExam->setResult($correctAns/$totalQuestion*100);
             $this->getUser()->setExamForStudent($studentExam);
             $studentExam->setStatus("done");
-            dump($studentExam);
+            //dump($studentExam);
             $em->persist($studentExam);
             $em->flush($studentExam);
 
@@ -352,7 +352,7 @@ class ExamController extends AbstractController
                 $restyleQues->answers = $arr;
                 array_push($questionByStudent, $restyleQues);
             }
-            dump($questionByStudent);
+            // dump($questionByStudent);
         }
 
         return $this->render('exam/result_for_an_exam.html.twig', [
@@ -361,19 +361,6 @@ class ExamController extends AbstractController
             'examDone' => $examDone,
             'questionSet' => $questionByStudent
         ]);
-
-//        if (!$request->get('studentExam'))
-//        {
-//            $studentExam = $request->get('studentExam');
-//        } else {
-//            $studentExam = $this->getDoctrine()->getRepository(ExamForStudent::class)->findOneBy(
-//                [
-//                    'exam' => $request->get()
-//                ]
-//            )
-//        }
-//
-//        return $this->render('exam')
     }
 
     /**

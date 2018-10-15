@@ -3,11 +3,23 @@
 {% block title %}New Exam{% endblock %}
 
 {% block body %}
-    <h1>Create new Exam</h1>
+    <h1>New Exam</h1>
     <hr>
-
-    <a href="{{ path('exam_new_by_questions') }}" class="btn btn-link btn-primary">Create new exam by questions</a>
-    <a href="{{ path('exam_new_by_categories') }}" class="btn btn-link btn-primary">Create new exam by categories</a>
-
-    <a href="{{ path('exam_index') }}">back to list</a>
+    <div class="container">
+        <p> Choose an option to create exam</p>
+        <br>
+        <p>
+            Choose <b> Create new exam by questions </b> to select questions by your own.
+        </p>
+        <br>
+        <p>
+            Choose <b> Create new exam by category </b> to randomly create exam by questions of a category.
+        </p>
+    </div>
+    <div class="btn-group-justified" style="margin: auto">
+        <a href="{{ path('exam_new_by_questions') }}" class="btn btn-primary">Create new exam by questions</a>
+        <a href="{{ path('exam_new_by_categories') }}" class="btn btn-success">Create new exam by categories</a>
+    </div>
+    <br>
+    <a class="btn btn-link" href="{{ path('exam_index') }}">back to list</a>
 {% endblock %}

@@ -10,7 +10,7 @@
     <h1>Exam</h1>
     <hr>
     <h3> {{ exam.name }}</h3>
-    <h5> Teacher: {{ exam.user }}</h5>
+    <h5> Teacher: {{ exam.user.name }}</h5>
     <form method="post" action="{{ path('preview_exam_answer', { 'id': exam.id }) }}">
         {% for key, question in exam.questions %}
             <div class="form-group">

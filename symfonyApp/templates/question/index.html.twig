@@ -3,7 +3,7 @@
 {% block title %}All Questions{% endblock %}
 
 {% block body %}
-    <h1>View all questions</h1>
+    <h1>All questions</h1>
     <hr>
 
     <a class="btn btn-info" href="{{ path('create_new_question') }}">Create new</a>
@@ -23,10 +23,10 @@
                 <td style="width: 50%" class="main-col">{{ question.questionText }}</td>
                 <td style="width: 20%; text-align: center">{{ question.category.categoryName }}</td>
                 <td style="width: 15%; text-align: center">{{ question.owner.name }}</td>
-                <td style="width: 15%">
-                    <div class="btn-group" style="width: 100%">
-                        <a class="btn btn-sm btn-outline-dark" href="{{ path('view_question', {'id': question.id}) }}">View</a>
-                        <a class="btn btn-sm btn-outline-primary" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+                <td style="width: 15%; text-align: center; vertical-align: middle">
+                    <div class="btn-group-justified">
+                        <a class="btn btn-sm btn-info" href="{{ path('view_question', {'id': question.id}) }}">View</a>
+                        <a class="btn btn-sm btn-primary" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
                     </div>
                 </td>
             </tr>
