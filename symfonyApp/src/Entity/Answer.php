@@ -34,11 +34,6 @@ class Answer
      */
     public $question;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Assessment", mappedBy="answer")
-     */
-    private $assessments;
-
     public function __construct()
     {
         $this->assessments = new ArrayCollection();
@@ -86,34 +81,5 @@ class Answer
         return $this;
     }
 
-    /**
-     * @return Collection|Assessment[]
-     */
-    public function getAssessments(): Collection
-    {
-        return $this->assessments;
-    }
 
-    public function addAssessment(Assessment $assessment): self
-    {
-        if (!$this->assessments->contains($assessment)) {
-            $this->assessments[] = $assessment;
-            $assessment->setAnswer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAssessment(Assessment $assessment): self
-    {
-        if ($this->assessments->contains($assessment)) {
-            $this->assessments->removeElement($assessment);
-            // set the owning side to null (unless already changed)
-            if ($assessment->getAnswer() === $this) {
-                $assessment->setAnswer(null);
-            }
-        }
-
-        return $this;
-    }
 }

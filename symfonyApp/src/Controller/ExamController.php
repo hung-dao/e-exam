@@ -2,24 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\Exam;
+use App\Entity\ExamForStudent;
 use App\Entity\Question;
+use App\Entity\StudentAnswer;
 use App\Form\ExamByAutoCategoriesType;
-use App\Form\ExamByCategoriesType;
 use App\Form\ExamByQuestionsType;
 
 use App\Repository\ExamRepository;
-use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -34,8 +33,10 @@ class ExamController extends AbstractController
      */
     public function dashboard(ExamRepository $examRepository) : Response
     {
-        return $this->render('exam/index.html.twig', ['exams' => $examRepository->findAll()]);
+        return $this->render('exam/dashboard.html.twig', ['exams' => $examRepository->findAll()]);
     }
+
+    //show all exam where exam.user = this.user
     /**
      * @Route("/exam/", name="exam_index", methods="GET")
      */
@@ -93,7 +94,9 @@ class ExamController extends AbstractController
         $exam->setName($category->getCategoryName() . ' Test')
             ->setNumberOfQuestions($numOfQues);
         $questions = $this->getQuestionsByRequest($category, $numOfQues);
-
+        if (count($questions) < $numOfQues) {
+            $exam->setNumberOfQuestions(count($questions));
+        }
         foreach ($questions as $question) {
             $exam->addQuestion($question);
             //$question->addExam($exam);
@@ -134,11 +137,6 @@ class ExamController extends AbstractController
      */
     public function newByCategories(Request $request): Response
     {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
         $form = $this->createFormBuilder()
             ->add('category', EntityType::class, array(
                 'label' => 'Category',
@@ -147,16 +145,7 @@ class ExamController extends AbstractController
                 'placeholder' => "Please select category",
                 'choice_label' => 'categoryName'
             ))
-            ->add('numberOfQuestions', ChoiceType::class, array(
-                'label' => 'Number of questions',
-                'choices' => array(
-                    5 => 5,
-                    6 => 6,
-                    7 => 7,
-                    8 => 8,
-                    9 => 9,
-                    10 => 10
-                )))
+            ->add('numberOfQuestions', NumberType::class, array( 'label' => "Number Of Questions"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -186,8 +175,6 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $exam->setIsOpen(true)
                 ->setName('General Exam')
                 ->setUser($this->getUser())
@@ -207,7 +194,6 @@ class ExamController extends AbstractController
 
             return $this->redirectToRoute('exam_preview', [
                 'id' => $exam->getId(),
-
             ]);
         }
 
@@ -227,11 +213,121 @@ class ExamController extends AbstractController
     }
 
     /**
-     * @Route("/exam/take/{id}", name="exam_take", methods="GET")
+     * @Route("/exam/take/{id}", name="exam_take", methods="GET|POST")
      */
-    public function take(Exam $exam): Response
+    public function take(Request $request, Exam $exam): Response
     {
-        return $this->render('exam/take.html.twig', ['exam' => $exam]);
+        return $this->render('exam/take.html.twig', [
+            'exam' => $exam,
+        ]);
+    }
+
+    /**
+     * @Route("exam/{id}/preview_answers", name="preview_exam_answer", methods="POST")
+     */
+    public function previewAnswer(Request $request): Response
+    {
+//        dump($request);
+//
+//        dump($request->get('id'));
+        $exam = $this->getDoctrine()->getRepository(Exam::class)
+            ->findOneBy(['id' => $request->get('id')]);
+        $totalQuestion = count($exam->getQuestions());
+
+//        dump($exam);
+//        dump($request->request->all());
+        $answers = $request->request->all();
+        $form = $this->createFormBuilder()->add('Submit', SubmitType::class)->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $studentExam = new ExamForStudent();
+            $studentExam->setUser($this->getUser());
+            $studentExam->setExam( $exam );
+
+            $quesIndex = 1;
+            $correctAns = 0;
+            foreach ($exam->getQuestions() as $question) {
+                $studentAns = new StudentAnswer();
+                $ans = $this->getDoctrine()->getRepository(Answer::class)->findOneBy(
+                    ['id' => $request->request->get('question'.$quesIndex)]
+                );
+                $studentAns->setAnswer( $ans );
+                if ($ans->getIsCorrect()) {
+                    $studentAns->setResult(true);
+                    $correctAns ++;
+                }
+                $studentAns->setQuestion($ans->getQuestion());
+                $studentExam->addAnswersSheet($studentAns);
+                $this->getUser()->setStudentAnswer($studentAns);
+                $quesIndex ++;
+                //$em->persist($studentAns);
+            }
+            $studentExam->setResult($correctAns/$totalQuestion*100);
+            $this->getUser()->setExamForStudent($studentExam);
+            $studentExam->setStatus("done");
+            dump($studentExam);
+            $em->persist($studentExam);
+            $em->flush($studentExam);
+
+            return $this->redirectToRoute('result_exam', [
+                'id' => $exam->getId(),
+                'studentExam_id' => $studentExam->getId(),
+            ]);
+        }
+
+        return $this->render('exam/preview_student_exam.html.twig', [
+            'form' => $form->createView(),
+            'exam' => $exam,
+            'answers' => $answers
+        ]);
+    }
+
+    // show result of an exam
+    /**
+     * @Route("/exam/{id}/result", name="result_exam", methods="GET|POST")
+     */
+    public function examResult(Request $request, Exam $exam)
+    {
+        $examStd = null;
+        if ($request->get('studentExam_id') != null ) {
+            $examStd = $this->getDoctrine()->getRepository(ExamForStudent::class)
+                ->findOneBy(['id' => $request->get('studentExam_id')]);
+
+        } else {
+            //$exam_id = $this->getDoctrine()->getRepository(Exam::class)->findOneBy(['id' => $request->get('id')]);
+            $exam_id = $exam->getId();
+            foreach ($exam->getExamForStudents() as $studentExam) {
+                if($studentExam->getUser() == $this->getUser()) {
+                    $examStd = $studentExam;
+                }
+            }
+        }
+
+        if ($examStd == null) {
+            $examDone = false;
+        } else {
+            $examDone = true;
+        }
+
+        return $this->render('exam/result_for_an_exam.html.twig', [
+            'exam' => $exam,
+            'examForStudent' => $examStd,
+            'examDone' => $examDone
+        ]);
+
+//        if (!$request->get('studentExam'))
+//        {
+//            $studentExam = $request->get('studentExam');
+//        } else {
+//            $studentExam = $this->getDoctrine()->getRepository(ExamForStudent::class)->findOneBy(
+//                [
+//                    'exam' => $request->get()
+//                ]
+//            )
+//        }
+//
+//        return $this->render('exam')
     }
 
     /**

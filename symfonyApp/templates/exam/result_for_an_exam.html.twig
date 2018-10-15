@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Result{% endblock %}
+
+{% block body %}
+    <h1>Result</h1>
+    <hr>
+
+    {% if examDone == false %}
+        <p>You haven't done this exam</p>
+    {% else %}
+        <p><b>Status:</b> {{ examForStudent.status }} </p>
+        <p><b>Result:</b> {{ examForStudent.result }} </p>
+    {% endif %}
+{% endblock %}
+

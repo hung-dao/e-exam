@@ -13,12 +13,12 @@
 
     <table class="table" style="width: 100%">
         <thead>
-            <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>NumberOfQuestions</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>NumberOfQuestions</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for exam in exams %}
@@ -30,7 +30,6 @@
                     {% if app.user.role == 1 %}
                         <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
                         <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
-                        <a href="#">view report</a> <!--Long todo : show student name, result report.html.twig-->
 
                     {% elseif app.user.role == 0 %}
                         <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
