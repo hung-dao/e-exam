@@ -11,8 +11,8 @@ use App\Entity\StudentAnswer;
 use App\Entity\User;
 use App\Form\ExamByAutoCategoriesType;
 use App\Form\ExamByQuestionsType;
-
 use App\Repository\ExamRepository;
+use App\Repository\StudentAnswerRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,11 +37,14 @@ class ExamController extends AbstractController
     {
         $Whoami= $this->getUser();
 //        dump($Whoami);
+
         return $this->render('exam/dashboard.html.twig', [
             'exams' => $examRepository->findAll(),
             'user'=> $userRepository->findAll(),
             'ownername' => $Whoami
         ]);
+
+
     }
 
     //show all exam where exam.user = this.user
@@ -327,10 +330,36 @@ class ExamController extends AbstractController
             $examDone = true;
         }
 
+        $questionByStudent = [];
+
+        if ($examStd != null) {
+            foreach ($exam->getQuestions() as $ques) {
+                $restyleQues = new \stdClass();
+                $arr = [];
+                foreach ($ques->getAnswers() as $ans) {
+                    $restyleAns = new \stdClass();
+                    $restyleAns->text = $ans->getAnswerText();
+                    $restyleAns->isCorrect = $ans->getIsCorrect();
+                    if ($ans->getId() == $this->getAnswerIdChosen($examStd, $ques)) {
+                        $restyleAns->isChosen = true;
+                    } else {
+                        $restyleAns->isChosen = false;
+                    }
+                    array_push($arr, $restyleAns);
+                }
+                $restyleQues->questionText = $ques->getQuestionText();
+                $restyleQues->category = $ques->getCategory();
+                $restyleQues->answers = $arr;
+                array_push($questionByStudent, $restyleQues);
+            }
+            dump($questionByStudent);
+        }
+
         return $this->render('exam/result_for_an_exam.html.twig', [
             'exam' => $exam,
             'examForStudent' => $examStd,
-            'examDone' => $examDone
+            'examDone' => $examDone,
+            'questionSet' => $questionByStudent
         ]);
 
 //        if (!$request->get('studentExam'))
@@ -385,5 +414,13 @@ class ExamController extends AbstractController
     {
         $questions = $this->getDoctrine()->getRepository(Question::class)->findQuestionsByCategory($category, $val);
         return $questions;
+    }
+
+    public function getAnswerIdChosen ($examStd, $ques)
+    {
+        $studentAnswerRepo = $this->getDoctrine()->getRepository(StudentAnswer::class);
+        $ansArr = $studentAnswerRepo->getAnswerOfStudent($examStd, $ques);
+        $ans = $ansArr[0]->getAnswer();
+        return $ans->getId();
     }
 }
