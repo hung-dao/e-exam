@@ -28,12 +28,6 @@ class Assessment
     private $answer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ExamStatus", inversedBy="assessments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $examStatus;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\StudentAnswer", mappedBy="assessment", cascade={"persist", "remove"})
      */
     private $studentAnswer;
@@ -63,18 +57,6 @@ class Assessment
     public function setAnswer(?Answer $answer): self
     {
         $this->answer = $answer;
-
-        return $this;
-    }
-
-    public function getExamStatus(): ?ExamStatus
-    {
-        return $this->examStatus;
-    }
-
-    public function setExamStatus(?ExamStatus $examStatus): self
-    {
-        $this->examStatus = $examStatus;
 
         return $this;
     }

@@ -8,54 +8,24 @@
 
 {% block body %}
     <h1>Exam</h1>
+    <hr>
+    <h3> {{ exam.name }}</h3>
+    <h5> Teacher: {{ exam.user }}</h5>
+    <form method="post" action="{{ path('preview_exam_answer', { 'id': exam.id }) }}">
+        {% for key, question in exam.questions %}
+        <div class="form-group">
+            <label for="question{{ key + 1 }}"> Question {{ key + 1 }}</label>
+            <p>{{ question.id }} {{ question.questionText }} </p>
+            {% for answer in question.answers %}
+                <input type="radio" name="question{{ key + 1 }}" data-toggle="tooltip"
+                       title="Choose answer" value="{{ answer.id }}">
+                {{ answer.answerText }} <br>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ exam.id }}</td>
-        </tr>
-        <tr>
-            <th>Is Open?</th>
-            <td>{{ exam.isOpen ? 'Yes' : 'No' }}</td>
-        </tr>
-        <tr>
-            <th>Is Public?</th>
-            <td>{{ exam.isPublic ? 'Yes' : 'No' }}</td>
-        </tr>
-        <tr>
-            <th>Open Date</th>
-            <td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>
-        </tr>
-        <tr>
-            <th>Number Of Questions</th>
-            <td>{{ exam.numberOfQuestions }}</td>
-        </tr>
-        </tbody>
-    </table>
-    {% for key, question in exam.questions %}
-    <div class="table-responsive">
-        <table class="table table-striped" style="width: 70%">
-                <tr>
-                    <th>{{ question.questionText }}</th>
-                    <th></th>
-                </tr>
-
-                {% for answer in question.answers %}
-                    <tr>
-                        <td>
-                            {{ answer.answerText }}
-                        </td>
-                        <td>
-                            <input type="radio" name="question{{ key }}" data-toggle="tooltip" title="Choose answer"><br>
-                        </td>
-                    </tr>
-                {% endfor %}
-                <tr><td><br/></td><td><br/></td></tr>
-
-        </table>
-    </div>
-    {% endfor %}
 
     <a href="{{ path('open_exams') }}">back to list</a>
 
