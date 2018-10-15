@@ -1,16 +1,13 @@
 {{ form_start(form) }}
     {{ form_row(form.isPublic) }}
-        <table class="table" style="width: 100%">
-            <tr>
-                <th>Question</th>
-            </tr>
-            {% for ques in form.questions %}
-            <tr>
-                <td class="main-col" style="width: 90%;">{{ form_widget(ques) }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    <button style="display: inline-block" class="btn btn-sm btn-primary">
+    <h3>Question</h3>
+    <ul class="questions">
+        {% for ques in form.questions %}
+            <li>{{ form_widget(ques) }}</li>
+        {% endfor %}
+    </ul>
+
+    <button style="display: inline-block" class="btn btn-primary">
         {{ button_label|default('Create') }}
     </button>
 
