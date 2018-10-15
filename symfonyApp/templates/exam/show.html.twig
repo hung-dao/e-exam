@@ -1,62 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Exam{% endblock %}
+{% block title %}View Exam - {{ exam.name }}{% endblock %}
 
 {% block body %}
-    <h1>Exam</h1>
+    <a class="btn btn-link " href="{{ app.request.headers.get('referer') }}"><<< Back</a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ exam.id }}</td>
-            </tr>
-            <tr>
-                <th>Is Open?</th>
-                <td>{{ exam.isOpen ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Is Public?</th>
-                <td>{{ exam.isPublic ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Open Date</th>
-                <td>{{ exam.openDate ? exam.openDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Number Of Questions</th>
-                <td>{{ exam.numberOfQuestions }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h1>{{ exam.name }}</h1>
+    <hr>
 
-    <div class="table-responsive">
-        <table class="table table-striped" style="width: 70%">
-            {% for question in exam.questions %}
-                <tr>
-                    <th>{{ question.questionText }}</th>
-                    <th></th>
-                </tr>
+    <p> <b>Author: </b> {{ exam.user.name }}</p>
+    <p> <b>Status: </b> {% if exam.isOpen == 1 %} Open {% endif %}</p>
+    <hr>
 
-                {% for answer in question.answers %}
-                    <tr>
-                        <td>
-                            {{ answer.answerText }}
-                        </td>
-                        <td>
-                            <input disabled type="checkbox" name="correct" data-toggle="tooltip" data-placement="top" title="Correct answer" {% if answer.isCorrect ==1 %} value=true checked {% endif %}><br>
-                        </td>
-                    </tr>
-
-                {% endfor %}
+    {% for key, question in exam.questions %}
+        <div class="form-group">
+            <label for="question{{ key + 1 }}"> Question {{ key + 1 }}</label>
+            <p>{{ question.questionText }} </p>
+            {% for answer in question.answers %}
+                <input disabled type="radio" name="question{{ key + 1 }}" data-toggle="tooltip"
+                       title="Choose answer" value="{{ answer.id }}">
+                {{ answer.answerText }} <br>
             {% endfor %}
-        </table>
-    </div>
-
-    <a href="{{ path('exam_index') }}">back to list</a>
+        </div>
+    {% endfor %}
     {% if(exam.user == whoami) %}
-        <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
+        <a class="btn btn-info" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+        {{ include('exam/_delete_form.html.twig') }}
     {% endif %}
-    {{ include('exam/_delete_form.html.twig') }}
-
 {% endblock %}

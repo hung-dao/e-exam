@@ -15,7 +15,7 @@
         {% for key, question in exam.questions %}
             <div class="form-group">
                 <label for="question{{ key + 1 }}"> Question {{ key + 1 }}</label>
-                <p>{{ question.id }} {{ question.questionText }} </p>
+                <p>{{ question.questionText }} </p>
                 {% for answer in question.answers %}
                     <input type="radio" name="question{{ key + 1 }}" data-toggle="tooltip"
                            title="Choose answer" value="{{ answer.id }}"

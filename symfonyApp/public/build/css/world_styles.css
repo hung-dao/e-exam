@@ -1,3 +1,7 @@
+body {
+    font-size: 13px;
+}
+
 /*list*/
 ul.answers li {
     list-style-type: none;
@@ -31,7 +35,7 @@ td.main-col {
 }
 
 th {
-    text-align: center
+    text-align: center!important;
 }
 
 td :not(.main-col) {
@@ -44,6 +48,10 @@ td :not(.main-col) {
 }
 
 .form-check {
-    text-align: left!important;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
+.form-check label {
+    margin-left: 20px
+}
