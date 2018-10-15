@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Exam index{% endblock %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/dashboard.css') }}" />
+{% endblock %}
 {% block body %}
     <h1>All Exams</h1>
 
@@ -10,47 +12,32 @@
     {% if app.user.role == 1 %}
         <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
     {% endif %}
+    <br>
+    <br>
 
-    <table class="table" style="width: 100%">
-        <thead>
-        <tr>
+    {% for exam in exams %}
+    <div class="card" style="max-width: 30%; ">
+        <div class="card-header" style="text-align: center"> {{ exam.name }}</div>
+        <div class="card-body">
+            <p>Date: {{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</p>
+            <p>Teacher: {{ exam.user.name }}</p>
+            <p>Number of questions: {{ exam.numberOfQuestions }}</p>
+        </div>
+        <div class="card-footer" style="text-align: center">
+                {% if app.user.role == 1 %}
+                    <a class="btn btn-default" href="{{ path('exam_show', {'id': exam.id}) }}">View</a> &nbsp;
+                    {% if(exam.user == ownername) %}
+                        <a class="btn btn-default" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+                    {% endif %}
+                {% elseif app.user.role == 0 %}
+                    <a class="btn btn-default" href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a> &nbsp;
+                    <a class="btn btn-default" href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <p style="font-style: italic; font-weight: bold">No exams in record</p>
+    {% endfor %}
 
-            <th>Owner Name</th>
-            <th>Date</th>
-            <th>Name</th>
-            <th>NumberOfQuestions</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for exam in exams %}
-            <tr >
-                {% for owner in user %}
-                    {% if(exam.user == owner.userName) %}
-                        <td style="text-align: center;">{{ owner.name }}</td>
-                    {% endif %}
-                {% endfor %}
-                <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
-                <td style="text-align: center;">{{ exam.name }}</td>
-                <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
-                <td style="text-align: center;">
-                    {% if app.user.role == 1 %}
-                        <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
-                        {% if(exam.user == ownername) %}
-                            <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
-                        {% endif %}
-                    {% elseif app.user.role == 0 %}
-                        <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
-                        <a href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
 {% endblock %}

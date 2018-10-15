@@ -137,6 +137,7 @@ li.bar-footer li.static-line a {
     display: block;
     width: 80%;
     float: right;
+    padding-top: 20px;
 }
 
 @media (max-width: 767px) {
@@ -166,6 +167,7 @@ li.bar-footer li.static-line a {
         min-height: 70px;
     }
     .page-content {
+        padding-top: 10px;
         width: 100%;
     }
 }
@@ -187,3 +189,4 @@ li.bar-footer li.static-line a {
     width: 90% !important;
     margin: auto !important;
 }
+

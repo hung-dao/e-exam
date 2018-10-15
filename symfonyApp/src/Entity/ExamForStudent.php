@@ -36,7 +36,7 @@ class ExamForStudent
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="examForStudent", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="id", unique=true)
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      */
     private $user;
 

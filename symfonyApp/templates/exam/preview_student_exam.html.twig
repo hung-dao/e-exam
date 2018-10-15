@@ -10,12 +10,12 @@
     <h1>Exam</h1>
     <hr>
     <h3> {{ exam.name }}</h3>
-    <h5> Teacher: {{ exam.user }}</h5>
+    <h5> Teacher: {{ exam.user.name }}</h5>
     <form method="post" action="{{ path('preview_exam_answer', { 'id': exam.id }) }}">
         {% for key, question in exam.questions %}
             <div class="form-group">
                 <label for="question{{ key + 1 }}"> Question {{ key + 1 }}</label>
-                <p>{{ question.id }} {{ question.questionText }} </p>
+                <p>{{ question.questionText }} </p>
                 {% for answer in question.answers %}
                     <input type="radio" name="question{{ key + 1 }}" data-toggle="tooltip"
                            title="Choose answer" value="{{ answer.id }}"

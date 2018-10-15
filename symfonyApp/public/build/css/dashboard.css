@@ -1,0 +1,21 @@
+/*exam dashboard*/
+
+div.card .card-header,.card-footer {
+    background: #0b5948;
+}
+
+.card {
+    font-size: 13px;
+    width: auto;
+}
+
+.card-header {
+    font-size: 15px;
+    font-weight: bold;
+    color: wheat;
+}
+
+.card a.btn {
+
+}
+
