@@ -249,7 +249,8 @@ class ExamController extends AbstractController
     {
 //        dump($examForStudentRepository->findBy(array('exam' => $exam)));
         return $this->render('exam/view_report.html.twig', [
-            'examForStudent' => $examForStudentRepository->findBy(array('exam' => $exam))
+            'examForStudent' => $examForStudentRepository->findBy(array('exam' => $exam)),
+            'examForTeacher' => $exam
         ]);
     }
     /**
@@ -275,9 +276,13 @@ class ExamController extends AbstractController
             ->findOneBy(['id' => $request->get('id')]);
         $totalQuestion = count($exam->getQuestions());
 
-//        dump($exam);
-//        dump($request->request->all());
         $answers = $request->request->all();
+        if ($this->answerSend == null ) {
+            $this->answerSend = $answers;
+        }
+        if ($this->come == 0) {
+
+        }
         $form = $this->createFormBuilder()->add('Submit', SubmitType::class)->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -289,9 +294,10 @@ class ExamController extends AbstractController
             $quesIndex = 1;
             $correctAns = 0;
             foreach ($exam->getQuestions() as $question) {
+                //dump($request);
                 $studentAns = new StudentAnswer();
                 $ans = $this->getDoctrine()->getRepository(Answer::class)->findOneBy(
-                    ['id' => $request->request->get('question'.$quesIndex)]
+                    ['id' => $request->request->get('question'.$quesIndex),]
                 );
                 $studentAns->setAnswer( $ans );
                 if ($ans->getIsCorrect()) {
@@ -312,6 +318,7 @@ class ExamController extends AbstractController
 
             $em->persist($studentExam);
             $em->flush($studentExam);
+//            $this->answerSend = null;
 
             return $this->redirectToRoute('result_exam', [
                 'id' => $exam->getId(),

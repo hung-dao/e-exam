@@ -24,17 +24,18 @@
         {% for key, question in questionSet %}
             <p> <b> Question {{ key + 1 }}</b></p>
             {% for answer in question.answers %}
-            <input type="radio" name="question{{ key + 1 }}" disabled
-                    {% if answer.isChosen %} checked {% endif %}>
-                <span   {% if (answer.isChosen) and (answer.isCorrect) %} class="correctAns"
-                        {% elseif (answer.isCorrect) and ( not answer.isChosen) %} class ="wrongAns"
-                        {% endif %}>
-                    {{ answer.text }}
-                </span>
+            <input type="radio" name="question{{ key + 1 }}" disabled {% if answer.isChosen %} checked {% endif %}>
+                {% if (answer.isChosen) and (answer.isCorrect) %}
+                    <span class="correctAns"> {{ answer.text }} <i class="fa fa-check" aria-hidden="true"></i> </span>
+                {% elseif (answer.isCorrect) and ( not answer.isChosen) %}
+                    <span class ="wrongAns"> {{ answer.text }} <i class="fa fa-close" aria-hidden="true"></i> </span>
+                {% else %}  <span> {{ answer.text }} </span>
+                {% endif %}
                 <br>
             {% endfor %}
         {% endfor %}
     {% endif %}
+    <br>
 
     <a style="display: inline-block;" class="btn btn-secondary" href="{{ path('dashboard') }}">Back</a>
 

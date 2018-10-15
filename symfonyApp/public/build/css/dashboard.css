@@ -6,7 +6,8 @@ div.card .card-header,.card-footer {
 
 .card {
     font-size: 13px;
-    width: auto;
+    width: 30%;
+    display: inline-block;
 }
 
 .card-header {
@@ -16,6 +17,16 @@ div.card .card-header,.card-footer {
 }
 
 .card a.btn {
-
 }
 
+table tr td {
+    border:none;
+    border-top: none !important;
+}
+
+@media (max-width: 829px) {
+    .card {
+        font-size: 13px;
+        width: 100%;
+    }
+}

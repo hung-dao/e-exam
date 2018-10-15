@@ -11,14 +11,15 @@
         <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
 
     {% endif %}
+    <br>
 
     <table class="table" style="width: 100%">
-        <thead>
+        <thead class="thead-light table-secondary">
             <tr>
                 <th>Teacher</th>
                 <th>Date</th>
                 <th>Name</th>
-                <th>NumberOfQuestions</th>
+                <th>Number of questions</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -30,14 +31,17 @@
                 <td style="text-align: center;">{{ exam.name }}</td>
                 <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
                 <td style="text-align: center;">
-                    {% if app.user.role == 1 %}
-                        <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
-                        <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
-                        <a href="{{ path('view_report', {'id': exam.id}) }}">view report</a> <!--Long todo : show student name, result report.html.twig-->
+                    <div class="btn-group-justified">
 
-                    {% elseif app.user.role == 0 %}
-                        <a href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
-                    {% endif %}
+                        {% if app.user.role == 1 %}
+                            <a class="btn btn-sm btn-info" href="{{ path('exam_show', {'id': exam.id}) }}">Show</a>
+                            <a class="btn btn-sm btn-primary" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+                            <a class="btn btn-sm btn-info" href="{{ path('view_report', {'id': exam.id}) }}">View report</a>
+
+                        {% elseif app.user.role == 0 %}
+                            <a class="btn btn-sm btn-info" href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
+                        {% endif %}
+                    </div>
                 </td>
             </tr>
         {% else %}

@@ -3,7 +3,7 @@
 {% block title %}View Exam - {{ exam.name }}{% endblock %}
 
 {% block body %}
-    <a class="btn btn-link " href="{{ app.request.headers.get('referer') }}"><<< Back</a>
+    <a class="btn btn-link " href="{{ path('exam_index') }}"><<< Back</a>
 
     <h1>{{ exam.name }}</h1>
     <hr>
