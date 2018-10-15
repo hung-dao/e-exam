@@ -35,9 +35,12 @@ class ExamController extends AbstractController
      */
     public function dashboard(ExamRepository $examRepository,UserRepository $userRepository) : Response
     {
+        $Whoami= $this->getUser();
+//        dump($Whoami);
         return $this->render('exam/dashboard.html.twig', [
             'exams' => $examRepository->findAll(),
-            'user'=> $userRepository->findAll()
+            'user'=> $userRepository->findAll(),
+            'ownername' => $Whoami
         ]);
     }
 
@@ -218,7 +221,11 @@ class ExamController extends AbstractController
      */
     public function show(Exam $exam): Response
     {
-        return $this->render('exam/show.html.twig', ['exam' => $exam]);
+        $Whoami= $this->getUser();
+        return $this->render('exam/show.html.twig', [
+            'exam' => $exam,
+            'whoami' => $Whoami
+        ]);
 
     }
 

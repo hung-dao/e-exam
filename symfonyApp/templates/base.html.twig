@@ -59,13 +59,13 @@
                 {% elseif app.user.role == 0 %}
                     <li id="dashboard" class="">
                         <a href="{{ path("dashboard") }}">
-                            <i class="fa fa-dashboard fa-lg"></i> My Exams
+                            <i class="fa fa-dashboard fa-lg"></i> Exams
                         </a>
                     </li>
 
                     <li id="exam" class="">
                         <a href="{{ path("open_exams") }}">
-                            <i class="fa fa-question fa-lg"></i> Exams
+                            <i class="fa fa-question fa-lg"></i> My Exams
                         </a>
                     </li>
                 {% endif %}

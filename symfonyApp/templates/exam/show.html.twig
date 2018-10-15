@@ -55,9 +55,9 @@
     </div>
 
     <a href="{{ path('exam_index') }}">back to list</a>
-
-    <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
-
+    {% if(exam.user == whoami) %}
+        <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
+    {% endif %}
     {{ include('exam/_delete_form.html.twig') }}
 
 {% endblock %}

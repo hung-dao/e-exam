@@ -35,8 +35,9 @@
                 <td style="text-align: center;">
                     {% if app.user.role == 1 %}
                         <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
-                        <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
-
+                        {% if(exam.user == ownername) %}
+                            <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
+                        {% endif %}
                     {% elseif app.user.role == 0 %}
                         <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
                         <a href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
