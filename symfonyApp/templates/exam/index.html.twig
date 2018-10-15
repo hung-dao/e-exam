@@ -9,12 +9,13 @@
 
     {% if app.user.role == 1 %}
         <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
+
     {% endif %}
 
     <table class="table" style="width: 100%">
         <thead>
             <tr>
-                <th>Owner Name</th>
+                <th>Teacher</th>
                 <th>Date</th>
                 <th>Name</th>
                 <th>NumberOfQuestions</th>
@@ -24,7 +25,7 @@
         <tbody>
         {% for exam in exams %}
             <tr>
-                <td style="text-align: center;">{{ ownername }}</td>
+                <td style="text-align: center;">{{ exam.user.name }}</td>
                 <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
                 <td style="text-align: center;">{{ exam.name }}</td>
                 <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
@@ -32,10 +33,9 @@
                     {% if app.user.role == 1 %}
                         <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
                         <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
-                        <a href="#">view report</a> <!--Long todo : show student name, result report.html.twig-->
+                        <a href="{{ path('view_report', {'id': exam.id}) }}">view report</a> <!--Long todo : show student name, result report.html.twig-->
 
                     {% elseif app.user.role == 0 %}
-                        <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
                         <a href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
                     {% endif %}
                 </td>
@@ -47,5 +47,37 @@
         {% endfor %}
         </tbody>
     </table>
+
+        {#{% if app.user.role == 0 %}#}
+
+
+            {#<table class="table" style="width: 100%">#}
+                {#<thead>#}
+                {#<tr>#}
+                    {#<th>Owner Name</th>#}
+                    {#<th>Date</th>#}
+                    {#<th>Name</th>#}
+                    {#<th>NumberOfQuestions</th>#}
+                    {#<th>Actions</th>#}
+                {#</tr>#}
+                {#</thead>#}
+                {#<tbody>#}
+                {#{% for exam in exams %}#}
+                    {#<tr>#}
+                    {#<td style="text-align: center;">{{ exam.user.name }}</td>#}
+                    {#<td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>#}
+                    {#<td style="text-align: center;">{{ exam.name }}</td>#}
+                    {#<td style="text-align: center;">{{ exam.numberOfQuestions }}</td>#}
+                    {#<td style="text-align: center;"><a href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a></td>#}
+                    {#</tr>#}
+                {#{% else %}#}
+                    {#<tr>#}
+                        {#<td colspan="7">no records found</td>#}
+                    {#</tr>#}
+
+                {#{% endfor %}#}
+                {#</tbody>#}
+            {#</table>#}
+        {#{% endif %}#}
 
 {% endblock %}
