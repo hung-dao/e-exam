@@ -29,6 +29,7 @@ class QuestionController extends AbstractController
      */
     public function newQuestion(Request $request): Response
     {
+        $quesAmount = count ( $this->getDoctrine()->getRepository(Question::class)->findAll() );
         $question = new Question();
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
@@ -46,6 +47,7 @@ class QuestionController extends AbstractController
 
         return $this->render('question/new.html.twig', [
             'question' => $question,
+            'questionAmount' => $quesAmount,
             'form' => $form->createView(),
         ]);
     }
@@ -67,6 +69,8 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('view_question', ['id' => $question->getId()]);
@@ -83,6 +87,9 @@ class QuestionController extends AbstractController
      */
     public function delete(Request $request, Question $question): Response
     {
+        foreach ($question->getAnswers() as $answer) {
+            $question->removeAnswer($answer);
+        }
         if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($question);

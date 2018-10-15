@@ -1,21 +1,49 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Exam index{% endblock %}
+
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>All Exams</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ user }}! ✅</h1>
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/ExamController.php'|file_link(0) }}">src/Controller/ExamController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/exam/index.html.twig'|file_link(0) }}">templates/exam/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <hr>
 
+    {% if app.user.role == 1 %}
+        <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
+    {% endif %}
 
-<a href="{{ path('logout') }}">Logout</a>
+    <table class="table" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>NumberOfQuestions</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exam in exams %}
+            <tr >
+                <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
+                <td style="text-align: center;">{{ exam.name }}</td>
+                <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
+                <td style="text-align: center;">
+                    {% if app.user.role == 1 %}
+                        <a href="{{ path('exam_show', {'id': exam.id}) }}">show</a>
+                        <a href="{{ path('exam_edit', {'id': exam.id}) }}">edit</a>
+                        <a href="#">view report</a> <!--Long todo : show student name, result report.html.twig-->
+
+                    {% elseif app.user.role == 0 %}
+                        <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
+                        <a href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

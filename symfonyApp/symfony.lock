@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "v1.1.5"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -179,6 +182,9 @@
     "symfony/inflector": {
         "version": "v4.1.4"
     },
+    "symfony/intl": {
+        "version": "v4.1.5"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -227,6 +233,9 @@
     "symfony/security-bundle": [],
     "symfony/security-csrf": {
         "version": "v4.1.5"
+    },
+    "symfony/serializer": {
+        "version": "v4.1.6"
     },
     "symfony/stopwatch": {
         "version": "v4.1.4"

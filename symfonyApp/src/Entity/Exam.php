@@ -19,24 +19,19 @@ class Exam
     private $id;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $date;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isOpen;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuestionInExam", mappedBy="exam")
+     * @ORM\Column(type="string")
      */
-    private $questionInExams;
+    private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ExamStatus", mappedBy="exam")
+     * @ORM\OneToMany(targetEntity="App\Entity\ExamForStudent", mappedBy="exam")
      */
-    private $examStatuses;
+    private $examForStudents;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="exams")
@@ -54,27 +49,27 @@ class Exam
      */
     private $openDate;
 
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $numberOfQuestions;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="exams")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="id")
+     */
+    private $questions;
+
     public function __construct()
     {
-        $this->questionInExams = new ArrayCollection();
-        $this->examStatuses = new ArrayCollection();
+        $this->examForStudents = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+        $this->studentAnswers = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
     }
 
     public function getIsOpen(): ?bool
@@ -89,62 +84,43 @@ class Exam
         return $this;
     }
 
-    /**
-     * @return Collection|QuestionInExam[]
-     */
-    public function getQuestionInExams(): Collection
+    public function getName(): ?string
     {
-        return $this->questionInExams;
+        return $this->name;
     }
 
-    public function addQuestionInExam(QuestionInExam $questionInExam): self
+    public function setName(string $name): self
     {
-        if (!$this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams[] = $questionInExam;
-            $questionInExam->setExam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if ($this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams->removeElement($questionInExam);
-            // set the owning side to null (unless already changed)
-            if ($questionInExam->getExam() === $this) {
-                $questionInExam->setExam(null);
-            }
-        }
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * @return Collection|ExamStatus[]
+     * @return Collection|ExamForStudent[]
      */
-    public function getExamStatuses(): Collection
+    public function getExamForStudents(): Collection
     {
-        return $this->examStatuses;
+        return $this->examForStudents;
     }
 
-    public function addExamStatus(ExamStatus $examStatus): self
+    public function addExamForStudent(ExamForStudent $examForStudent): self
     {
-        if (!$this->examStatuses->contains($examStatus)) {
-            $this->examStatuses[] = $examStatus;
-            $examStatus->setExam($this);
+        if (!$this->examForStudents->contains($examForStudent)) {
+            $this->examForStudents[] = $examForStudent;
+            $examForStudent->setExam($this);
         }
 
         return $this;
     }
 
-    public function removeExamStatus(ExamStatus $examStatus): self
+    public function removeExamForStudent(ExamForStudent $examForStudent): self
     {
-        if ($this->examStatuses->contains($examStatus)) {
-            $this->examStatuses->removeElement($examStatus);
+        if ($this->examForStudents->contains($examForStudent)) {
+            $this->examForStudents->removeElement($examForStudent);
             // set the owning side to null (unless already changed)
-            if ($examStatus->getExam() === $this) {
-                $examStatus->setExam(null);
+            if ($examForStudent->getExam() === $this) {
+                $examForStudent->setExam(null);
             }
         }
 
@@ -175,15 +151,61 @@ class Exam
         return $this;
     }
 
-    public function getOpenDate(): ?\DateTimeInterface
+    public function getOpenDate(): ?\DateTime
     {
         return $this->openDate;
     }
 
-    public function setOpenDate(\DateTimeInterface $openDate): self
+
+    public function setOpenDate(\DateTime $openDate): self
+
     {
         $this->openDate = $openDate;
+        return $this;
+    }
+
+    public function getNumberOfQuestions(): ?int
+    {
+        return $this->numberOfQuestions;
+    }
+
+    public function setNumberOfQuestions(?int $numberOfQuestions): self
+    {
+        $numberOfQuestions == null ?
+            $this->numberOfQuestions = $this->questions->count() :
+            $this->numberOfQuestions = $numberOfQuestions;
 
         return $this;
     }
+
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->addExam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            $question->removeExam($this);
+        }
+
+        return $this;
+    }
+
 }
+

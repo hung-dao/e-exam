@@ -1,16 +1,26 @@
+
+{% import _self as macro %}
+{% macro answer_field_prototype(answer) %}
+    <div class="row">
+        <div class="col-md-10">{{ form_widget(answer.answerText) }}</div>
+        <div class="col-md-2">{{ form_widget(answer.isCorrect) }}</div>
+    </div>
+{% endmacro %}
+
 {{ form_start(form) }}
     {{ form_row(form.questionText) }}
     {{ form_row(form.category) }}
+    <h5><b>Answers</b></h5>
 
-    <h4>Answers</h4>
-    <ul class="answers" data-prototype="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}">
-        {% for answer in form.answers %}
-            <li>
-                <div class="row">
-                    <div class="col-md-10">{{ form_widget(answer.answerText) }}</div>
-                    <div class="col-md-2">{{ form_widget(answer.isCorrect) }}</div>
-                </div>
-            </li>
+    <ul class="answers" data-prototype="{{ macro.answer_field_prototype(form.answers.vars.prototype)|e }}">
+        {% for key, answer in form.answers %}
+                <li>
+                    <h5>Answer {{ key + 1 }}</h5>
+                    <div class="row">
+                        <div class="col-md-10">{{ form_widget(answer.answerText) }}</div>
+                        <div class="col-md-2">{{ form_widget(answer.isCorrect) }}</div>
+                    </div>
+                </li>
         {% endfor %}
     </ul>
 

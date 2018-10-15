@@ -10,11 +10,3 @@ logout:
 dashboard:
     path: /dashboard
     controller: App\Controller\ExamController::dashboard
-
-create-new-exam:
-    path: /create-exam
-    controller: App\Controller\ExamController::newExam
-
-open-exam:
-    path: /all-open-exams
-    controller: App\Controller\ExamController::viewOpenExam

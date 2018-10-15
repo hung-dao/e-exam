@@ -3,26 +3,31 @@
 {% block title %}All Questions{% endblock %}
 
 {% block body %}
-    <h1>All questions</h1>
+    <h1>View all questions</h1>
+    <hr>
 
     <a class="btn btn-info" href="{{ path('create_new_question') }}">Create new</a>
 
-    <table class="table">
+    <table class="table" style="width: 100%">
         <thead class="thead-light table-secondary">
             <tr>
-                <th scope="col" class="col-6 main-col">Question</th>
-                <th scope="col" class="col-3">Owner</th>
-                <th scope="col" class="col-3 action-col">Actions</th>
+                <th style="width: 50%" scope="col" >Question</th>
+                <th style="width: 20%" scope="col" >Category</th>
+                <th style="width: 15%" scope="col" >Owner</th>
+                <th style="width: 15%" scope="col" >Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for question in questions %}
             <tr>
-                <td class="col-6 main-col">{{ question.questionText }}</td>
-                <td class="col-3">{{ question.owner.name }}</td>
-                <td class="col-3 action-col">
-                    <a class="btn btn-default" href="{{ path('view_question', {'id': question.id}) }}">View</a>
-                    <a class="btn btn-default" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+                <td style="width: 50%" class="main-col">{{ question.questionText }}</td>
+                <td style="width: 20%; text-align: center">{{ question.category.categoryName }}</td>
+                <td style="width: 15%; text-align: center">{{ question.owner.name }}</td>
+                <td style="width: 15%">
+                    <div class="btn-group" style="width: 100%">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('view_question', {'id': question.id}) }}">View</a>
+                        <a class="btn btn-sm btn-outline-primary" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+                    </div>
                 </td>
             </tr>
         {% else %}

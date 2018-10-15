@@ -37,3 +37,9 @@ $ cd symfonyApp
 $ npm install
 $ npm run dev
 ```
+#### in the virtual machine - to update database:
+```
+$ cd /vagrant/symfonyApp
+$ php bin/console doctrine:database:create
+$ php bin/console doctrine:schema:create
+$ php bin/console doctrine:fixtures:load

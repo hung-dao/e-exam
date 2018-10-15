@@ -4,18 +4,20 @@
 
 {% block body %}
     <h1>Question</h1>
+    <hr>
+
     {{ question.questionText }}
     <h4>Category: </h4>
     {{ question.category.categoryName }}
     <h4>Answers:</h4>
     <div class="table-responsive">
-        <table class="table table-striped"">
+        <table class="table table-striped" style="width: 70%">
         {% for answer in question.answers %}
             <tr>
                 <td>
                     {{ answer.answerText }}
                 </td>
-                <td>
+                <td style="width: 10%; text-align: right">
                     <input disabled type="checkbox" name="correct" data-toggle="tooltip" data-placement="top" title="Correct answer" {% if answer.isCorrect ==1 %} value=true checked {% endif %}><br>
                 </td>
             </tr>
