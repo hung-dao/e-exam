@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\StudentAnswer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +48,19 @@ class StudentAnswerRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param $exam
+     * @param $question
+     * @return StudentAnswer
+     */
+    public function getAnswerOfStudent($exam, $question)
+    {
+        return $this->createQueryBuilder('answer')
+            ->Where('answer.question = :ques')
+            ->andWhere('answer.examForStudent = :exam')
+            ->setParameters(['ques' => $question, 'exam' => $exam])
+            ->getQuery()
+            ->getResult();
+    }
 }
