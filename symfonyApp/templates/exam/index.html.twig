@@ -14,6 +14,7 @@
     <table class="table" style="width: 100%">
         <thead>
             <tr>
+                <th>Owner Name</th>
                 <th>Date</th>
                 <th>Name</th>
                 <th>NumberOfQuestions</th>
@@ -22,7 +23,8 @@
         </thead>
         <tbody>
         {% for exam in exams %}
-            <tr >
+            <tr>
+                <td style="text-align: center;">{{ ownername }}</td>
                 <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
                 <td style="text-align: center;">{{ exam.name }}</td>
                 <td style="text-align: center;">{{ exam.numberOfQuestions }}</td>
