@@ -286,12 +286,6 @@ class ExamController extends AbstractController
         $totalQuestion = count($exam->getQuestions());
 
         $answers = $request->request->all();
-        if ($this->answerSend == null ) {
-            $this->answerSend = $answers;
-        }
-        if ($this->come == 0) {
-
-        }
         $form = $this->createFormBuilder()->add('Submit', SubmitType::class)->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -370,10 +364,15 @@ class ExamController extends AbstractController
             }
         }
 
+        $allQues = null;
+        $corrAns = null;
         if ($examStd == null) {
             $examDone = false;
         } else {
             $examDone = true;
+            $allQues = count($examStd->getExam()->getQuestions());
+            $res = $examStd->getResult();
+            $corrAns = round( ($res * $allQues) / 100 );
         }
 
         $questionByStudent = [];
@@ -406,7 +405,9 @@ class ExamController extends AbstractController
             'exam' => $exam,
             'examForStudent' => $examStd,
             'examDone' => $examDone,
-            'questionSet' => $questionByStudent
+            'questionSet' => $questionByStudent,
+            'numOfCorrect' => $corrAns,
+            'totalQues' => $allQues,
         ]);
     }
 

@@ -21,6 +21,7 @@
     {% else %}
         <p><b>Status:</b> {{ examForStudent.status }} </p>
         <p><b>Result:</b> {{ examForStudent.result }} </p>
+        <p><b>Correct Answers:</b> {{ numOfCorrect }} / {{ totalQues }} </p>
         {% for key, question in questionSet %}
             <p> <b> Question {{ key + 1 }}</b></p>
             {% for answer in question.answers %}
