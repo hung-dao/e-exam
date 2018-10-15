@@ -15,7 +15,7 @@
         <thead>
         <tr>
 
-            <th>Owner Name</th>
+            <th>Teacher</th>
             <th>Date</th>
             <th>Name</th>
             <th>NumberOfQuestions</th>
@@ -27,7 +27,7 @@
             <tr >
                 {% for owner in user %}
                     {% if(exam.user == owner.userName) %}
-                        <td style="text-align: center;">{{ owner.name }}</td>
+                        <td style="text-align: center;">{{ exam.user.name }}</td>
                     {% endif %}
                 {% endfor %}
                 <td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>

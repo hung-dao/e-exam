@@ -11,11 +11,13 @@ use App\Entity\StudentAnswer;
 use App\Entity\User;
 use App\Form\ExamByAutoCategoriesType;
 use App\Form\ExamByQuestionsType;
+use App\Repository\ExamForStudentRepository;
 use App\Repository\ExamRepository;
 use App\Repository\StudentAnswerRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,29 +38,38 @@ class ExamController extends AbstractController
     public function dashboard(ExamRepository $examRepository,UserRepository $userRepository) : Response
     {
         $Whoami= $this->getUser();
-//        dump($Whoami);
-
         return $this->render('exam/dashboard.html.twig', [
             'exams' => $examRepository->findAll(),
             'user'=> $userRepository->findAll(),
             'ownername' => $Whoami
         ]);
-
-
     }
 
     //show all exam where exam.user = this.user
+
     /**
      * @Route("/exam/", name="exam_index", methods="GET")
+     * @param ExamRepository $examRepository
+     * @param UserRepository $userRepository
+     * @return Response
      */
-    public function index(ExamRepository $examRepository, UserRepository $userRepository): Response
+    public function index(ExamRepository $examRepository, UserRepository $userRepository,ExamForStudentRepository $examForStudentRepository): Response
     {
-        $Whoami= $this->getUser()->getName();
+        $userRole = $this->getUser()->getRole();
+        if ($userRole == 1) { //teacher
+            $exam = $examRepository->findBy(array('user' => $this->getUser()));
+        } else if ($userRole == 0) { //student
+            $examS =  $examForStudentRepository->findBy(array('user'=> $this->getUser()));
+            $exam = [];
+            foreach ($examS as $examstd) {
+                array_push($exam, $examstd->getExam());
+            }
+        }
         return $this->render('exam/index.html.twig', [
-            'exams' => $examRepository->findBy(array('user' => $this->getUser())),
+            'exams' => $exam,
             'user' => $userRepository->findAll(),
-            'ownername' => $Whoami
         ]);
+
     }
 
     /**
@@ -161,7 +172,7 @@ class ExamController extends AbstractController
                 'placeholder' => "Please select category",
                 'choice_label' => 'categoryName'
             ))
-            ->add('numberOfQuestions', NumberType::class, array( 'label' => "Number Of Questions"))
+            ->add('numberOfQuestions', IntegerType::class, array( 'label' => "Number Of Questions"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -221,7 +232,7 @@ class ExamController extends AbstractController
 
     /**
      * @Route("/exam/{id}", name="exam_show", methods="GET")
-     */
+    */
     public function show(Exam $exam): Response
     {
         $Whoami= $this->getUser();
@@ -229,14 +240,24 @@ class ExamController extends AbstractController
             'exam' => $exam,
             'whoami' => $Whoami
         ]);
-
     }
 
+    /**
+     * * @Route("/exam/{id}/report", name="view_report", methods="GET")
+     */
+    public function  viewReport(Request $request,Exam $exam,ExamForStudentRepository $examForStudentRepository) :Response
+    {
+//        dump($examForStudentRepository->findBy(array('exam' => $exam)));
+        return $this->render('exam/view_report.html.twig', [
+            'examForStudent' => $examForStudentRepository->findBy(array('exam' => $exam))
+        ]);
+    }
     /**
      * @Route("/exam/take/{id}", name="exam_take", methods="GET|POST")
      */
     public function take(Request $request, Exam $exam): Response
     {
+
         return $this->render('exam/take.html.twig', [
             'exam' => $exam,
         ]);
@@ -286,7 +307,7 @@ class ExamController extends AbstractController
             $studentExam->setResult($correctAns/$totalQuestion*100);
             $this->getUser()->setExamForStudent($studentExam);
             $studentExam->setStatus("done");
-            dump($studentExam);
+//            dump($studentExam);
             $em->persist($studentExam);
             $em->flush($studentExam);
 
@@ -307,8 +328,15 @@ class ExamController extends AbstractController
     /**
      * @Route("/exam/{id}/result", name="result_exam", methods="GET|POST")
      */
-    public function examResult(Request $request, Exam $exam)
+    public function examResult(Request $request, Exam $exam, UserRepository $userRepository)
     {
+        $userRole = $this->getUser()->getRole();
+//        dump($request);
+        if ($userRole == 1) {
+            $student = $userRepository->findOneBy(array('id' => $request->get('studentId')));
+        } else if ($userRole == 0) {
+            $student =  $this->getUser();
+        }
         $examStd = null;
         if ($request->get('studentExam_id') != null ) {
             $examStd = $this->getDoctrine()->getRepository(ExamForStudent::class)
@@ -316,9 +344,9 @@ class ExamController extends AbstractController
 
         } else {
             //$exam_id = $this->getDoctrine()->getRepository(Exam::class)->findOneBy(['id' => $request->get('id')]);
-            $exam_id = $exam->getId();
+//            $exam_id = $exam->getId();
             foreach ($exam->getExamForStudents() as $studentExam) {
-                if($studentExam->getUser() == $this->getUser()) {
+                if($studentExam->getUser() == $student) {
                     $examStd = $studentExam;
                 }
             }
@@ -352,7 +380,7 @@ class ExamController extends AbstractController
                 $restyleQues->answers = $arr;
                 array_push($questionByStudent, $restyleQues);
             }
-            dump($questionByStudent);
+//            dump($questionByStudent);
         }
 
         return $this->render('exam/result_for_an_exam.html.twig', [

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exam index{% endblock %}
+
+{% block body %}
+    <h1>Exams Status</h1>
+
+    <hr>
+    <table class="table" style="width: 100%">
+        <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Grade</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for exam in examForStudent %}
+            <tr>
+                <td style="text-align: center;">{{ exam.user.name }}</td>
+                <td style="text-align: center;">{{ exam.result }}</td>
+                <td style="text-align: center;">{{ exam.status }}</td>
+                <td style="text-align: center;">
+                    <a href="{{ path('result_exam', {'id': exam.exam.id, 'studentId': exam.user.id})}}">View</a>
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
