@@ -2871,13 +2871,11 @@
             ],
             "authors": [
                 {
-<<<<<<< HEAD
-=======
+
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
                 },
                 {
->>>>>>> dashboard
                     "name": "Symfony Community",
                     "homepage": "https://symfony.com/contributors"
                 }
