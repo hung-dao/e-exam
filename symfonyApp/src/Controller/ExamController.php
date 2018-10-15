@@ -256,11 +256,20 @@ class ExamController extends AbstractController
     /**
      * @Route("/exam/take/{id}", name="exam_take", methods="GET|POST")
      */
-    public function take(Request $request, Exam $exam): Response
+    public function take(Request $request, Exam $exam, ExamForStudentRepository $examForStudentRepository): Response
     {
-
+//        dump($request);
+        $student = $this->getUser();
+        $allExams = $examForStudentRepository->findBy(['exam' => $exam]); // ExamForStudent[]
+        $taken = false;
+        foreach ($allExams as $examFS) {
+            if ($examFS->getUser() == $student) {
+                $taken = true;
+            }
+        }
         return $this->render('exam/take.html.twig', [
             'exam' => $exam,
+            'taken' => $taken
         ]);
     }
 
