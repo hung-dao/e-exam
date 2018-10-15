@@ -160,6 +160,7 @@ class ExamController extends AbstractController
             ->getForm();
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData(); //to string
             $category = $data['category'];
