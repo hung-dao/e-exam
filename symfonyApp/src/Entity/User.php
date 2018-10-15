@@ -39,7 +39,7 @@ class User implements UserInterface
     private $role;
 
     /**
-     * @ORM\OneToOne(targetEntity="ExamForStudent", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ExamForStudent", mappedBy="user", cascade={"persist", "remove"})
      */
     private $examForStudent;
 
@@ -49,7 +49,7 @@ class User implements UserInterface
     private $exams;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StudentAnswer", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="user", cascade={"persist", "remove"})
      */
     private $studentAnswer;
 

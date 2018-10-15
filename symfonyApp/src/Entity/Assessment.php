@@ -27,11 +27,6 @@ class Assessment
      */
     private $answer;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StudentAnswer", mappedBy="assessment", cascade={"persist", "remove"})
-     */
-    private $studentAnswer;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -61,21 +56,4 @@ class Assessment
         return $this;
     }
 
-    public function getStudentAnswer(): ?StudentAnswer
-    {
-        return $this->studentAnswer;
-    }
-
-    public function setStudentAnswer(?StudentAnswer $studentAnswer): self
-    {
-        $this->studentAnswer = $studentAnswer;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newAssessment = $studentAnswer === null ? null : $this;
-        if ($newAssessment !== $studentAnswer->getAssessment()) {
-            $studentAnswer->setAssessment($newAssessment);
-        }
-
-        return $this;
-    }
 }

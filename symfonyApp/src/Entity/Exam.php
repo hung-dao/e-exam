@@ -56,6 +56,7 @@ class Exam
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="exams")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="id")
      */
     private $questions;
 
@@ -98,12 +99,12 @@ class Exam
     /**
      * @return Collection|ExamForStudent[]
      */
-    public function getexamForStudents(): Collection
+    public function getExamForStudents(): Collection
     {
         return $this->examForStudents;
     }
 
-    public function addexamForStudent(ExamForStudent $examForStudent): self
+    public function addExamForStudent(ExamForStudent $examForStudent): self
     {
         if (!$this->examForStudents->contains($examForStudent)) {
             $this->examForStudents[] = $examForStudent;
@@ -113,7 +114,7 @@ class Exam
         return $this;
     }
 
-    public function removeexamForStudent(ExamForStudent $examForStudent): self
+    public function removeExamForStudent(ExamForStudent $examForStudent): self
     {
         if ($this->examForStudents->contains($examForStudent)) {
             $this->examForStudents->removeElement($examForStudent);

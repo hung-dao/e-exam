@@ -24,7 +24,7 @@ class StudentAnswer
 
     // student
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="studentAnswer", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="studentAnswer", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -43,7 +43,7 @@ class StudentAnswer
 
     /**
      * @ORM\ManyToOne(targetEntity="ExamForStudent", inversedBy="AnswersSheet")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE", referencedColumnName="id")
      */
     private $examForStudent;
 

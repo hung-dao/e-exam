@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\examForStudentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ExamForStudentRepository")
  */
 class ExamForStudent
 {
@@ -30,19 +30,19 @@ class ExamForStudent
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Exam", inversedBy="examForStudents")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      */
     private $exam;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="examForStudent", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="examForStudent", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="id", unique=true)
      */
     private $user;
 
     //collection of student answers
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="examForStudent", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="examForStudent", cascade={"persist", "remove"})
      */
     private $AnswersSheet;
 
@@ -56,12 +56,12 @@ class ExamForStudent
         return $this->id;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 

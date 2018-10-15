@@ -14,6 +14,7 @@ use App\Form\ExamByQuestionsType;
 use App\Repository\ExamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,8 +33,10 @@ class ExamController extends AbstractController
      */
     public function dashboard(ExamRepository $examRepository) : Response
     {
-        return $this->render('exam/index.html.twig', ['exams' => $examRepository->findAll()]);
+        return $this->render('exam/dashboard.html.twig', ['exams' => $examRepository->findAll()]);
     }
+
+    //show all exam where exam.user = this.user
     /**
      * @Route("/exam/", name="exam_index", methods="GET")
      */
@@ -91,7 +94,9 @@ class ExamController extends AbstractController
         $exam->setName($category->getCategoryName() . ' Test')
             ->setNumberOfQuestions($numOfQues);
         $questions = $this->getQuestionsByRequest($category, $numOfQues);
-
+        if (count($questions) < $numOfQues) {
+            $exam->setNumberOfQuestions(count($questions));
+        }
         foreach ($questions as $question) {
             $exam->addQuestion($question);
             //$question->addExam($exam);
@@ -132,11 +137,6 @@ class ExamController extends AbstractController
      */
     public function newByCategories(Request $request): Response
     {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
         $form = $this->createFormBuilder()
             ->add('category', EntityType::class, array(
                 'label' => 'Category',
@@ -145,16 +145,7 @@ class ExamController extends AbstractController
                 'placeholder' => "Please select category",
                 'choice_label' => 'categoryName'
             ))
-            ->add('numberOfQuestions', ChoiceType::class, array(
-                'label' => 'Number of questions',
-                'choices' => array(
-                    5 => 5,
-                    6 => 6,
-                    7 => 7,
-                    8 => 8,
-                    9 => 9,
-                    10 => 10
-                )))
+            ->add('numberOfQuestions', NumberType::class, array( 'label' => "Number Of Questions"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -252,18 +243,16 @@ class ExamController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $studentExam = new ExamForStudent();
             $studentExam->setUser($this->getUser());
-            $studentExam->setExam($exam);
+            $studentExam->setExam( $exam );
 
             $quesIndex = 1;
             $correctAns = 0;
             foreach ($exam->getQuestions() as $question) {
                 $studentAns = new StudentAnswer();
-                $studentAns->setUser($this->getUser());
-//                $studentAns->setQuestion($question);
                 $ans = $this->getDoctrine()->getRepository(Answer::class)->findOneBy(
                     ['id' => $request->request->get('question'.$quesIndex)]
                 );
-                $studentAns->setAnswer($ans);
+                $studentAns->setAnswer( $ans );
                 if ($ans->getIsCorrect()) {
                     $studentAns->setResult(true);
                     $correctAns ++;
@@ -272,18 +261,18 @@ class ExamController extends AbstractController
                 $studentExam->addAnswersSheet($studentAns);
                 $this->getUser()->setStudentAnswer($studentAns);
                 $quesIndex ++;
-                $em->persist($studentAns);
+                //$em->persist($studentAns);
             }
             $studentExam->setResult($correctAns/$totalQuestion*100);
             $this->getUser()->setExamForStudent($studentExam);
-
+            $studentExam->setStatus("done");
             dump($studentExam);
             $em->persist($studentExam);
-            $em->flush();
+            $em->flush($studentExam);
 
-            return $this->forward('assessment_exam', [
+            return $this->redirectToRoute('result_exam', [
                 'id' => $exam->getId(),
-                'studentExam' => $studentExam
+                'studentExam_id' => $studentExam->getId(),
             ]);
         }
 
@@ -294,12 +283,39 @@ class ExamController extends AbstractController
         ]);
     }
 
+    // show result of an exam
     /**
-     * @Route("/exam/{id}/assessments", name="assessment_exam", methods="GET|POST")
+     * @Route("/exam/{id}/result", name="result_exam", methods="GET|POST")
      */
     public function examResult(Request $request, Exam $exam)
     {
-        dump($exam);
+        $examStd = null;
+        if ($request->get('studentExam_id') != null ) {
+            $examStd = $this->getDoctrine()->getRepository(ExamForStudent::class)
+                ->findOneBy(['id' => $request->get('studentExam_id')]);
+
+        } else {
+            //$exam_id = $this->getDoctrine()->getRepository(Exam::class)->findOneBy(['id' => $request->get('id')]);
+            $exam_id = $exam->getId();
+            foreach ($exam->getExamForStudents() as $studentExam) {
+                if($studentExam->getUser() == $this->getUser()) {
+                    $examStd = $studentExam;
+                }
+            }
+        }
+
+        if ($examStd == null) {
+            $examDone = false;
+        } else {
+            $examDone = true;
+        }
+
+        return $this->render('exam/result_for_an_exam.html.twig', [
+            'exam' => $exam,
+            'examForStudent' => $examStd,
+            'examDone' => $examDone
+        ]);
+
 //        if (!$request->get('studentExam'))
 //        {
 //            $studentExam = $request->get('studentExam');
