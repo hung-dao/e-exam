@@ -10,11 +10,19 @@ class Userfixtures extends Fixture
     public function load(ObjectManager $manager) {
         // $product = new Product();
         // $manager->persist($product);
-        
+
         //teacher
         $dummyUser = new User();
         $dummyUser->setName("Peppi Kivisto");
         $dummyUser->setUsername('teacher');
+        $dummyUser->setPassword(password_hash('test_password', PASSWORD_BCRYPT));
+        $dummyUser->setRole(1); //1 = teacher;
+        $manager->persist($dummyUser);
+        $manager->flush();
+        //teacher 2
+        $dummyUser = new User();
+        $dummyUser->setName("Laura Laitinen");
+        $dummyUser->setUsername('teacher2');
         $dummyUser->setPassword(password_hash('test_password', PASSWORD_BCRYPT));
         $dummyUser->setRole(1); //1 = teacher;
         $manager->persist($dummyUser);
@@ -32,6 +40,15 @@ class Userfixtures extends Fixture
         $dummyUser = new User();
         $dummyUser->setName("Ammi Karkkinen");
         $dummyUser->setUsername('student2');
+        $dummyUser->setPassword(password_hash('test_password', PASSWORD_BCRYPT));
+        $dummyUser->setRole(0); //0 = student;
+        $manager->persist($dummyUser);
+        $manager->flush();
+
+        //student 3
+        $dummyUser = new User();
+        $dummyUser->setName("Emmi Karkkinen");
+        $dummyUser->setUsername('student3');
         $dummyUser->setPassword(password_hash('test_password', PASSWORD_BCRYPT));
         $dummyUser->setRole(0); //0 = student;
         $manager->persist($dummyUser);
