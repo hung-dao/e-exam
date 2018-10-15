@@ -72,13 +72,6 @@ class ExamController extends AbstractController
 
     }
 
-    /**
-     * @Route("/exam/taking", name="open_exams", methods="GET")
-     */
-    public function openExams(ExamRepository $examRepository): Response
-    {
-        return $this->render('exam/open_exams.html.twig', ['exams' => $examRepository->findAll()]);
-    }
 
     /**
      * @Route("/exam/new", name="exam_new", methods="GET|POST")
