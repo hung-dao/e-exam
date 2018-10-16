@@ -82,6 +82,40 @@ class ExamController extends AbstractController
     }
 
     /**
+     * @Route("/exam/{id}/edit", name="exam_edit", methods="GET|POST")
+     */
+    public function edit(Request $request, Exam $exam): Response
+    {
+        $form = $this->createForm(ExamByQuestionsType::class, $exam);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('exam_show', ['id' => $exam->getId()]);
+        }
+
+        return $this->render('exam/edit.html.twig', [
+            'exam' => $exam,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/exam/{id}", name="exam_delete", methods="DELETE")
+     */
+    public function delete(Request $request, Exam $exam): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$exam->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($exam);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('exam_index');
+    }
+
+    /**
      * @Route("/exam/preview/{id}", name="exam_preview", methods="GET|POST")
      */
     public function preview(Request $request, Exam $exam)
@@ -151,41 +185,6 @@ class ExamController extends AbstractController
     }
 
     /**
-     * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
-     * @param Request $request
-     * @return Response
-     */
-    public function newByCategories(Request $request): Response
-    {
-        $form = $this->createFormBuilder()
-            ->add('category', EntityType::class, array(
-                'label' => 'Category',
-                'class' =>'App\Entity\Category',
-                //'mapped' =>false,
-                'placeholder' => "Please select category",
-                'choice_label' => 'categoryName'
-            ))
-            ->add('numberOfQuestions', IntegerType::class, array( 'label' => "Number Of Questions"))
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData(); //to string
-            $category = $data['category'];
-
-            return $this->redirectToRoute('exam_category_preview', [
-                'categoryId' => $category->getId(),
-                'numberOfQuestions' => $data['numberOfQuestions']
-            ] );
-        }
-
-        return $this->render('exam/new_by_categories.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-//
-
-    /**
      * @Route("/exam/new-exam-by-questions", name="exam_new_by_questions", methods="GET|POST")
      */
     public function newByQuestions(Request $request): Response
@@ -224,6 +223,40 @@ class ExamController extends AbstractController
     }
 
     /**
+     * @Route("/exam/new-exam-by-categories", name="exam_new_by_categories", methods="GET|POST")
+     * @param Request $request
+     * @return Response
+     */
+    public function newByCategories(Request $request): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('category', EntityType::class, array(
+                'label' => 'Category',
+                'class' =>'App\Entity\Category',
+                //'mapped' =>false,
+                'placeholder' => "Please select category",
+                'choice_label' => 'categoryName'
+            ))
+            ->add('numberOfQuestions', IntegerType::class, array( 'label' => "Number Of Questions"))
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData(); //to string
+            $category = $data['category'];
+
+            return $this->redirectToRoute('exam_category_preview', [
+                'categoryId' => $category->getId(),
+                'numberOfQuestions' => $data['numberOfQuestions']
+            ] );
+        }
+
+        return $this->render('exam/new_by_categories.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/exam/{id}", name="exam_show", methods="GET")
     */
     public function show(Exam $exam): Response
@@ -246,6 +279,7 @@ class ExamController extends AbstractController
             'examForTeacher' => $exam
         ]);
     }
+
     /**
      * @Route("/exam/take/{id}", name="exam_take", methods="GET|POST")
      */
@@ -404,39 +438,7 @@ class ExamController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/exam/{id}/edit", name="exam_edit", methods="GET|POST")
-     */
-    public function edit(Request $request, Exam $exam): Response
-    {
-        $form = $this->createForm(ExamByQuestionsType::class, $exam);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('exam_show', ['id' => $exam->getId()]);
-        }
-
-        return $this->render('exam/edit.html.twig', [
-            'exam' => $exam,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/exam/{id}", name="exam_delete", methods="DELETE")
-     */
-    public function delete(Request $request, Exam $exam): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$exam->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($exam);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('exam_index');
-    }
+    // Functions to get data from repository
 
     public function getQuestionsByRequest( $category, $val )
     {
