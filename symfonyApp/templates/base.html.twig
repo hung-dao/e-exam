@@ -7,21 +7,100 @@
         {% block title %}Welcome To E-Exam!{% endblock %}
     </title>
     <link rel="icon" href="{{ asset('build/images/small_logo.png') }}">
-    <link rel="stylesheet" href="{{ asset('build/global.css') }}" />
-    <link rel="stylesheet" href="{{ asset('build/layout.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/css/global.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/css/layout.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/css/world_styles.css') }}" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     {#page custom stylesheets#}
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-{% block navbar %}{% endblock %}
-{% block body %}{% endblock %}
 
-{% block javascripts %}
-    <script src="{{ asset('build/app.js') }}"></script>
-{% endblock %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+{% block javascripts %}
+    <script src="{{ asset('build/app.js') }}"></script>
+    <script src="{{ asset('build/js/link.js') }}"></script>
+{% endblock %}
+
+<div class="nav-side-menu">
+    <div class="brand">
+        <a class="navbar-brand" href="{{  path('index') }}">
+            <img alt="E-Exam" src=" {{ asset('build/images/logo.png') }}" style="object-fit: cover;">
+        </a>
+    </div>
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+
+    <div class="menu-list">
+        <ul id="menu-content" class="menu-content collapse out">
+            {% if app.user != null %}
+                {# for teacher users display below, for students, uncomment the 2nd#}
+                {% if app.user.role == 1 %}
+                    <li id="dashboard" class="active">
+                        <a href="{{ path("dashboard") }}">
+                            <i class="fa fa-dashboard fa-lg"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <li id="exam" class="">
+                        <a href="{{ path("exam_index") }}">
+                            <i class="fa fa-book fa-lg"></i> Exams
+                        </a>
+                    </li>
+
+                    <li id="question" class="">
+                        <a href="{{ path("question_index") }}">
+                            <i class="fa fa-question fa-lg"></i> All questions
+                        </a>
+                    </li>
+
+                    {#TODO this is for student model. add user to display#}
+                {% elseif app.user.role == 0 %}
+                    <li id="dashboard" class="">
+                        <a href="{{ path("dashboard") }}">
+                            <i class="fa fa-question fa-lg"></i> Exams
+                        </a>
+                    </li>
+                    <li id="exam" class="">
+                        <a href="{{ path("exam_index") }}">
+                            <i class="fa fa-dashboard fa-lg"></i> My Exams
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+
+            <li class="bar-footer button">
+                <ul>
+                    {% if app.user == null %}
+                        <li>
+                            <a href="{{ path("login") }}" class="btn navbar-btn btn-default">
+                                Login
+                            </a>
+                        </li>
+                    {% elseif (app.user != null) %}
+                        {#below is for logged#}
+                        <li class="static-line">
+                            <a href="#">
+                                <i class="fa fa-user fa-lg"></i> Hello {{ app.user.name }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('logout') }}" class="btn navbar-btn btn-default">
+                                <i class="fa fa-sign-out fa-lg"></i> Log out
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="page-content">
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+</div>
 </body>
 </html>

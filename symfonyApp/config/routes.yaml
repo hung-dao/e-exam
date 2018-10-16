@@ -1,19 +1,12 @@
 index:
     path: /
     controller: App\Controller\IndexController::index
-
 login:
     path: /login
     controller: App\Controller\IndexController::index
-
+logout:
+    path: /logout
+    controller: App\Controller\IndexController::logout
 dashboard:
     path: /dashboard
     controller: App\Controller\ExamController::dashboard
-
-create-new-question:
-    path: /create-question
-    controller: App\Controller\ExamController:newQuestion
-
-create-new-exam:
-    path: /create-exam
-    controller: App\Controller\ExamController:newExam

@@ -1,18 +1,90 @@
-{% extends 'layout.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Exam index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>All Exams</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <hr>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/ExamController.php'|file_link(0) }}">src/Controller/ExamController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/exam/index.html.twig'|file_link(0) }}">templates/exam/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {% if app.user.role == 1 %}
+        <a href="{{ path('exam_new') }}" class="btn btn-info btn-lg">Create new</a>
+    {% endif %}
+    <br><br>
+
+    <table class="table" style="width: 100%">
+        <thead class="thead-light table-secondary">
+            <tr>
+                <th style="width: 15%;">Teacher</th>
+                <th style="width: 15%;">Date</th>
+                <th style="width: 15%;">Name</th>
+                <th style="width: 20%;">Number of questions</th>
+                <th style="width: 30%;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exam in exams %}
+            <tr>
+                <td style="text-align: center; width: 15%;">{{ exam.user.name }}</td>
+                <td style="text-align: center; width: 15%;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
+                <td style="text-align: center; width: 15%;">{{ exam.name }}</td>
+                <td style="text-align: center; width: 20%;">{{ exam.numberOfQuestions }}</td>
+                <td style="text-align: center;">
+                    <div class="btn-group-justified">
+
+                        {% if app.user.role == 1 %}
+                            <a class="btn btn btn-info" href="{{ path('exam_show', {'id': exam.id}) }}">Show</a>
+                            <a class="btn btn btn-primary" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+                            <a class="btn btn btn-info" href="{{ path('view_report', {'id': exam.id}) }}">View report</a>
+
+                        {% elseif app.user.role == 0 %}
+                            <a class="btn btn btn-info" href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>{% if app.user.role == 1 %}
+                    <td colspan="7">You haven't created any exams!</td>
+                {% elseif app.user.role == 0 %}
+                    <td colspan="7">You haven't done any exams!</td>
+                {% endif %}
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        {#{% if app.user.role == 0 %}#}
+
+
+            {#<table class="table" style="width: 100%">#}
+                {#<thead>#}
+                {#<tr>#}
+                    {#<th>Owner Name</th>#}
+                    {#<th>Date</th>#}
+                    {#<th>Name</th>#}
+                    {#<th>NumberOfQuestions</th>#}
+                    {#<th>Actions</th>#}
+                {#</tr>#}
+                {#</thead>#}
+                {#<tbody>#}
+                {#{% for exam in exams %}#}
+                    {#<tr>#}
+                    {#<td style="text-align: center;">{{ exam.user.name }}</td>#}
+                    {#<td style="text-align: center;">{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>#}
+                    {#<td style="text-align: center;">{{ exam.name }}</td>#}
+                    {#<td style="text-align: center;">{{ exam.numberOfQuestions }}</td>#}
+                    {#<td style="text-align: center;"><a href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a></td>#}
+                    {#</tr>#}
+                {#{% else %}#}
+                    {#<tr>#}
+                        {#<td colspan="7">no records found</td>#}
+                    {#</tr>#}
+
+                {#{% endfor %}#}
+                {#</tbody>#}
+            {#</table>#}
+        {#{% endif %}#}
+
 {% endblock %}

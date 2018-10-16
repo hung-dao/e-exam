@@ -21,23 +21,18 @@ class Answer
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isCorrect;
+    private $isCorrect = false;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $answerText;
+    public $answerText;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="answers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
-    private $question;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Assessment", mappedBy="answer")
-     */
-    private $assessments;
+    public $question;
 
     public function __construct()
     {
@@ -49,9 +44,10 @@ class Answer
         return $this->id;
     }
 
-    public function getIsCorrect(): ?bool
+    public function getIsCorrect(): bool
     {
-        return $this->isCorrect;
+        return $this->isCorrect ;
+        //return (bool) $this->isCorrect ;
     }
 
     public function setIsCorrect(bool $isCorrect): self
@@ -85,34 +81,5 @@ class Answer
         return $this;
     }
 
-    /**
-     * @return Collection|Assessment[]
-     */
-    public function getAssessments(): Collection
-    {
-        return $this->assessments;
-    }
 
-    public function addAssessment(Assessment $assessment): self
-    {
-        if (!$this->assessments->contains($assessment)) {
-            $this->assessments[] = $assessment;
-            $assessment->setAnswer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAssessment(Assessment $assessment): self
-    {
-        if ($this->assessments->contains($assessment)) {
-            $this->assessments->removeElement($assessment);
-            // set the owning side to null (unless already changed)
-            if ($assessment->getAnswer() === $this) {
-                $assessment->setAnswer(null);
-            }
-        }
-
-        return $this;
-    }
 }

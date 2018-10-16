@@ -24,14 +24,9 @@ class Question
     private $questionText;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question", cascade={"persist", "remove"})
      */
     private $answers;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuestionInExam", mappedBy="question")
-     */
-    private $questionInExams;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="questions")
@@ -39,10 +34,28 @@ class Question
      */
     private $category;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="question")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Exam", inversedBy="questions")
+     *
+     */
+    private $exams;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="question", orphanRemoval=true)
+     */
+    private $studentAnswers;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
-        $this->questionInExams = new ArrayCollection();
+        $this->exams = new ArrayCollection();
+        $this->studentAnswers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,37 +106,6 @@ class Question
         return $this;
     }
 
-    /**
-     * @return Collection|QuestionInExam[]
-     */
-    public function getQuestionInExams(): Collection
-    {
-        return $this->questionInExams;
-    }
-
-    public function addQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if (!$this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams[] = $questionInExam;
-            $questionInExam->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestionInExam(QuestionInExam $questionInExam): self
-    {
-        if ($this->questionInExams->contains($questionInExam)) {
-            $this->questionInExams->removeElement($questionInExam);
-            // set the owning side to null (unless already changed)
-            if ($questionInExam->getQuestion() === $this) {
-                $questionInExam->setQuestion(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -132,6 +114,75 @@ class Question
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->contains($exam)) {
+            $this->exams->removeElement($exam);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StudentAnswer[]
+     */
+    public function getStudentAnswers(): Collection
+    {
+        return $this->studentAnswers;
+    }
+
+    public function addStudentAnswer(StudentAnswer $studentAnswer): self
+    {
+        if (!$this->studentAnswers->contains($studentAnswer)) {
+            $this->studentAnswers[] = $studentAnswer;
+            $studentAnswer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentAnswer(StudentAnswer $studentAnswer): self
+    {
+        if ($this->studentAnswers->contains($studentAnswer)) {
+            $this->studentAnswers->removeElement($studentAnswer);
+            // set the owning side to null (unless already changed)
+            if ($studentAnswer->getQuestion() === $this) {
+                $studentAnswer->setQuestion(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exam index{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/dashboard.css') }}" />
+{% endblock %}
+{% block body %}
+    <h1>All Exams</h1>
+
+    <hr>
+
+    {% if app.user.role == 1 %}
+        <a href="{{ path('exam_new') }}" class="btn btn-link btn-primary">Create new</a>
+    {% endif %}
+    <br>
+    <br>
+
+    {% for exam in exams %}
+    <div class="card" >
+        <div class="card-header" style="text-align: center"> {{ exam.name }}</div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <td style="width: 50%">Date:</td>
+                    <td>{{ exam.openDate ? exam.openDate|date('d-m-Y') : '' }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">Teacher</td>
+                    <td> {{ exam.user.name }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">Number of questions: </td>
+                    <td>{{ exam.numberOfQuestions }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="card-footer" style="text-align: center">
+                {% if app.user.role == 1 %}
+                    <a class="btn btn-lg btn-default" href="{{ path('exam_show', {'id': exam.id}) }}">View</a> &nbsp;
+                    {% if(exam.user == ownername) %}
+                        <a class="btn btn-lg btn-default" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+                    {% endif %}
+                {% elseif app.user.role == 0 %}
+                    <a class="btn btn-lg btn-default" href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a> &nbsp;
+                    <a class="btn btn-lg btn-default" href="{{ path('result_exam', {'id': exam.id}) }}">View Result</a>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <p style="font-style: italic; font-weight: bold">No exams in record</p>
+    {% endfor %}
+
+
+{% endblock %}

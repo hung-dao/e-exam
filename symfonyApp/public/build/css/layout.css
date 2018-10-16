@@ -14,6 +14,8 @@
 .navbar-brand {
     width: inherit;
     height: inherit;
+    display: block;
+    margin: auto;
 }
 
 .nav-side-menu .brand {
@@ -92,14 +94,7 @@
     padding-right: 10px;
     vertical-align: middle;
 }
-.nav-side-menu li.bar-footer {
-    position: absolute;
-    bottom: 20px;
-    text-align: center;
-    margin: auto;
-    display: block;
-    width: 100%;
-}
+
 
 .nav-side-menu li.bar-footer a {
     color: #000000 !important;
@@ -136,6 +131,17 @@
     background-color: #2e353d;
 }
 
+li.bar-footer li.static-line a {
+    color: #81da89 !important;
+}
+/*page content*/
+.page-content {
+    display: block;
+    width: 80%;
+    float: right;
+    padding-top: 20px;
+}
+
 @media (max-width: 767px) {
     .nav-side-menu {
         position: relative;
@@ -162,9 +168,27 @@
         line-height: 50px !important;
         min-height: 70px;
     }
+    .page-content {
+        padding-top: 10px;
+        width: 100%;
+    }
 }
 @media (min-width: 767px) {
     .nav-side-menu .menu-list .menu-content {
         display: block;
     }
+    .nav-side-menu li.bar-footer {
+        position: absolute;
+        bottom: 20px;
+        text-align: center;
+        margin: auto;
+        display: block;
+        width: 100%;
+    }
 }
+
+.container {
+    width: 90% !important;
+    margin: auto !important;
+}
+

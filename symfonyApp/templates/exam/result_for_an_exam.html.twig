@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Result{% endblock %}
+
+{% block body %}
+    <style>
+        .correctAns {
+            color : blue;
+        }
+        .wrongAns {
+            color: red;
+        }
+    </style>
+    <h1>Result</h1>
+    <hr>
+    <h3>{{ exam.name }}</h3>
+
+    {% if examDone == false %}
+        <p>You haven't done this exam</p>
+        <a href="{{ path('exam_take', {'id': exam.id}) }}">Take exam</a>
+    {% else %}
+        <p><b>Status:</b> {{ examForStudent.status }} </p>
+        <p><b>Result:</b> {{ examForStudent.result }} </p>
+        <p><b>Correct Answers:</b> {{ numOfCorrect }} / {{ totalQues }} </p>
+        {% for key, question in questionSet %}
+            <p> <b> Question {{ key + 1 }}</b></p>
+            {% for answer in question.answers %}
+            <input type="radio" name="question{{ key + 1 }}" disabled {% if answer.isChosen %} checked {% endif %}>
+                {% if (answer.isChosen) and (answer.isCorrect) %}
+                    <span class="correctAns"> {{ answer.text }} <i class="fa fa-check" aria-hidden="true"></i> </span>
+                {% elseif (answer.isCorrect) and ( not answer.isChosen) %}
+                    <span class ="wrongAns"> {{ answer.text }} <i class="fa fa-close" aria-hidden="true"></i> </span>
+                {% else %}  <span> {{ answer.text }} </span>
+                {% endif %}
+                <br>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    <br>
+
+    <a style="display: inline-block;" class="btn btn-secondary" href="{{ path('dashboard') }}">Back</a>
+
+
+{% endblock %}
+
+

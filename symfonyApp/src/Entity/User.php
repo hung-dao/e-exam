@@ -5,11 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -24,7 +24,7 @@ class User
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $username;
 	
@@ -39,9 +39,9 @@ class User
     private $role;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\ExamStatus", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ExamForStudent", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $examStatus;
+    private $examForStudent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="user")
@@ -49,13 +49,19 @@ class User
     private $exams;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StudentAnswer", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentAnswer", mappedBy="user", cascade={"persist", "remove"})
      */
     private $studentAnswer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="owner")
+     */
+    private $question;
 
     public function __construct()
     {
         $this->exams = new ArrayCollection();
+        $this->question = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,9 +94,9 @@ class User
     }
 	
 	public function getPassword(): ?string
-                                              {
-                                                  return $this->password;
-                                              }
+    {
+        return $this->password;
+    }
 
     public function setPassword(string $password): self
     {
@@ -111,18 +117,18 @@ class User
         return $this;
     }
 
-    public function getExamStatus(): ?ExamStatus
+    public function getExamForStudent(): ?ExamForStudent
     {
-        return $this->examStatus;
+        return $this->examForStudent;
     }
 
-    public function setExamStatus(ExamStatus $examStatus): self
+    public function setExamForStudent(ExamForStudent $examForStudent): self
     {
-        $this->examStatus = $examStatus;
+        $this->examForStudent = $examForStudent;
 
         // set the owning side of the relation if necessary
-        if ($this !== $examStatus->getUser()) {
-            $examStatus->setUser($this);
+        if ($this !== $examForStudent->getUser()) {
+            $examForStudent->setUser($this);
         }
 
         return $this;
@@ -174,5 +180,67 @@ class User
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return[
+            'ROLE_USER'
+        ];
+    }
+    public function getSalt()
+    {
+        # code...
+    }
+    public function eraseCredentials()
+    {
+        
+    }
+
+    public function getQuetions(): ?string
+    {
+        return $this->quetions;
+    }
+
+    public function setQuetions(?string $quetions): self
+    {
+        $this->quetions = $quetions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestion(): Collection
+    {
+        return $this->question;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->question->contains($question)) {
+            $this->question[] = $question;
+            $question->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->question->contains($question)) {
+            $this->question->removeElement($question);
+            // set the owning side to null (unless already changed)
+            if ($question->getOwner() === $this) {
+                $question->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->getUsername();
     }
 }

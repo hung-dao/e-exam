@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View Exam - {{ exam.name }}{% endblock %}
+
+{% block body %}
+    <a class="btn btn-link " href="{{ path('exam_index') }}"><<< Back</a>
+
+    <h1>{{ exam.name }}</h1>
+    <hr>
+
+    <p> <b>Author: </b> {{ exam.user.name }}</p>
+    <p> <b>Status: </b> {% if exam.isOpen == 1 %} Open {% endif %}</p>
+    <hr>
+
+    {% for key, question in exam.questions %}
+        <div class="form-group">
+            <label for="question{{ key + 1 }}"> Question {{ key + 1 }}</label>
+            <p>{{ question.questionText }} </p>
+            {% for answer in question.answers %}
+                <input disabled type="radio" name="question{{ key + 1 }}" data-toggle="tooltip"
+                       title="Choose answer" value="{{ answer.id }}">
+                {{ answer.answerText }} <br>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    {% if(exam.user == whoami) %}
+        <a class="btn btn-info" href="{{ path('exam_edit', {'id': exam.id}) }}">Edit</a>
+        {{ include('exam/_delete_form.html.twig') }}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('build/js/examTaking.js') }}"></script>
+{% endblock %}
+
+{% block title %}Preview Exam{% endblock %}
+
+{% block body %}
+    <h1>Preview Exam</h1>
+    <hr>
+    <h3> {{ exam.name }}</h3>
+    <h5> Teacher: {{ exam.user.name }}</h5>
+    <form method="post" action="{{ path('preview_exam_answer', { 'id': exam.id }) }}">
+        {% for key, question in exam.questions %}
+            <div class="form-group">
+                <label for="question{{ key + 1 }}"> Question {{ key + 1 }}</label>
+                <p>{{ question.questionText }} </p>
+                {% for answer in question.answers %}
+                    <input  type="radio" name="question{{ key + 1 }}" data-toggle="tooltip"
+                           title="Choose answer" value="{{ answer.id }}"
+                            {% if answer.id == answers['question' ~ (key + 1)] %}
+                                checked
+                            {% endif %} >
+                    {{ answer.answerText }} <br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {{ form_start(form) }}
+        {{ form_row(form.Submit, {'attr' : {'class' : 'btn btn-primary'} }) }}
+        {{ form_end(form) }}
+    </form>
+
+{% endblock %}

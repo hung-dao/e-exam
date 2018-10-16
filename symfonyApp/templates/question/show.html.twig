@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question{% endblock %}
+
+{% block body %}
+    <h1>Question</h1>
+    <hr>
+
+    <h3>{{ question.questionText }}</h3>
+    <br>
+    <h4>Category: </h4>
+    <h3>{{ question.category.categoryName }}</h3>
+    <br>
+    <h4>Answers:</h4>
+    <div class="table-responsive">
+        <table class="table table-striped" style="width: 70%">
+        {% for answer in question.answers %}
+            <tr>
+                <td>
+                    {{ answer.answerText }}
+                </td>
+                <td style="width: 10%; text-align: right">
+                    <input disabled type="checkbox" name="correct" data-toggle="tooltip" data-placement="top" title="Correct answer" {% if answer.isCorrect ==1 %} value=true checked {% endif %}><br>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+
+    <a class="btn btn-info" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+
+    {{ include('question/_delete_form.html.twig') }}
+
+    <br>
+
+    <a class="btn btn-link" href="{{ path('question_index') }}"><<<< Back to list</a>
+
+{% endblock %}

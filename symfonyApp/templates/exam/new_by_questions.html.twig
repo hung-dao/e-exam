@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Exam{% endblock %}
+
+{% block body %}
+    <h1>Create new exam</h1>
+    <hr>
+
+    {{ include('exam/_form.html.twig') }}
+
+    <a style="display: inline-block" class="btn btn-default" href="{{ path('exam_index') }}">Cancel</a>
+{% endblock %}

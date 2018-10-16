@@ -22,6 +22,16 @@ class QuestionRepository extends ServiceEntityRepository
 //    /**
 //     * @return Question[] Returns an array of Question objects
 //     */
+    public function queryOwnedBy($cateID) {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.category = :category')
+            ->setParameter('category', $cateID)
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
+    }
+
     /*
     public function findByExampleField($value)
     {
@@ -47,4 +57,20 @@ class QuestionRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @param $value
+     * @param $number
+     * @return mixed
+     */
+    public function findQuestionsByCategory($value, $number)
+    {
+        return $this->createQueryBuilder('query')
+            ->andWhere('query.category = :cat')
+            ->setParameter('cat', $value)
+            ->orderBy('RAND()') //TODO order by random or another way to get the random questions
+            ->setMaxResults($number)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
