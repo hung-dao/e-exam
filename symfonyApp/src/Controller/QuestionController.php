@@ -21,7 +21,7 @@ class QuestionController extends AbstractController
      */
     public function index(QuestionRepository $questionRepository): Response
     {
-        return $this->render('question/index.html.twig', ['questions' => $questionRepository->findBy(array('owner' => $this->getUser() ))]);
+        return $this->render('question/index.html.twig', ['questions' => $questionRepository->findAll()]);
     }
 
     /**
