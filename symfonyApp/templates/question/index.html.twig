@@ -25,7 +25,7 @@
                 <td style="width: 50%" class="main-col">{{ question.questionText }}</td>
                 <td style="width: 20%; text-align: center">{{ question.category.categoryName }}</td>
                 <td style="width: 15%; text-align: center">{{ question.owner.name }}</td>
-                <td style="width: 15%; text-align: center; vertical-align: middle">
+                <td style="width: 15%; text-align: center; vertical-align: middle">ok
                     <div class="btn-group-justified">
                         <a class="btn  btn-info" href="{{ path('view_question', {'id': question.id}) }}">View</a>
                         <a class="btn btn-primary" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
@@ -34,7 +34,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">You haven't created any Exam</td>
             </tr>
         {% endfor %}
         </tbody>

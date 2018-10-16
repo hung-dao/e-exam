@@ -44,8 +44,12 @@
                 </td>
             </tr>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
+            <tr>{% if app.user.role == 1 %}
+                    <td colspan="7">You haven't created any exams!</td>
+                {% elseif app.user.role == 0 %}
+                    <td colspan="7">You haven't done any exams!</td>
+                {% endif %}
+
             </tr>
         {% endfor %}
         </tbody>

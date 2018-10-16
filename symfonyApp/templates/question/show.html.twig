@@ -6,9 +6,11 @@
     <h1>Question</h1>
     <hr>
 
-    {{ question.questionText }}
+    <h3>{{ question.questionText }}</h3>
+    <br>
     <h4>Category: </h4>
-    {{ question.category.categoryName }}
+    <h3>{{ question.category.categoryName }}</h3>
+    <br>
     <h4>Answers:</h4>
     <div class="table-responsive">
         <table class="table table-striped" style="width: 70%">
@@ -24,9 +26,13 @@
         {% endfor %}
         </table>
     </div>
-    <a class="btn btn-sm btn-default" href="{{ path('question_index') }}">Back to list</a>
 
-    <a class="btn btn-sm btn-default" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
+    <a class="btn btn-info" href="{{ path('edit_question', {'id': question.id}) }}">Edit</a>
 
     {{ include('question/_delete_form.html.twig') }}
+
+    <br>
+
+    <a class="btn btn-link" href="{{ path('question_index') }}"><<<< Back to list</a>
+
 {% endblock %}
